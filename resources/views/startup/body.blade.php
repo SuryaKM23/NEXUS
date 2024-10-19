@@ -16,9 +16,10 @@
             text-decoration: none;
             color: #fff;
         }
-        .menu-title:hover{
-            color:#000000;
+        .menu-title:hover {
+            color: #000000;
         }
+
         .msg {
             text-align: left;
             padding: 40px;
@@ -178,35 +179,39 @@
         });
 
         function fetchRecentIdeas() {
-            $.ajax({
-                url: "{{ url('get-recent-ideas') }}",
-                type: 'GET',
-                success: function(data) {
-                    if (data.length > 0) {
-                        let ideasHtml = '';
-                        data.forEach(function(idea) {
-                            ideasHtml += `
-                                <div class="col-md-4">
-                                    <div class="idea-box">
-                                        <h4>${idea.title}</h4>
-                                        <p>${idea.description}</p>
-                                        <p><strong>Estimated Amount:</strong> ${idea.estimated_amount}</p>
-                                        <p><strong>Date of Posting:</strong> ${idea.date_of_posting}</p>
-                                        <a href="${idea.pdf_file}" target="_blank" class="custom-button">View PDF</a>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        $('#recent-ideas-container').html(ideasHtml);
-                    } else {
-                        $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
-                    }
-                },
-                error: function() {
-                    $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
-                }
-            });
+    $.ajax({
+        url: "{{ url('get-recent-ideas') }}",  // Adjust the URL if needed
+        type: 'GET',
+        success: function(data) {
+            console.log(data); // Log the data to verify it's being returned correctly
+
+            if (data.length === 0) {  // Check if the data is empty
+                $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
+            } else {
+                let ideasHtml = '';
+                data.forEach(function(idea) {
+                    ideasHtml += `
+                        <div class="col-md-4">
+                            <div class="idea-box">
+                                <h4>${idea.title}</h4>
+                                <p>${idea.description}</p>
+                                <p><strong>Estimated Amount:</strong> ${idea.estimated_amount}</p>
+                                <p><strong>Date of Posting:</strong> ${idea.date_of_posting}</p>
+                                <a href="${idea.pdf_file}" target="_blank" class="custom-button">View PDF</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                $('#recent-ideas-container').html(ideasHtml);
+            }
+        },
+        error: function() {
+            $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
         }
+    });
+}
+
+
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>

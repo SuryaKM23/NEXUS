@@ -97,17 +97,18 @@ class StartupController extends Controller
 }
 
 public function getRecentIdeas()
-    {
-        // Retrieve company name from session
-        $companyName = Session::get('company_name');
+{
+    // Retrieve company name from session
+    $companyName = Session::get('company_name');
 
-        // Query the database for the three most recent records filtered by company name
-        $recentIdeas = Startup::where('company_name', $companyName)
-            ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
-            ->take(3) // Limit to the most recent three records
-            ->get();
+    // Query the database for the three most recent records filtered by company name
+    $recentIdeas = Startup::where('company_name', $companyName)
+        ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
+        ->take(3) // Limit to the most recent three records
+        ->get();
 
-        // Return the recent ideas as a JSON response for AJAX
-        return response()->json($recentIdeas);
-    }
+    // Return the recent ideas as a JSON response for AJAX
+    return response()->json($recentIdeas);
+}
+
 }
