@@ -11,7 +11,6 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
-
         a:hover {
             text-decoration: none;
             color: #fff;
@@ -19,7 +18,6 @@
         .menu-title:hover {
             color: #000000;
         }
-
         .msg {
             text-align: left;
             padding: 40px;
@@ -30,37 +28,30 @@
             margin: 20px auto;
             border-radius: 10px;
         }
-
         .msg h1, .msg h2 {
             margin: 0 0 20px;
             font-weight: 700;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
-
         .msg h1 {
             font-size: 42px;
         }
-
         .msg h2 {
             font-size: 32px;
         }
-
         .msg h5 {
             font-size: 18px;
             color: #ffffff;
             opacity: 70%;
             margin-top: 20px;
         }
-
         .rippon {
             width: 100%;
             height: 250px;
             position: relative;
-            padding-top: 2px;
             margin-bottom: 20px;
             overflow: hidden;
         }
-
         .bar {
             font-size: 20px;
             height: 250px;
@@ -72,7 +63,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .custom-button {
             background-color: #007bff;
             color: #fff;
@@ -87,11 +77,9 @@
             display: inline-block;
             text-align: center;
         }
-
         .custom-button:hover {
             background-color: #0056b3;
         }
-
         .idea-box {
             max-width: 600px;
             background-color: #ffffff;
@@ -105,45 +93,37 @@
             flex-direction: column;
             justify-content: space-between;
         }
-
         .idea-box h4 {
             margin-top: 0;
             font-size: 20px;
             font-weight: 600;
         }
-
         .idea-box p {
             font-size: 16px;
             line-height: 1.5;
             flex-grow: 1;
         }
-
         .post-ideas-button {
             text-align: right;
             margin-top: 20px;
             margin-bottom: 20px;
         }
-
         .post-ideas-button a {
             color: #ffffff;
             font-weight: bold;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
         .post-ideas-button a:hover {
             color: #ffffff;
         }
-
         .ideas-posted {
             text-align: center;
         }
-
         @media (max-width: 768px) {
             .bar {
                 font-size: 24px;
             }
-
             .idea-box {
                 margin-bottom: 20px;
             }
@@ -179,39 +159,35 @@
         });
 
         function fetchRecentIdeas() {
-    $.ajax({
-        url: "{{ url('get-recent-ideas') }}",  // Adjust the URL if needed
-        type: 'GET',
-        success: function(data) {
-            console.log(data); // Log the data to verify it's being returned correctly
-
-            if (data.length === 0) {  // Check if the data is empty
-                $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
-            } else {
-                let ideasHtml = '';
-                data.forEach(function(idea) {
-                    ideasHtml += `
-                        <div class="col-md-4">
-                            <div class="idea-box">
-                                <h4>${idea.title}</h4>
-                                <p>${idea.description}</p>
-                                <p><strong>Estimated Amount:</strong> ${idea.estimated_amount}</p>
-                                <p><strong>Date of Posting:</strong> ${idea.date_of_posting}</p>
-                                <a href="${idea.pdf_file}" target="_blank" class="custom-button">View PDF</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                $('#recent-ideas-container').html(ideasHtml);
-            }
-        },
-        error: function() {
-            $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
+            $.ajax({
+                url: "{{ url('get-recent-ideas') }}",
+                type: 'GET',
+                success: function(data) {
+                    if (data.length > 0) {
+                        let ideasHtml = '';
+                        data.forEach(function(recentIdeas) {
+                            ideasHtml += `
+                                <div class="col-md-4">
+                                    <div class="idea-box">
+                                        <h4>${recentIdeas.title}</h4>
+                                        <p>${recentIdeas.description}</p>
+                                        <p><strong>Estimated Amount:</strong> ${recentIdeas.estimated_amount}</p>
+                                        <p><strong>Date of Posting:</strong> ${recentIdeas.date_of_posting}</p>
+                                        <a href="${recentIdeas.pdf_file}" target="_blank" class="custom-button">View PDF</a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        $('#recent-ideas-container').html(ideasHtml);
+                    } else {
+                        $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
+                    }
+                },
+                error: function() {
+                    $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
+                }
+            });
         }
-    });
-}
-
-
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
