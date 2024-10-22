@@ -50,3 +50,5 @@ Route::post('/get_ideas',[StartupController::class,'get_ideas']);
 Route::get('/post_ideas', [StartupController::class, 'post_ideas']);
 Route::post('/get_ideas', [StartupController::class, 'get_ideas'])->name('get_ideas');
 Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
+
+Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);

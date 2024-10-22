@@ -145,18 +145,20 @@ class AdminController extends Controller
             $startupInvestor->save();
     
             // Fetch company details from StartupInvestor
-            $companyName = $startupInvestor->company_name;
+            $Name = $startupInvestor->company_name;
             $email = $startupInvestor->email;
             $password = $startupInvestor->password; // Assuming this is already hashed in your database
             $userType = $startupInvestor->usertype;
+            $company_name=$startupInvestor->company_name;
     
             // Create a User record
             $user = new User();
-            $user->name = $companyName; // Assuming the company name is used for user's name
+            $user->name = $Name; // Assuming the company name is used for user's name
             $user->email = $email;
             $user->password = Hash::make($password); // Hash the password securely
             $user->usertype = $userType;
             $user->startup_investor_id = $startupInvestor->id;
+            $user->company_name=$company_name;
             $user->save();
     
             return response()->json([
@@ -217,6 +219,7 @@ class AdminController extends Controller
         $user->password = bcrypt($password); // Ensure to hash the password securely
         $user->usertype = $usertype;
         $user->startup_investor_id = $id;
+        $user->company_name=$company_name;
          // Assuming the relationship
         $user->save();
         

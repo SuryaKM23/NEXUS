@@ -155,39 +155,49 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
         $(document).ready(function() {
-            fetchRecentIdeas();
-        });
-
-        function fetchRecentIdeas() {
-            $.ajax({
-                url: "{{ url('get-recent-ideas') }}",
-                type: 'GET',
-                success: function(data) {
-                    if (data.length > 0) {
-                        let ideasHtml = '';
-                        data.forEach(function(recentIdeas) {
-                            ideasHtml += `
-                                <div class="col-md-4">
-                                    <div class="idea-box">
-                                        <h4>${recentIdeas.title}</h4>
-                                        <p>${recentIdeas.description}</p>
-                                        <p><strong>Estimated Amount:</strong> ${recentIdeas.estimated_amount}</p>
-                                        <p><strong>Date of Posting:</strong> ${recentIdeas.date_of_posting}</p>
-                                        <a href="${recentIdeas.pdf_file}" target="_blank" class="custom-button">View PDF</a>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        $('#recent-ideas-container').html(ideasHtml);
-                    } else {
-                        $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
-                    }
-                },
-                error: function() {
-                    $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
-                }
-            });
+    // Set up CSRF token for AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+    });
+
+    fetchRecentIdeas();
+});
+
+function fetchRecentIdeas() {
+    $.ajax({
+        url: "{{ url('/get-recent-ideas') }}",
+        type: 'GET',
+        success: function(data) {
+            console.log(data); // Log the response data for debugging
+            if (data.length > 0) {
+                let ideasHtml = '';
+                data.forEach(function(recentIdeas) {
+                    ideasHtml += `
+                        <div class="col-md-4">
+                            <div class="idea-box">
+                                <h4>${recentIdeas.title}</h4>
+                                <p>${recentIdeas.description}</p>
+                                <p><strong>Estimated Amount:</strong> ${recentIdeas.estimated_amount}</p>
+                                <p><strong>Date of Posting:</strong> ${recentIdeas.created_at}</p>
+                                <a href="${recentIdeas.pdf_file}" target="_blank" class="custom-button">View PDF</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                $('#recent-ideas-container').html(ideasHtml);
+            } else {
+                $('#recent-ideas-container').html('<div class="alert alert-warning">No ideas posted yet.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error); // Log error details for debugging
+            $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
+        }
+    });
+}
+
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
