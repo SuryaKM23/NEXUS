@@ -104,7 +104,7 @@ public function getRecentIdeas()
     // where the user's company name matches the startup company name
     $recentIdeas = Startup::where('company_name', $userCompanyName)
         ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
-        ->take(4) // Limit to the most recent four records
+        ->take(3) // Limit to the most recent four records
         ->get();
 
     // Return the recent ideas as a JSON response for AJAX

@@ -71,6 +71,7 @@ Route::post('/reject/{id}', [AdminController::class, 'reject'])->name('reject');
 //startup 
 Route::get('/post_ideas', [StartupController::class, 'post_ideas']);
 Route::post('/get_ideas', [StartupController::class, 'get_ideas'])->name('get_ideas');
+Route::get('/viweIdeas',[StartupController::class,'view_Ideas']);
 Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
 
 //last 3 ideas

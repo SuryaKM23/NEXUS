@@ -149,6 +149,7 @@
                     <!-- AJAX content will be loaded here -->
                 </div>
             </div>
+            <a href="{{ url('viewIdeas') }}" class="custom-button">Post your Idea</a>
         </div>
     </div>
 
