@@ -110,6 +110,7 @@
                 response.data.forEach(function(data) {
                     var row = '<tr>' +
                         '<td><img src="' + data.profile_picture + '" width="100px" height="100px"></td>' +
+                        '<td>' + data.name + '</td>' +
                         '<td>' + data.company_name + '</td>' +
                         '<td>' + data.email + '</td>' +
                         '<td>' + data.phone + '</td>' +
