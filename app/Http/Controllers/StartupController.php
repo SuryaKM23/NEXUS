@@ -175,4 +175,53 @@ public function editidea($id)
 
         return response()->json(['success' => false, 'message' => 'Idea not found.']);
     }
+
+    //job
+    public function storeJobVacancy(Request $request)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'job_title' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'job_description' => 'required|string',
+            'job_location' => 'required|string|max:255',
+            'salary' => 'required|string|max:255',
+            'application_deadline' => 'required|date',
+            'job_type' => 'required|string',
+            'experience_level' => 'required|string',
+            'required_skills' => 'required|string',
+        ]);
+
+        $validatedData = $request->validate([
+            'job_title' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'job_description' => 'required|string',
+            'job_location' => 'required|string|max:255',
+            'salary' => 'required|string|max:255',
+            'application_deadline' => 'required|date',
+            'job_type' => 'required|string',
+            'experience_level' => 'required|string',
+            'required_skills' => 'required|string',
+        ]);
+    
+        // Create a new instance of the Job model
+        $job = new Job();
+        
+        // Assign the validated data to the model's attributes
+        $job->job_title = $validatedData['job_title'];
+        $job->company_name = $validatedData['company_name'];
+        $job->job_description = $validatedData['job_description'];
+        $job->job_location = $validatedData['job_location'];
+        $job->salary = $validatedData['salary'];
+        $job->application_deadline = $validatedData['application_deadline'];
+        $job->job_type = $validatedData['job_type'];
+        $job->experience_level = $validatedData['experience_level'];
+        $job->required_skills = $validatedData['required_skills'];
+    
+        // Save the job vacancy to the database
+        $job->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Job vacancy posted successfully!');
+    }
 }

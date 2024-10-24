@@ -98,17 +98,17 @@
         }
 
         .idea-box {
-            background-color: #ffffffe2;
-            width: 300px; /* Set a fixed width */
-            height: 400px; /* Set a fixed height */
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 10px; /* Add margin for spacing */
-            display: flex; /* Use flexbox */
-            flex-direction: column; /* Align items vertically */
-            justify-content: space-between; /* Space items evenly */
-        }
+    background-color: #ffffffe2;
+    width: 350px; /* Increased width */
+    height: 400px; /* Maintain the height */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px; /* Add margin for spacing */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Align items vertically */
+    justify-content: space-between; /* Space items evenly */
+}   
 
         .idea-box h4 {
             font-size: 20px;

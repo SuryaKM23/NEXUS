@@ -59,7 +59,7 @@
       </a>
     </li>
     <li class="nav-item menu-items">
-      <a class="nav-link" href="{{ url('viewpost_jobs') }}">
+      <a class="nav-link" href="{{ url('postjob') }}">
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>

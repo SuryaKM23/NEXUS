@@ -80,8 +80,8 @@ Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);
 Route::delete('/delete-idea/{id}', [StartupController::class, 'deleteIdea']);//delete
 Route::get('/edit-idea/{id}', [StartupController::class, 'editidea'])->name('edit.idea');//edit
 Route::put('/update-idea/{id}', [StartupController::class, 'updateidea'])->name('update.idea');//update
-
-
+//JobPost
+Route::post('/post-job-vacancy', [StartupController::class, 'storeJobVacancy'])->name('post.job.vacancy');
 
 
 require __DIR__.'/auth.php';
