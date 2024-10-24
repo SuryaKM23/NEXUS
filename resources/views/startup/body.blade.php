@@ -12,10 +12,12 @@
             font-family: Arial, sans-serif;
             background-color: #eff6fd;
         }
+
         a:hover {
             text-decoration: none;
             color: #00c8ff;
         }
+
         .msg {
             text-align: left;
             padding: 40px;
@@ -24,35 +26,41 @@
             margin: 20px auto;
             border-radius: 10px;
         }
+
         .msg h1, .msg h2 {
             margin: 0 0 20px;
             font-weight: 700;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
+
         .msg h1 {
             font-size: 42px;
         }
+
         .msg h2 {
             font-size: 32px;
         }
+
         .rippon {
             width: 100%;
-            height: 250px;
+            height: auto;
             position: relative;
             margin-bottom: 20px;
             overflow: hidden;
         }
+
         .bar {
             font-size: 20px;
-            height: 250px;
-            background-image: url('landingpage/img/header2.jpg');
+            background-image: url('landingpage/img/header2.jpg'); /* Update with the correct path */
             background-size: cover;
             background-position: center;
             color: #000000;
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
+
         .custom-button {
             background-color: #007bff;
             color: #fff;
@@ -65,42 +73,75 @@
             text-decoration: none;
             transition: background-color 0.3s ease;
             display: inline-block;
-            text-align: center;
+            margin-top: 10px;
         }
+
         .custom-button:hover {
             background-color: #0056b3;
         }
-        .idea-box {
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: left;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 350px;
+
+        .ideas-posted h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-        .idea-box h4 {
-            margin-top: 0;
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .idea-box p {
+
+        .view-ideas-link {
             font-size: 16px;
-            line-height: 1.5;
-            flex-grow: 1;
+            color: #007bff;
         }
-        .ideas-posted {
-            text-align: center;
+
+        #recent-ideas-container {
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow wrapping of items */
+            justify-content: center; /* Center items */
+            margin-top: 20px; /* Add margin for spacing */
         }
+
+        .idea-box {
+            background-color: #ffffffe2;
+            width: 300px; /* Set a fixed width */
+            height: 400px; /* Set a fixed height */
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px; /* Add margin for spacing */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Align items vertically */
+            justify-content: space-between; /* Space items evenly */
+        }
+
+        .idea-box h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .idea-box p {
+            margin-bottom: 10px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+
         @media (max-width: 768px) {
             .bar {
-                font-size: 24px;
+                padding: 20px;
+                font-size: 16px;
             }
+
+            .ideas-posted h1 {
+                font-size: 20px;
+            }
+
             .idea-box {
-                margin-bottom: 20px;
+                padding: 15px;
+            }
+
+            .custom-button {
+                font-size: 14px;
+                padding: 8px 15px;
             }
         }
     </style>
@@ -118,10 +159,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="ideas-posted">
-                    <h1>Recent Ideas</h1>
-                    <a href="{{ url('viewIdeas') }}" class="view-ideas-link" style="float: right;">View All >></a>
+                    <h1>Recent Ideas 
+                        <a href="{{ url('viewIdeas') }}" class="view-ideas-link float-right">View All >></a>
+                    </h1>
                 </div>
-                <div id="recent-ideas-container" class="row">
+                <div id="recent-ideas-container" class="row justify-content-center">
                     <!-- AJAX content will be loaded here -->
                 </div>
             </div>       
@@ -150,7 +192,7 @@
                         let ideasHtml = '';
                         data.forEach(function(recentIdeas) {
                             ideasHtml += `
-                                <div class="col-md-4 mb-4">
+                                <div class="col-md-6 col-lg-4 mb-4">
                                     <div class="idea-box">
                                         <h4>${recentIdeas.title}</h4>
                                         <p>${recentIdeas.description}</p>

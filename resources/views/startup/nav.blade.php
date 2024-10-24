@@ -45,7 +45,9 @@
 
 <div class="header">
   <div class="logo">
-    <img src="{{ asset('logo/startup.png') }}" width="150px" height="50px"> 
+    <a href="{{ url('/Home') }}">
+        <img src="{{ asset('logo/startup.png') }}" width="150px" height="50px" alt="Startup Logo">
+    </a>
 </div>
   <ul class="nav">
     <li class="nav-item menu-items">

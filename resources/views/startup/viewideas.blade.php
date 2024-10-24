@@ -28,23 +28,21 @@
             border-radius: 10px;
         }
         .row {
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: space-between; 
+            display: flex;
+            flex-wrap: wrap; /* Ensure boxes wrap to the next line if there's not enough space */
+            justify-content: space-between; /* Add spacing between items */
         }
         .idea-box {
-            display: flex; 
+            display: flex;
             flex-direction: column; 
             justify-content: space-between; 
-            flex: 1 1 calc(40% - 20px); 
-            margin: 10px; 
+            flex: 0 0 calc(33.333% - 20px); /* Allow three boxes per row with margin */
+            margin: 10px; /* Adjusted margin for spacing */
             background-color: #ffffff;
             border: 1px solid #dee2e6;
-            width: calc(40% - 20px); 
-            height: 300px; 
+            height: 300px; /* Set fixed height */
             box-sizing: border-box; 
-            padding: 20px; 
-            position: relative; 
+            padding: 10px; /* Reduced padding */
         }
         .idea-box h4 {
             font-size: 24px; 
@@ -96,7 +94,14 @@
         .dropdown-content a:hover {
             background-color: #f1f1f1; /* Light gray on hover */
         }
+        
+        .container {
+            max-width: 1200px; /* Set a max-width for the container */
+            margin: auto; /* Center the container */
+        }
+        
     </style>
+
 </head>
 <body>
     
@@ -222,20 +227,22 @@
         }
 
         function showAlert(message, type) {
-            const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
-            $('#alert-container').html(alertHtml); // Set the alert HTML in the alert container
+            const alertHtml = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+            $('#alert-container').html(alertHtml);
+            setTimeout(() => {
+                $('#alert-container').html(''); // Remove alert after 3 seconds
+            }, 3000);
         }
 
         function toggleDropdown(event) {
-            event.stopPropagation(); // Prevent click event from bubbling up to document
-            const dropdownContent = $(event.target).closest('.dropdown').find('.dropdown-content');
+            event.stopPropagation(); // Prevent the event from bubbling up
+            const dropdownContent = $(event.target).siblings('.dropdown-content');
             dropdownContent.toggle(); // Toggle dropdown visibility
         }
 
-        $(document).on('click', function (event) {
-            if (!$(event.target).closest('.dropdown').length) {
-                $('.dropdown-content').hide(); // Hide dropdown if clicked outside
-            }
+        // Close dropdown if clicking outside
+        $(document).on('click', function() {
+            $('.dropdown-content').hide();
         });
     </script>
 </body>

@@ -210,53 +210,46 @@
                     </div>
                     <button type="submit">Submit Idea</button>
                 </form>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="{{ route('login') }}">Login here</a></p>
-                </div>
             </div>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#investment').change(function() {
-                if ($(this).val() === 'crowdfunding') {
-                    $('#banking_details').show();
-                } else {
-                    $('#banking_details').hide();
-                }
-            });
-
             $('#add_form').on('submit', function(e) {
                 e.preventDefault();
                 let formData = new FormData(this);
-                
+
                 $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
+                    type: 'POST',
+                    url: "{{ route('get_ideas') }}",
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
+                        $('#message').html('');
                         $('#add_form')[0].reset();
                         $('#banking_details').hide();
+                        $('#successModal').modal('show');
                     },
-                    error: function(xhr) {
-                        let errorMessage = '';
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            for (let error in xhr.responseJSON.errors) {
-                                errorMessage += '<div>' + xhr.responseJSON.errors[error][0] + '</div>';
-                            }
-                        } else {
-                            errorMessage = 'An error occurred. Please try again.';
-                        }
-                        $('#message').html('<div class="alert alert-danger">' + errorMessage + '</div>');
+                    error: function(error) {
+                        $('#message').html('<div class="alert alert-danger">Something went wrong. Please try again.</div>');
                     }
                 });
+            });
+
+            $('#investment').change(function() {
+                if ($(this).val() == 'crowdfunding') {
+                    $('#banking_details').show();
+                } else {
+                    $('#banking_details').hide();
+                }
             });
         });
     </script>

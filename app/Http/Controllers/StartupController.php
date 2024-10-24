@@ -33,9 +33,6 @@ class StartupController extends Controller
             return view('startup.post_ideas', compact('companyName'));
         }
     }
-      
-
-
     public function get_ideas(Request $request)
 {
     // Ensure the user is authenticated
@@ -50,7 +47,7 @@ class StartupController extends Controller
         'pdf_file' => 'required|file|max:10240', // Ensure file is uploaded
         // Only validate banking details if crowdfunding is selected
         'account_holder_name' => $request->investment === 'crowdfunding' ? 'required|string|max:255' : 'nullable|string',
-        'account_number' => $request->investment === 'crowdfunding' ? 'required|string|max:20' : 'nullable|string',
+        'account_number' => $request->investment === 'crowdfunding' ? 'required|string|between:11,16' : 'nullable|string',
         'bank_name' => $request->investment === 'crowdfunding' ? 'required|string|max:255' : 'nullable|string',
         'ifsc_code' => $request->investment === 'crowdfunding' ? 'required|string|max:11' : 'nullable|string',
         'swift_code' => 'nullable|string|max:11',
@@ -97,6 +94,7 @@ class StartupController extends Controller
         'data' => $idea
     ], 200);
 }
+
 public function getRecentIdeas()
 {
     // Retrieve the authenticated user's company name
@@ -106,7 +104,7 @@ public function getRecentIdeas()
     // where the user's company name matches the startup company name
     $recentIdeas = Startup::where('company_name', $userCompanyName)
         ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
-        ->take(3) // Limit to the most recent four records
+        ->take(4) // Limit to the most recent four records
         ->get();
 
     // Return the recent ideas as a JSON response for AJAX
