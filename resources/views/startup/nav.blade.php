@@ -59,13 +59,13 @@
       </a>
     </li>
     <li class="nav-item menu-items">
-      <a class="nav-link" href="{{ url('postjob') }}">
+      <a class="nav-link" href="{{ url('post_job') }}">
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>
         <span class="menu-title">Post Job</span>
       </a>
-    </li>
+</li>
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ url('') }}">
         <span class="menu-icon">

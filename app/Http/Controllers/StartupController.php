@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\Startup;
 use App\Models\Startupinverstor;
+use App\Models\Job;
 use App\Models\User;// Adjust this to match your Startup model namespace
 
 class StartupController extends Controller
@@ -176,7 +177,18 @@ public function editidea($id)
         return response()->json(['success' => false, 'message' => 'Idea not found.']);
     }
 
+
+
     //job
+
+    public function showJobForm()
+    {
+        $currentUser = auth()->user(); // Get the currently authenticated user
+        $companyName = $currentUser ? $currentUser->company_name : ''; // Fetch the company name
+
+        return view('startup.post_job', compact('companyName')); // Pass the company name to the view
+    }
+
     public function storeJobVacancy(Request $request)
     {
         // Validate the request data
@@ -205,23 +217,37 @@ public function editidea($id)
         ]);
     
         // Create a new instance of the Job model
-        $job = new Job();
+        try {
+            // Create a new instance of the Job model
+            $job = new Job();
+            
+            // Assign the validated data to the model's attributes
+            $job->job_title = $validatedData['job_title'];
+            $job->company_name = $validatedData['company_name'];
+            $job->job_description = $validatedData['job_description'];
+            $job->job_location = $validatedData['job_location'];
+            $job->salary = $validatedData['salary'];
+            $job->application_deadline = $validatedData['application_deadline'];
+            $job->job_type = $validatedData['job_type'];
+            $job->experience_level = $validatedData['experience_level'];
+            $job->required_skills = $validatedData['required_skills'];
         
-        // Assign the validated data to the model's attributes
-        $job->job_title = $validatedData['job_title'];
-        $job->company_name = $validatedData['company_name'];
-        $job->job_description = $validatedData['job_description'];
-        $job->job_location = $validatedData['job_location'];
-        $job->salary = $validatedData['salary'];
-        $job->application_deadline = $validatedData['application_deadline'];
-        $job->job_type = $validatedData['job_type'];
-        $job->experience_level = $validatedData['experience_level'];
-        $job->required_skills = $validatedData['required_skills'];
+            // Save the job vacancy to the database
+            $job->save();
     
-        // Save the job vacancy to the database
-        $job->save();
-
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Job vacancy posted successfully!');
+            // Return JSON response for AJAX
+            return response()->json([
+                'success' => true,
+                'message' => 'Job vacancy posted successfully!',
+            ]);
+    
+        } catch (\Exception $e) {
+            // Return error response in case of failure
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while posting the job vacancy!',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

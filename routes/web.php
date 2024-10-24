@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StartupController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\StartupinverstorController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,7 +82,10 @@ Route::delete('/delete-idea/{id}', [StartupController::class, 'deleteIdea']);//d
 Route::get('/edit-idea/{id}', [StartupController::class, 'editidea'])->name('edit.idea');//edit
 Route::put('/update-idea/{id}', [StartupController::class, 'updateidea'])->name('update.idea');//update
 //JobPost
+Route::get('/post_job', [StartupController::class, 'showJobForm'])->name('post_job');
 Route::post('/post-job-vacancy', [StartupController::class, 'storeJobVacancy'])->name('post.job.vacancy');
 
 
+//job fetch
+Route::get('/get-jobs', [UserController::class, 'getJobs']);
 require __DIR__.'/auth.php';

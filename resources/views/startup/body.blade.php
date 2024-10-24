@@ -58,7 +58,7 @@
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            /* text-align: center; */
         }
 
         .custom-button {
@@ -133,6 +133,7 @@
 
             .ideas-posted h1 {
                 font-size: 20px;
+                text-align: center;
             }
 
             .idea-box {
@@ -159,7 +160,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="ideas-posted">
-                    <h1>Recent Ideas 
+                    <h1>Recent Ideas
                         <a href="{{ url('viewIdeas') }}" class="view-ideas-link float-right">View All >></a>
                     </h1>
                 </div>
