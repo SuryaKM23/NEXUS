@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Contracts\View\Factory; // Import for Factory
+use Illuminate\Http\JsonResponse; 
+use Illuminate\View\View;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -110,4 +112,67 @@ public function getRecentIdeas()
     // Return the recent ideas as a JSON response for AJAX
     return response()->json($recentIdeas);
 }
+public function view_Ideas(): JsonResponse|View
+{
+    $userCompanyName = auth()->user()->company_name;
+
+    // Query the database for the most recent records from the startup table
+    // where the user's company name matches the startup company name
+    $viewIdeas = Startup::where('company_name', $userCompanyName)
+        ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
+        ->get()
+        ->map(fn($idea) => $idea->setAttribute('created_at', \Carbon\Carbon::parse($idea->created_at)->format('Y-m-d')));
+
+    if (request()->expectsJson()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Ideas fetched successfully',
+            'data' => $viewIdeas, // Return the fetched ideas with formatted date
+        ], 200); // Return JSON response
+    } else {
+        return view('startup.viewideas', compact('viewIdeas')); // Render view
+    }
+}
+
+//delete
+public function deleteIdea($id)
+{
+    // Attempt to find the idea by ID
+    $idea = Startup::findOrFail($id); // This will automatically return a 404 if not found
+
+    // Delete the idea
+    $idea->delete();
+
+    // Return a success response
+    return response()->json(['success' => true, 'message' => 'Idea deleted successfully.']);
+}
+
+// edit ideas
+public function edit($id)
+    {
+        $idea = Startup::findOrFail($id);
+        return response()->json(['success' => true, 'data' => $idea]);
+    }
+
+    // Method to update the idea
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'estimated_amount' => 'required|numeric',
+            'estimated_turn_over' => 'required|string',
+        ]);
+
+        $idea = Startup::findOrFail($id);
+        $idea->title = $request->title;
+        $idea->description = $request->description;
+        $idea->estimated_amount = $request->estimated_amount;
+        $idea->estimated_turn_over = $request->estimated_turn_over;
+        $idea->save();
+
+        return response()->json(['success' => true, 'message' => 'Idea updated successfully!']);
+    }
+
+
 }

@@ -71,11 +71,14 @@ Route::post('/reject/{id}', [AdminController::class, 'reject'])->name('reject');
 //startup 
 Route::get('/post_ideas', [StartupController::class, 'post_ideas']);
 Route::post('/get_ideas', [StartupController::class, 'get_ideas'])->name('get_ideas');
-Route::get('/viweIdeas',[StartupController::class,'view_Ideas']);
+Route::get('/viewIdeas',[StartupController::class,'view_Ideas']);
 Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
 
 //last 3 ideas
 Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);
+Route::delete('/delete-idea/{id}', [StartupController::class, 'deleteIdea']);//delete
+Route::get('/edit-idea/{id}', [StartupController::class, 'edit'])->name('edit.idea'); //edit
+Route::put('/update-idea/{id}', [StartupController::class, 'update'])->name('update.idea');//update
 
 
 
