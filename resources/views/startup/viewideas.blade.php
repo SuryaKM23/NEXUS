@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- CSRF Token -->
     <title>Posted Idea</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -101,6 +102,7 @@
     
     @include("startup.nav")
     <div class="container mt-4">
+        <div id="alert-container"></div> <!-- Alert container -->
         <div class="row">
             <div class="col-12">
                 <h1 class="h1">Recent Ideas</h1>
@@ -202,32 +204,39 @@
             $.ajax({
                 url: "{{ url('/delete-idea') }}/" + id, // Adjust the URL to match your delete route
                 type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+                },
                 success: function(response) {
                     if (response.success) {
                         fetchRecentIdeas(); // Refresh the ideas after deletion
-                        alert('Idea deleted successfully.');
+                        showAlert('Idea deleted successfully.', 'success');
                     } else {
-                        alert('Error deleting idea.');
+                        showAlert('Error deleting idea.', 'danger');
                     }
                 },
                 error: function() {
-                    alert('Error deleting idea.');
+                    showAlert('Error deleting idea.', 'danger');
                 }
             });
         }
 
-        function toggleDropdown(event) {
-            event.stopPropagation(); // Prevent event from bubbling up
-            const dropdownContent = $(event.currentTarget).siblings('.dropdown-content');
-            $('.dropdown-content').not(dropdownContent).hide(); // Hide other dropdowns
-            dropdownContent.toggle(); // Toggle current dropdown
+        function showAlert(message, type) {
+            const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
+            $('#alert-container').html(alertHtml); // Set the alert HTML in the alert container
         }
 
-        // Hide dropdowns when clicking outside
-        $(document).click(function() {
-            $('.dropdown-content').hide();
+        function toggleDropdown(event) {
+            event.stopPropagation(); // Prevent click event from bubbling up to document
+            const dropdownContent = $(event.target).closest('.dropdown').find('.dropdown-content');
+            dropdownContent.toggle(); // Toggle dropdown visibility
+        }
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.dropdown').length) {
+                $('.dropdown-content').hide(); // Hide dropdown if clicked outside
+            }
         });
     </script>
-
 </body>
 </html>

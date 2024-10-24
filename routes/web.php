@@ -76,9 +76,11 @@ Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
 
 //last 3 ideas
 Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);
+//idea edit-update-delete
 Route::delete('/delete-idea/{id}', [StartupController::class, 'deleteIdea']);//delete
-Route::get('/edit-idea/{id}', [StartupController::class, 'edit'])->name('edit.idea'); //edit
-Route::put('/update-idea/{id}', [StartupController::class, 'update'])->name('update.idea');//update
+Route::get('/edit-idea/{id}', [StartupController::class, 'editidea'])->name('edit.idea');//edit
+Route::put('/update-idea/{id}', [StartupController::class, 'updateidea'])->name('update.idea');//update
+
 
 
 

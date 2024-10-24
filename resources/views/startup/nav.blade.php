@@ -45,8 +45,8 @@
 
 <div class="header">
   <div class="logo">
-    <img src="logo\startup.png" width="200px" height="50px"> 
-  </div>
+    <img src="{{ asset('logo/startup.png') }}" width="150px" height="50px"> 
+</div>
   <ul class="nav">
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ url('post_ideas') }}">

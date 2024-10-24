@@ -52,3 +52,4 @@ Route::post('/get_ideas', [StartupController::class, 'get_ideas'])->name('get_id
 Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
 
 Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);
+Route::delete('delete-idea/{id}', [StartupController::class, 'deleteIdea']);

@@ -148,31 +148,33 @@ public function deleteIdea($id)
 }
 
 // edit ideas
-public function edit($id)
+public function editidea($id)
     {
-        $idea = Startup::findOrFail($id);
-        return response()->json(['success' => true, 'data' => $idea]);
+        // Fetch the startup data by ID
+        $startup = Startup::find($id);
+        if ($startup) {
+            return view('startup.EditIdeas', compact('startup')); // Return the edit view with data
+        }
+        return redirect()->back()->withErrors('Idea not found.');
     }
 
-    // Method to update the idea
-    public function update(Request $request, $id)
+    public function updateIdea(Request $request, $id)
     {
-        $request->validate([
+        // Validate the request data
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'estimated_amount' => 'required|numeric',
-            'estimated_turn_over' => 'required|string',
+            'estimated_turn_over' => 'required|numeric',
         ]);
 
-        $idea = Startup::findOrFail($id);
-        $idea->title = $request->title;
-        $idea->description = $request->description;
-        $idea->estimated_amount = $request->estimated_amount;
-        $idea->estimated_turn_over = $request->estimated_turn_over;
-        $idea->save();
+        // Find the startup record by ID and update it
+        $startup = Startup::find($id);
+        if ($startup) {
+            $startup->update($validatedData);
+            return response()->json(['success' => true]);
+        }
 
-        return response()->json(['success' => true, 'message' => 'Idea updated successfully!']);
+        return response()->json(['success' => false, 'message' => 'Idea not found.']);
     }
-
-
 }
