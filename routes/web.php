@@ -88,4 +88,15 @@ Route::post('/post-job-vacancy', [StartupController::class, 'storeJobVacancy'])-
 
 //job fetch
 Route::get('/get-jobs', [UserController::class, 'getJobs']);
+//crowdfing
+Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
+
+// Route to show job application form
+Route::get('/apply-job', [UserController::class, 'showApplicationForm'])->name('apply-job-form')->middleware('auth');
+
+// Route to submit the job application
+Route::post('/apply-job', [UserController::class, 'submitApplication'])->name('apply-job');
+
+
+
 require __DIR__.'/auth.php';
