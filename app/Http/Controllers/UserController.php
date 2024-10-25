@@ -105,6 +105,7 @@ public function storeJobApplication(Request $request)
     $jobApplication->skills = $validatedData['skills'];
     $jobApplication->experience = $validatedData['experience'];
     $jobApplication->resume = $resumeFileName ? 'resumes/' . $resumeFileName : null;
+    $jobApplication->job_id = $validatedData['job_id'];
 
     $jobApplication->save();
 
@@ -138,5 +139,12 @@ public function getAppliedJobs()
     // Return the result as a view
     return view('user.jobapplied', ['appliedJobs' => $appliedJobs]);
 }
+public function show($job_id)
+    {
+        $job = Job::findOrFail($job_id);
+
+        // Pass the job data to the view
+        return view('user.jobdetails', ['job' => $job]);
+    }
 
 }

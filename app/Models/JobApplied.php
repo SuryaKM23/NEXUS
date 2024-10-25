@@ -21,5 +21,6 @@ class JobApplied extends Model
         'skills',
         'experience',
         'resume',
+        'job_id',
     ];
 }

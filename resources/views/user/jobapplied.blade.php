@@ -1,4 +1,3 @@
-<!-- resources/views/user/jobapplied.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +11,17 @@
         .list-group-item {
             font-size: 1.2em; /* Adjust the size as needed */
             padding: 15px; /* Increase padding for a larger clickable area */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         strong {
             font-size: 1.1em; /* Make the strong text slightly larger */
+        }
+        .details-link {
+            font-size: 1.5em;
+            color: #007bff;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -30,9 +37,12 @@
                 <ul class="list-group">
                     @foreach ($appliedJobs as $job)
                         <li class="list-group-item">
-                            <strong>Job Title:</strong> {{ $job->job_title }}<br>
-                            <strong>Company Name:</strong> {{ $job->company_name }}<br>
-                            <strong>Date of Posting:</strong> {{ $job->updated_at->format('Y-m-d') }}<br>
+                            <div>
+                                <strong>Job Title:</strong> {{ $job->job_title }}<br>
+                                <strong>Company Name:</strong> {{ $job->company_name }}<br>
+                                <strong>Date of Posting:</strong> {{ $job->updated_at->format('Y-m-d') }}<br>
+                            </div>
+                            <a href="{{ route('job.details', ['job_id' => $job->id]) }}" class="details-link">&gt;</a>
                         </li>
                     @endforeach
                 </ul>
@@ -56,9 +66,12 @@
                     response.forEach(function(job) {
                         $('#applied-jobs-list').append(
                             '<li class="list-group-item">' +
-                                '<strong>Job Title:</strong> ' + job.job_title + '<br>' +
-                                '<strong>Company Name:</strong> ' + job.company_name + '<br>' +
-                                '<strong>Date of Posting:</strong> ' + new Date(job.updated_at).toLocaleDateString() +
+                                '<div>' +
+                                    '<strong>Job Title:</strong> ' + job.job_title + '<br>' +
+                                    '<strong>Company Name:</strong> ' + job.company_name + '<br>' +
+                                    '<strong>Date of Posting:</strong> ' + new Date(job.updated_at).toLocaleDateString() +
+                                '</div>' +
+                                '<a href="/job/details/' + job.id + '" class="details-link">&gt;</a>' +
                             '</li>'
                         );
                     });

@@ -100,6 +100,7 @@ Route::get('/apply_job/{job_id}', [UserController::class, 'applyJob']);
 Route::middleware('auth')->post('/applied_job', [UserController::class, 'storeJobApplication']);
 
 Route::get('/get-applied-jobs', [UserController::class, 'getAppliedJobs'])->name('get.applied.jobs');
+Route::get('/job/details/{job_id}', [UserController::class, 'show'])->name('job.details');
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
