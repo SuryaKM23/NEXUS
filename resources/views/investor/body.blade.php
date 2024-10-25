@@ -85,7 +85,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="section-title">Crowdfunding</h1>
+                <h1 class="section-title">Fund Raising</h1>
                 <div class="d-flex align-items-center">
                     <div class="input-group">
                         <input type="text" class="form-control" id="search-input" placeholder="Search..." oninput="fetchCrowdfundingStartups()">
@@ -128,6 +128,7 @@
                                 <p class="title" style="font-size: 24px; font-weight: bold;">${startup.title}</p>
                                 <p>${startup.description}</p>
                                 <p><strong>Estimation amount: $</strong> ${startup.estimated_amount}</p>
+                                <p><strong>Estimation Turn Over: $</strong> ${startup.estimated_turn_over}</p>
                             </div>
                             <div class="button-container">
                                 <a href="${startup.pdf_file}" target="_blank" class="custom-button view-pdf-button">View PDF</a>

@@ -97,7 +97,7 @@
                                     <a href="${startup.pdf_file}" target="_blank" class="custom-button">View PDF</a>
                                 </div>
                                 <div class="startup-actions">
-                                    <a href="#" class="btn btn-primary">Invest Now</a>
+                                    <a href="#" class="btn btn-primary">Donate</a>
                                 </div>
                             </div>
                         </div>

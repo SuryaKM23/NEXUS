@@ -92,11 +92,14 @@ Route::get('/get-jobs', [UserController::class, 'getJobs']);
 Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
 
 // Route to show job application form
-Route::get('/apply_job', [UserController::class, 'applyJob']);
+Route::get('/apply_job/{job_id}', [UserController::class, 'applyJob']);
+
 
 // Route to handle the form submission
-Route::middleware('auth')->post('/applied_job', [UserController::class, 'appliedJob']);
+// web.php
+Route::middleware('auth')->post('/applied_job', [UserController::class, 'storeJobApplication']);
 
+Route::get('/get-applied-jobs', [UserController::class, 'getAppliedJobs'])->name('get.applied.jobs');
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');

@@ -1,201 +1,116 @@
+<!-- resources/views/user/job_application.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-         body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .main-panel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-            padding: 20px;
-        }
-
-        .content-wrapper {
-            max-width: 800px; /* Adjusted for two columns */
-            width: 100%;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            font-size: 28px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #343a40;
-            font-weight: 600;
-            border-bottom: 3px solid #007bff;
-            padding-bottom: 15px;
-        }
-
-        .input-box {
-            margin-bottom: 15px;
-        }
-
-        .input-box label {
-            display: block;
-            margin-bottom: 5px;
-            color: #495057;
-            font-weight: 500;
-        }
-
-        .input_color {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            transition: border-color 0.3s;
-        }
-
-        .input_color:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-        }
-
-        .form button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .form button:hover {
-            background-color: #0056b3;
-            transform: scale(1.02);
-        }
-
-        .alert {
-            margin-top: 20px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     @include("user.nav")
-    <div class="main-panel">
-        <div class="content-wrapper">
-            <header>Apply for Job</header>
-            <form id="jobApplicationForm" enctype="multipart/form-data">
-                @csrf <!-- Required for Laravel security -->
+    <div class="container mt-5">
+        <h1 class="mb-4" style="font-size: 2.5rem;">Apply for Job</h1>
 
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{ Auth::user()->name }}" readonly>
-                    </div> 
-                    <div class="form-group col-md-6">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
+        <!-- Success and Error Messages -->
+        <div id="alert-message" style="display:none;" class="alert" role="alert"></div>
+
+        <form id="jobApplicationForm" enctype="multipart/form-data">
+            @csrf
+
+            <!-- Hidden fields for job information -->
+            <input type="hidden" name="job_id" value="{{ $job->id }}">
+            <input type="hidden" name="company_name" value="{{ $job->company_name }}">
+            <input type="hidden" name="job_title" value="{{ $job->job_title }}">
+
+            <div class="row">
+                <!-- Display Job Information -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="company_name">Company Name:</label>
+                        <input type="text" id="company_name" class="form-control" value="{{ $job->company_name }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job_title">Job Title:</label>
+                        <input type="text" id="job_title" class="form-control" value="{{ $job->job_title }}" readonly>
+                    </div>
+
+                    <!-- Display User Information -->
+                    <div class="form-group">
+                        <label for="user_name">Name:</label>
+                        <input type="text" id="user_name" name="user_name" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_email">Email:</label>
+                        <input type="text" id="user_email" name="user_email" class="form-control" value="{{ Auth::user()->email }}" readonly>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 input-box">
-                        <label for="phone">Phone</label>
-                        <input type="text" name="phone" id="phone" class="input_color" required maxlength="15">
+                <!-- Applicant Information -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" name="phone" id="phone" class="form-control" required maxlength="15" placeholder="Enter your phone number">
                     </div>
 
-                    <div class="col-md-6 input-box">
-                        <label for="degree">Degree</label>
-                        <input type="text" name="degree" id="degree" class="input_color" required maxlength="255">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 input-box">
-                        <label for="skills">Skills</label>
-                        <textarea name="skills" id="skills" class="input_color" required maxlength="1000"></textarea>
+                    <div class="form-group">
+                        <label for="degree">Degree:</label>
+                        <input type="text" name="degree" id="degree" class="form-control" required maxlength="255" placeholder="Enter your highest degree">
                     </div>
 
-                    <div class="col-md-6 input-box">
-                        <label for="experience">Experience</label>
-                        <textarea name="experience" id="experience" class="input_color" required maxlength="1000"></textarea>
+                    <div class="form-group">
+                        <label for="skills">Skills:</label>
+                        <textarea name="skills" id="skills" class="form-control" required maxlength="1000" placeholder="Describe your skills"></textarea>
                     </div>
-                </div>
 
-                <div class="input-box">
-                    <label for="resume">Upload Resume (PDF/DOC/DOCX)</label>
-                    <input type="file" name="resume" id="resume" class="input_color" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block">Submit Application</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal for response messages -->
-    <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="responseModalLabel">Response</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    <!-- Response message will be inserted here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="form-group">
+                        <label for="experience">Experience:</label>
+                        <textarea name="experience" id="experience" class="form-control" required maxlength="1000" placeholder="Describe your work experience"></textarea>
+                    </div>
                 </div>
             </div>
- </div>
+
+            <div class="form-group">
+                <label for="resume">Upload Resume (PDF, DOC, DOCX):</label>
+                <input type="file" name="resume" id="resume" class="form-control-file" required accept=".pdf,.doc,.docx">
+            </div>
+
+            <button type="button" id="submitApplication" class="btn btn-primary">Submit Application</button>
+        </form>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#jobApplicationForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-
-                // Prepare form data for AJAX
-                var formData = new FormData(this);
-
+            $('#submitApplication').click(function(e) {
+                e.preventDefault();
+                
+                let formData = new FormData($('#jobApplicationForm')[0]);
+                
                 $.ajax({
-                    url: "{{ url('/applied_job') }}", // Use the correct route for submission
-                    type: 'POST',
+                    url: "{{ url('/applied_job') }}",
+                    type: "POST",
                     data: formData,
-                    processData: false,
                     contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
-                        // Display success message in modal
-                        $('#modal-body').html('<div class="alert alert-success">' + response.message + '</div>');
-                        $('#responseModal').modal('show');
+                        $('#alert-message').removeClass('alert-danger').addClass('alert-success');
+                        $('#alert-message').text(response.message).show();
                     },
                     error: function(xhr) {
-                        // Display error message in modal
-                        let errorMessage = 'An error occurred while submitting the form.';
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, error) {
-                                errorMessages += '<p>' + error[0] + '</p>';
-                            });
-                            errorMessage = errorMessages; // Show validation errors
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = "An error occurred:<br>";
+                        for (let key in errors) {
+                            errorMessage += errors[key][0] + "<br>";
                         }
-                        $('#modal-body').html('<div class="alert alert-danger">' + errorMessage + '</div>');
-                        $('#responseModal').modal('show');
+                        $('#alert-message').removeClass('alert-success').addClass('alert-danger');
+                        $('#alert-message').html(errorMessage).show();
                     }
                 });
             });

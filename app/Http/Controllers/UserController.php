@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\View\Factory; // Import for Factory
 use Illuminate\Http\JsonResponse; 
 use Illuminate\View\View;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -53,67 +53,90 @@ public function getCrowdfundingStartups(Request $request)
     }
 }
 // UserController.php
-    public function applyJob()
-    {
-        return view('user.job_application'); // Ensure the view file exists
+public function applyJob($job_id)
+{
+    // Fetch the job post details based on the job_id
+    $job = Job::find($job_id);
+
+    // Check if the job post exists
+    if (!$job) {
+        return redirect()->back()->withErrors(['error' => 'Job post not found.']);
     }
-    public function appliedJob(Request $request) 
-    {
-        // Debugging session data
-        \Log::info('Session Data: ', session()->all());
-    
-        // Get the authenticated user
-        $user = Auth::user();
-    
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'phone' => 'required|string|max:15',
-            'degree' => 'required|string|max:255',
-            'skills' => 'required|string|max:1000',
-            'experience' => 'required|string|max:1000',
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:2048', // File validation
-        ]);
-        
-        // Retrieve the user's name and email from the authenticated user
-        $name = $user->name; // Get user name from the authenticated user
-        $email = $user->email; // Get user email from the authenticated user
-        
-        // Check if name and email are null
-        if (is_null($name) || is_null($email)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'User name or email is not available.'
-            ], 400);
-        }
-        
-        // Handle the resume file upload
-        $resumeFileName = null;
-        if ($request->hasFile('resume')) {
-            $resume = $request->file('resume');
-            $resumeFileName = time() . '.' . $resume->getClientOriginalExtension();
-            $resume->move(public_path('resumes'), $resumeFileName);
-        }
-        
-        // Create a new job application instance
-        $jobApplication = new JobApplied(); // Assuming you have a model named JobApplied
-        $jobApplication->name = $name; // Store user name
-        $jobApplication->email = $email; // Store user email
-        $jobApplication->phone = $validatedData['phone'];
-        $jobApplication->degree = $validatedData['degree'];
-        $jobApplication->skills = $validatedData['skills'];
-        $jobApplication->experience = $validatedData['experience'];
-        $jobApplication->resume = $resumeFileName ? 'resumes/' . $resumeFileName : null; // Set resume path
-    
-        // Save the job application to the database
-        $jobApplication->save();
-        
-        // Return a JSON response indicating success
-        return response()->json([
-            'success' => true,
-            'message' => 'Job application submitted successfully!',
-            'data' => $jobApplication
-        ]);
+
+    // Pass the job details to the view
+    return view('user.job_application', [
+        'job' => $job
+    ]);
+}
+   // UserController.php
+public function storeJobApplication(Request $request)
+{
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Validate the form data
+    $validatedData = $request->validate([
+        'phone' => 'required|string|max:15',
+        'degree' => 'required|string|max:255',
+        'skills' => 'required|string|max:1000',
+        'experience' => 'required|string|max:1000',
+        'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        'job_id' => 'required|integer',
+        'company_name' => 'required|string',
+        'job_title' => 'required|string'
+    ]);
+
+    // Handle the resume file upload
+    $resumeFileName = null;
+    if ($request->hasFile('resume')) {
+        $resume = $request->file('resume');
+        $resumeFileName = time() . '.' . $resume->getClientOriginalExtension();
+        $resume->move(public_path('resumes'), $resumeFileName);
     }
-    
-    
+
+    // Save the job application in the database
+    $jobApplication = new JobApplied(); // Assuming you have a model named JobApplied
+    $jobApplication->name = $user->name;
+    $jobApplication->email = $user->email;
+    $jobApplication->company_name = $validatedData['company_name'];
+    $jobApplication->job_title = $validatedData['job_title'];
+    $jobApplication->phone = $validatedData['phone'];
+    $jobApplication->degree = $validatedData['degree'];
+    $jobApplication->skills = $validatedData['skills'];
+    $jobApplication->experience = $validatedData['experience'];
+    $jobApplication->resume = $resumeFileName ? 'resumes/' . $resumeFileName : null;
+
+    $jobApplication->save();
+
+    // Return a JSON response indicating success
+    return response()->json([
+        'success' => true,
+        'message' => 'Job application submitted successfully!'
+    ]);
+}
+
+//fetcappliedjobs
+public function getAppliedJobs()
+{
+    // Check if the user is authenticated
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You must be logged in to view your applied jobs.');
+    }
+
+    // Get the current user's email
+    $currentEmail = Auth::user()->email;
+
+    // Fetch records from the JobApplied model where the email matches
+    $appliedJobs = JobApplied::where('email', $currentEmail)->get();
+
+    // Check if the request is an AJAX request
+    if (request()->wantsJson()) {
+        // Return the result as JSON
+        return response()->json($appliedJobs);
+    }
+
+    // Return the result as a view
+    return view('user.jobapplied', ['appliedJobs' => $appliedJobs]);
+}
+
 }

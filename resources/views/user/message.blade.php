@@ -1,4 +1,4 @@
-<!-- Messenger Section -->
+{{-- <!-- Messenger Section -->
 <div class="messenger-container" id="messenger-container">
     <div class="messenger-layout">
         <div class="contacts">
@@ -37,4 +37,4 @@
 <div class="message-icon" onclick="toggleMessenger()">
     <i class="fas fa-comments"></i>
 </div>
-
+ --}}
