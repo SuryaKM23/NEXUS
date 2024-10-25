@@ -48,30 +48,14 @@
       <h3 class="text">Investor</h3>
     </div>
     <ul class="nav">
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="{{ url('view_inv_info') }}">
-          <span class="menu-icon">
-            <i class="mdi mdi-playlist-play"></i>
-          </span>
-          <span class="menu-title">Add Infomation</span>
-        </a>
-      </li>
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="{{ url('') }}">
-          <span class="menu-icon">
-            <i class="mdi mdi-playlist-play"></i>
-          </span>
-          <span class="menu-title">Search Startup Ideas</span>
-        </a>
-      </li>
-      <li class="nav-item menu-items">
+      {{-- <li class="nav-item menu-items">
         <a class="nav-link" href="{{ url('') }}">
           <span class="menu-icon">
             <i class="mdi mdi-table-large"></i>
           </span>
           <span class="menu-title">Investment</span>
         </a>
-      </li>
+      </li> --}}
     </ul>
   <x-app-layout>
           </x-app-layout>

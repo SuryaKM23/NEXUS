@@ -24,5 +24,5 @@
     <!-- plugins:js -->
     
 </body>
-@include('investor.footer')
+{{-- @include('investor.footer') --}}
 </html>

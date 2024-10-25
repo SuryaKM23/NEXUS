@@ -98,4 +98,9 @@ Route::get('/apply_job', [UserController::class, 'applyJob']);
 Route::middleware('auth')->post('/applied_job', [UserController::class, 'appliedJob']);
 
 
+
+Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
+
+
+
 require __DIR__.'/auth.php';
