@@ -107,7 +107,7 @@
                                             <p><strong>Salary:</strong> ${job.salary}</p>
                                         </div>
                                         <div class="job-actions">
-                                            <a href="apply-job" class="btn btn-primary">Apply Now</a>
+                                            <a href="apply_job" class="btn btn-primary">Apply Now</a>
                                         </div>
                                     </div>
                                 </div>

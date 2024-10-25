@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Startup;
 use App\Models\Startupinverstor;
 use App\Models\Job;
+use App\Models\JobApplied;
 use App\Models\User;
 
 
@@ -20,6 +21,7 @@ class UserController extends Controller
     // In your UserController.php
 public function getJobs(Request $request)
 {
+
     $search = $request->input('search');
 
     // Fetch jobs filtered by title
@@ -49,35 +51,69 @@ public function getCrowdfundingStartups(Request $request)
     } else {
         return view('user.Crowdfund', ['startups' => $startups]);
     }
-}public function applyJob(Request $request)
-{
-    // Validate the incoming request
-    $validatedData = $request->validate([
-        'phone' => 'required|string',
-        'degree' => 'required|string',
-        'skills' => 'required|string',
-        'experience' => 'required|string',
-        'resume' => 'required|file|mimes:pdf,doc,docx|max:2048', // Adjust as needed
-    ]);
-
-    // Store the uploaded resume
-    if ($request->hasFile('resume')) {
-        $file = $request->file('resume');
-        $path = $file->store('resumes'); // Store in the 'resumes' directory
-
-        // Create a new job application record
-        JobApplied::create([
-            'user_id' => $request->user()->id, // Assuming you have a user logged in
-            'phone' => $validatedData['phone'],
-            'degree' => $validatedData['degree'],
-            'skills' => $validatedData['skills'],
-            'experience' => $validatedData['experience'],
-            'resume_path' => $path, // Store the path to the resume
-        ]);
-
-        return response()->json(['message' => 'Application submitted successfully!'], 200);
-    }
-
-    return response()->json(['message' => 'Resume upload failed.'], 500);
 }
+// UserController.php
+    public function applyJob()
+    {
+        return view('user.job_application'); // Ensure the view file exists
+    }
+    public function appliedJob(Request $request) 
+    {
+        // Debugging session data
+        \Log::info('Session Data: ', session()->all());
+    
+        // Get the authenticated user
+        $user = Auth::user();
+    
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'phone' => 'required|string|max:15',
+            'degree' => 'required|string|max:255',
+            'skills' => 'required|string|max:1000',
+            'experience' => 'required|string|max:1000',
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:2048', // File validation
+        ]);
+        
+        // Retrieve the user's name and email from the authenticated user
+        $name = $user->name; // Get user name from the authenticated user
+        $email = $user->email; // Get user email from the authenticated user
+        
+        // Check if name and email are null
+        if (is_null($name) || is_null($email)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User name or email is not available.'
+            ], 400);
+        }
+        
+        // Handle the resume file upload
+        $resumeFileName = null;
+        if ($request->hasFile('resume')) {
+            $resume = $request->file('resume');
+            $resumeFileName = time() . '.' . $resume->getClientOriginalExtension();
+            $resume->move(public_path('resumes'), $resumeFileName);
+        }
+        
+        // Create a new job application instance
+        $jobApplication = new JobApplied(); // Assuming you have a model named JobApplied
+        $jobApplication->name = $name; // Store user name
+        $jobApplication->email = $email; // Store user email
+        $jobApplication->phone = $validatedData['phone'];
+        $jobApplication->degree = $validatedData['degree'];
+        $jobApplication->skills = $validatedData['skills'];
+        $jobApplication->experience = $validatedData['experience'];
+        $jobApplication->resume = $resumeFileName ? 'resumes/' . $resumeFileName : null; // Set resume path
+    
+        // Save the job application to the database
+        $jobApplication->save();
+        
+        // Return a JSON response indicating success
+        return response()->json([
+            'success' => true,
+            'message' => 'Job application submitted successfully!',
+            'data' => $jobApplication
+        ]);
+    }
+    
+    
 }

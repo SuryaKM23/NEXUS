@@ -34,6 +34,8 @@ class AuthenticatedSessionController extends Controller
          $request->session()->put('startup_investor_id', $user->startup_investor_id);
          $request->session()->put('usertype', $user->usertype);
          $request->session()->put('company_name', $user->company_name);
+         
+         $request->session()->put('email',$user->email);
 
          
 
