@@ -8,13 +8,13 @@
     }
     
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #34495e;
-      color: white;
-      padding: 10px 20px;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adding shadow */
+  }
     
     .logo {
       font-size: 40px;
@@ -45,8 +45,8 @@
   
   <div class="header">
     <div class="logo">
-      <h3 class="text">Investor</h3>
-    </div>
+        <img src="{{ asset('logo/startup.png') }}" alt="Logo" class="logo-image" width="140px" height="20px">
+</div>
     <ul class="nav">
       {{-- <li class="nav-item menu-items">
         <a class="nav-link" href="{{ url('') }}">
@@ -57,8 +57,8 @@
         </a>
       </li> --}}
     </ul>
-  <x-app-layout>
-          </x-app-layout>
+    <x-app-layout>
+    </x-app-layout>
           </li>
         </div>
       </nav>
