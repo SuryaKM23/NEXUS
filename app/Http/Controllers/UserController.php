@@ -141,7 +141,7 @@ public function getAppliedJobs()
 }
 public function show($job_id)
     {
-        $job = Job::findOrFail($job_id);
+        $job = JobApplied::findOrFail($job_id);
 
         // Pass the job data to the view
         return view('user.jobdetails', ['job' => $job]);

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Startup;
 use App\Models\Startupinverstor;
 use App\Models\Job;
+use App\Models\JobApplied;
 use App\Models\User;// Adjust this to match your Startup model namespace
 
 class StartupController extends Controller
@@ -250,5 +251,30 @@ public function editidea($id)
             ], 500);
         }
     }
-   
+    public function getJobApplicationsByCompany()
+    {
+        $companyName = session('company_name');
+
+        // Check if companyName is available
+        if (!$companyName) {
+            return response()->json(['error' => 'Company name not found in session.'], 400);
+        }
+    
+        // Fetch all job applications where the company_name matches the current user's company name
+        $appliedJobs = JobApplied::where('company_name', $companyName)->get();
+    
+        // Check if jobs were found
+        if ($appliedJobs->isEmpty()) {
+            return response()->json(['error' => 'No job applications found for this company.'], 404);
+        }
+    
+        // Check if the request is an AJAX request
+        if (request()->ajax()) {
+            // Return the job applications as JSON
+            return response()->json($appliedJobs);
+        }
+    
+        // If it's not an AJAX request, return a view with the data
+        return view('startup.job_applications', ['appliedJobs' => $appliedJobs]);
+}
 }

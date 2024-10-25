@@ -101,6 +101,7 @@ Route::middleware('auth')->post('/applied_job', [UserController::class, 'storeJo
 
 Route::get('/get-applied-jobs', [UserController::class, 'getAppliedJobs'])->name('get.applied.jobs');
 Route::get('/job/details/{job_id}', [UserController::class, 'show'])->name('job.details');
+Route::get('/job-applied', [StartupController::class, 'getJobApplicationsByCompany']);
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');

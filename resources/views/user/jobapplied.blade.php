@@ -71,7 +71,7 @@
                                     '<strong>Company Name:</strong> ' + job.company_name + '<br>' +
                                     '<strong>Date of Posting:</strong> ' + new Date(job.updated_at).toLocaleDateString() +
                                 '</div>' +
-                                '<a href="/job/details/' + job.id + '" class="details-link">&gt;</a>' +
+                                '<a href="/job/details/' + job.job_id + '" class="details-link">&gt;</a>' +
                             '</li>'
                         );
                     });
