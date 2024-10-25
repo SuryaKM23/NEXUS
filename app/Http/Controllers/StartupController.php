@@ -250,4 +250,5 @@ public function editidea($id)
             ], 500);
         }
     }
+   
 }
