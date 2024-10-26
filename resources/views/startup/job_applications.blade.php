@@ -30,6 +30,7 @@
     </style>
 </head>
 <body>
+    @include('startup.nav')
     <div class="container mt-5">
         <h3 class="text-center">Job Applications for Your Company</h3>
         <div id="job-applied-cards" class="row mt-4">
@@ -62,7 +63,7 @@
                                         <p class="card-text"><strong>Degree:</strong> ${application.degree}</p>
                                         <p class="card-text"><strong>Skills:</strong> ${application.skills}</p>
                                         <p class="card-text"><strong>Experience:</strong> ${application.experience} years</p>
-                                        <p class="card-text"><strong>Applied On:</strong> ${application.created_at}</p>
+                                        <p class="card-text"><strong>Applied On:</strong> ${new Date(application.created_at).toISOString().split('T')[0]}</p>
                                         <p class="card-text"><strong>Company Name:</strong> ${application.company_name}</p>
                                     </div>
                                     <div class="card-footer">
