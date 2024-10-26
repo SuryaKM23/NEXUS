@@ -77,7 +77,8 @@
                                     </div>
                                     <div class="card-footer d-flex justify-content-around">
                                         <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
-                                        <a href="mailto:${application.email}?subject=Job Application for ${application.job_title}" class="btn btn-contact">Contact</a>
+                                        <a href="mailto:${application.email}?subject=Job Application for ${encodeURIComponent(application.job_title)}" class="btn btn-contact">Contact</a>
+
                                     </div>
                                 </div>
                             </div>
