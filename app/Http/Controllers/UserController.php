@@ -140,11 +140,10 @@ public function getAppliedJobs()
     return view('user.jobapplied', ['appliedJobs' => $appliedJobs]);
 }
 public function show($job_id)
-    {
-        $job = JobApplied::findOrFail($job_id);
+{
+    $job = JobApplied::where('job_id', $job_id)->firstOrFail();
 
-        // Pass the job data to the view
-        return view('user.jobdetails', ['job' => $job]);
-    }
-
+    // Pass the job data to the view
+    return view('user.jobdetails', ['job' => $job]);
+}
 }

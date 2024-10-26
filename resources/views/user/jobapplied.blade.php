@@ -42,7 +42,7 @@
                                 <strong>Company Name:</strong> {{ $job->company_name }}<br>
                                 <strong>Date of Posting:</strong> {{ $job->updated_at->format('Y-m-d') }}<br>
                             </div>
-                            <a href="{{ route('job.details', ['job_id' => $job->id]) }}" class="details-link">&gt;</a>
+                            <a href="{{ route('job.details', ['job_id' => $job->job_id]) }}" class="details-link">&gt;</a>
                         </li>
                     @endforeach
                 </ul>
