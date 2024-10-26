@@ -63,8 +63,16 @@
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>
-        <span class="menu-title">Post Job</span>
+        <span class="menu-title">Post Job Vacency</span>
       </a>
+</li>
+<li class="nav-item menu-items">
+  <a class="nav-link" href="{{ url('/viewJobs') }}">
+    <span class="menu-icon">
+      <i class="mdi mdi-table-large"></i>
+    </span>
+    <span class="menu-title">Job Details</span>
+  </a>
 </li>
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ url('/job-applied') }}">

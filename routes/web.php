@@ -9,6 +9,7 @@ use App\Http\Controllers\StartupController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\StartupinverstorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JobController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -102,6 +103,16 @@ Route::middleware('auth')->post('/applied_job', [UserController::class, 'storeJo
 Route::get('/get-applied-jobs', [UserController::class, 'getAppliedJobs'])->name('get.applied.jobs');
 Route::get('/job/details/{job_id}', [UserController::class, 'show'])->name('job.details');
 Route::get('/job-applied', [StartupController::class, 'getJobApplicationsByCompany']);
+
+// Route to fetch recent jobs
+Route::get('/viewJobs', [StartupController::class, 'viewJobs']);
+Route::get('/edit-job/{id}', [StartupController::class, 'editjob'])->name('edit.job');
+// Route to update the job
+Route::put('/update-job/{id}', [StartupController::class, 'updatejob'])->name('update.job');
+// Route to delete a job
+Route::delete('/delete-job/{id}', [StartupController::class, 'deleteJob']);
+
+// Route to redirect to edit job
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');

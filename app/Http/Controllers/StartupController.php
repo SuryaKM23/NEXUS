@@ -277,4 +277,77 @@ public function editidea($id)
         // If it's not an AJAX request, return a view with the data
         return view('startup.job_applications', ['appliedJobs' => $appliedJobs]);
 }
+public function viewJobs(): JsonResponse|View
+{
+    // Get the current authenticated user
+    $user = auth()->user();
+
+    // Fetch jobs where company_name matches the user's company_name
+    $jobs = Job::where('company_name', $user->company_name)
+        ->orderBy('created_at', 'desc') // Optional: sort by created_at if needed
+        ->get()
+        ->map(fn($job) => $job->setAttribute('created_at', \Carbon\Carbon::parse($job->created_at)->format('Y-m-d'))); // Format created_at date
+
+    if (request()->expectsJson()) {
+        return response()->json([
+            'success' => true,
+            'data' => $jobs, // Return the fetched jobs with formatted date
+        ], 200); // Return JSON response
+    } else {
+        return view('startup.viewjobs', compact('jobs')); // Render view
+    }
+}
+public function editjob($id)
+{
+    // Fetch the startup data by ID
+    $startup = Startup::find($id);
+    
+    if ($startup) {
+        return view('startup.EditIdeas', compact('startup')); // Return the edit view with data
+    }
+    
+    return redirect()->back()->withErrors('Idea not found.');
+}
+public function updateJob(Request $request, $id)
+{
+    // Validate the request data
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'estimated_amount' => 'required|numeric',
+        'estimated_turn_over' => 'required|numeric',
+        'company_name' => 'required|string|max:255',
+        'job_location' => 'required|string|max:255',
+        'salary' => 'required|string|max:255',
+        'application_deadline' => 'required|date',
+        'job_type' => 'required|string',
+        'experience_level' => 'required|string',
+        'required_skills' => 'required|string',
+    ]);
+
+    // Find the startup record by ID
+    $startup = Startup::find($id);
+
+    if ($startup) {
+        // Update the startup record with validated data
+        $startup->update($validatedData);
+        return response()->json(['success' => true, 'message' => 'Job updated successfully.']); // Return success response
+    }
+
+    return response()->json(['success' => false, 'message' => 'Job not found.']); // Return error response
+}
+
+// Method to delete a job
+public function deleteJob($id)
+{
+    // Find the job by ID
+    $job = Job::find($id);
+
+    if ($job) {
+        $job->delete();
+        return response()->json(['success' => true, 'message' => 'Job deleted successfully.']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Job not found.'], 404);
+}
 }
