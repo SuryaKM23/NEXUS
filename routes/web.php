@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+Route::get('/admin/dashboard/fetch-stats', [AdminController::class, 'fetchDashboardStats']);
 Route::get('/view_form',[AdminController::class,'view_form']);
 Route::post('/add_form',[AdminController::class,'add_form']);
 Route::get('/show_form',[AdminController::class,'show_form']);

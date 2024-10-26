@@ -27,6 +27,15 @@
             border-top: none;
             text-align: center;
         }
+        .btn-view {
+            color: #007bff;
+            background-color: white;
+            border: 2px solid #007bff;
+        }
+        .btn-contact {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -66,8 +75,9 @@
                                         <p class="card-text"><strong>Applied On:</strong> ${new Date(application.created_at).toISOString().split('T')[0]}</p>
                                         <p class="card-text"><strong>Company Name:</strong> ${application.company_name}</p>
                                     </div>
-                                    <div class="card-footer">
-                                        <a href="${application.resume}" class="btn btn-primary" target="_blank">View Resume</a>
+                                    <div class="card-footer d-flex justify-content-around">
+                                        <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
+                                        <a href="mailto:${application.email}?subject=Job Application for ${application.job_title}" class="btn btn-contact">Contact</a>
                                     </div>
                                 </div>
                             </div>

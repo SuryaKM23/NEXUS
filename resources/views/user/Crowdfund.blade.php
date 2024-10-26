@@ -93,7 +93,7 @@
                                     <h5 class="company-name">${startup.company_name}</h5>
                                     <p class="title" style="font-size: 24px; font-weight: bold;">${startup.title}</p>
                                     <p>${startup.description}</p>
-                                    <p><strong>Estimation amount: $</strong> ${startup.estimated_amount}</p>
+                                    <p><strong>Estimation amount: ₹</strong> ${startup.estimated_amount}</p>
                                     <a href="${startup.pdf_file}" target="_blank" class="custom-button">View PDF</a>
                                 </div>
                                 <div class="startup-actions">

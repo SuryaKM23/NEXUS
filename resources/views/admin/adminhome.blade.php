@@ -10,8 +10,9 @@
       <!-- partial -->
       @include('admin.partial')
         <!-- partial -->
-        {{-- @include('admin.contentWrapper') --}}
+        @include('admin.contentWrapper')
           <!-- content-wrapper ends -->
+          
           <!-- partial:partials/_footer.html -->
          {{-- @include('admin.footer') --}}
           <!-- partial -->

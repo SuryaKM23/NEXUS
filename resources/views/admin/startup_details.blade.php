@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Startup Details Management</title>
-        <!-- Include your CSS -->
-        @include('admin.css')
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                color: white; /* Set text color to white */
-            }
-            table {
-                width: 100%; /* Increase table width */
-                margin: auto;
-                border-collapse: collapse;
-                color: white; /* Ensure table text color is white */
-                text-align: center;
-            }
-    
-            th, td, tr {
-                border: 1px solid #ddd;
-                padding: 5px;
-                text-align: center;
-                color: white; /* Ensure th, td, tr text color is white */
-            }
-    
-            th {
-                background-color: rgb(27, 27, 27);
-                color: white; /* Header text color */
-            }
-    
-            .alert {
-                color: black; /* Keep alerts readable */
-            
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Details Management</title>
+    <!-- Include your CSS -->
+    @include('admin.css')
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white; /* Set text color to white */
+        }
+        .table-container {
+            max-height: 400px; /* Set a max height for the scrollable area */
+            overflow-y: auto; /* Enable vertical scrolling */
+            margin-bottom: 20px; /* Add some space at the bottom */
+        }
+        table {
+            width: 100%; /* Increase table width */
+            margin: auto;
+            border-collapse: collapse;
+            color: white; /* Ensure table text color is white */
+            text-align: center;
+        }
+
+        th, td, tr {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            color: white; /* Ensure th, td, tr text color is white */
+        }
+
+        th {
+            background-color: rgb(27, 27, 27);
+            color: white; /* Header text color */
+        }
+
+        .alert {
+            color: black; /* Keep alerts readable */
+        }
+    </style>
+</head>
 <body>
     <div class="container-scroller">
         @include('admin.sidebar')

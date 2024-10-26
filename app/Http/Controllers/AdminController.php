@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Startup;
+use App\Models\Job;
+
 use App\Models\Investor;
 use App\Models\Startupinverstor;
 use Hash;
@@ -259,6 +261,18 @@ public function reject($id)
         return response()->json(['success' => false, 'error' => $e->getMessage()]);
     }
 }
+public function fetchDashboardStats()
+    {
+        $data = [
+            'totalUsers' => User::where('usertype', 'user')->count(),
+            'totalStartups' => User::where('usertype', 'startup')->count(),
+            'totalInvestors' => User::where('usertype', 'investor')->count(),
+            'totalIdeasPosted' => Startup::count(),
+            'totalJobsPosted' => Job::count(),
+        ];
+
+        return response()->json($data);
+    }
 
 
 }
