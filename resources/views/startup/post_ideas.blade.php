@@ -25,7 +25,7 @@
             display: flex;
             flex-direction: row;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: #fff;
             border-radius: 10px;
             overflow: hidden;
@@ -84,6 +84,7 @@
 
         .form-row .input-box {
             flex: 1 1 calc(50% - 20px);
+            min-width: 280px;
         }
 
         .form button {
@@ -108,11 +109,6 @@
             border-radius: 5px;
         }
 
-        .alert .close {
-            color: #fff;
-            opacity: 1;
-        }
-
         #banking_details {
             display: none;
             margin-top: 20px;
@@ -122,6 +118,25 @@
             text-align: center;
             margin-top: 20px;
         }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .image-section {
+                height: 250px;
+                border-radius: 10px 10px 0 0;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .form-row .input-box {
+                flex: 1 1 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -129,17 +144,11 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="image-section">
-                <img src="startup/assets/UploadSVG.jpg" alt="Startup Idea">
+                <img src="startup/assets/UploadSVG.png" alt="Startup Idea" style="width: 100%; height: auto;">
             </div>
             <div class="form-section">
-                @if(session()->has('message'))
-                    <div class="alert alert-success alert-dismissible fade show">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {{ session()->get('message') }}
-                    </div>
-                @endif
-                <div id="message"></div> <!-- Display AJAX messages here -->
-                <form class="form" id="add_form" action="{{ route('get_ideas') }}" method="POST" enctype="multipart/form-data">
+                <div id="message"></div>
+                <form class="form" id="add_form" enctype="multipart/form-data">
                     @csrf
                     <header>Post Your Idea</header>
                     <div class="form-row">
@@ -213,43 +222,40 @@
             </div>
         </div>
     </div>
-
-    <!-- Success Modal -->
-    
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#add_form').on('submit', function(e) {
-                e.preventDefault();
-                let formData = new FormData(this);
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('get_ideas') }}",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        $('#message').html('');
-                        $('#add_form')[0].reset();
-                        $('#banking_details').hide();
-                        $('#successModal').modal('show');
-                    },
-                    error: function(error) {
-                        $('#message').html('<div class="alert alert-danger">Something went wrong. Please try again.</div>');
-                    }
-                });
-            });
-
-            $('#investment').change(function() {
-                if ($(this).val() == 'crowdfunding') {
+        $(document).ready(function () {
+            $('#investment').change(function () {
+                if ($(this).val() === 'crowdfunding') {
                     $('#banking_details').show();
                 } else {
                     $('#banking_details').hide();
                 }
+            });
+
+            $('#add_form').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this); // Create a FormData object
+
+                $.ajax({
+                    url: '{{ route("get_ideas") }}', // The URL to send the request to
+                    type: 'POST', // The type of request
+                    data: formData, // The form data
+                    contentType: false, // Set content type to false
+                    processData: false, // Don't process the data
+                    success: function (response) {
+                        // Display success message
+                        $('#message').html('<div class="alert alert-success">Your idea has been submitted successfully!</div>');
+                        $('#add_form')[0].reset(); // Reset the form
+                        $('#banking_details').hide(); // Hide banking details if visible
+                    },
+                    error: function (xhr) {
+                        // Display error message
+                        $('#message').html('<div class="alert alert-danger">An error occurred: ' + xhr.responseJSON.message + '</div>');
+                    }
+                });
             });
         });
     </script>

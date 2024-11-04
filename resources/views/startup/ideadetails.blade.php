@@ -60,56 +60,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="editIdeaForm">
-                            @csrf
-                            <input type="hidden" name="_method" value="PUT">
-                            <input type="hidden" id="editIdeaId" name="Idea_id" value="">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaTitle">Idea Title</label>
-                                    <input type="text" class="form-control" id="editIdeaTitle" name="title" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaCompany">Company Name</label>
-                                    <input type="text" class="form-control" id="editIdeaCompany" name="company_name" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaLocation">Idea Location</label>
-                                    <input type="text" class="form-control" id="editIdeaLocation" name="Idea_location" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaSalary">Salary</label>
-                                    <input type="text" class="form-control" id="editIdeaSalary" name="salary" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaDeadline">Application Deadline</label>
-                                    <input type="date" class="form-control" id="editIdeaDeadline" name="application_deadline" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="editIdeaType">Idea Type</label>
-                                    <input type="text" class="form-control" id="editIdeaType" name="Idea_type" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="editExperienceLevel">Experience Level</label>
-                                    <input type="text" class="form-control" id="editExperienceLevel" name="experience_level" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="editRequiredSkills">Required Skills</label>
-                                    <input type="text" class="form-control" id="editRequiredSkills" name="required_skills" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="editIdeaDescription">Idea Description</label>
-                                <textarea class="form-control" id="editIdeaDescription" name="description" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update Idea</button>
-                        </form>
+                        <!-- Form will be populated by JavaScript -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn edit-button" id="updateIdeaButton">Update Idea</button>
                     </div>
                 </div>
             </div>
@@ -128,9 +83,8 @@
                 $('#deleteModal').modal('hide'); // Hide the modal after confirming deletion
             });
 
-            // Handle Idea update form submission
-            $('#editIdeaForm').on('submit', function(event) {
-                event.preventDefault();
+            // Handle Idea update button click
+            $('#updateIdeaButton').on('click', function() {
                 updateIdea(currentIdeaId);
             });
         });
@@ -153,7 +107,7 @@
                                         <p><strong>Estimated Turn Over: ₹</strong> ${viewIdea.estimated_turn_over}</p>
                                         <p><strong>Date Of Post:</strong> ${new Date(viewIdea.created_at).toLocaleDateString()}</p>
                                         <button onclick="confirmDelete(${viewIdea.id});" class="btn btn-danger">Delete</button>
-                                        <button onclick="showEditIdeaModal(${viewIdea.id}, '${viewIdea.title}', '${viewIdea.description}', '${viewIdea.company_name}', '${viewIdea.Idea_location}', '${viewIdea.salary}', '${viewIdea.application_deadline}', '${viewIdea.Idea_type}', '${viewIdea.experience_level}', '${viewIdea.required_skills}');" class="btn edit-button">Edit</button>
+                                        <button onclick="showEditIdeaModal(${viewIdea.id}, '${viewIdea.title}', '${viewIdea.description}', '${viewIdea.company_name}', '${viewIdea.estimated_amount}', '${viewIdea.estimated_turn_over}', '${viewIdea.created_at}');" class="btn edit-button">Edit</button>
                                     </div>
                                 </div>
                             `;
@@ -195,25 +149,47 @@
             });
         }
 
-        function showEditIdeaModal(id, title, description, company_name, Idea_location, salary, application_deadline, Idea_type, experience_level, required_skills) {
+        function showEditIdeaModal(id, title, description, companyName, estimatedAmount, estimatedTurnOver, createdAt) {
             currentIdeaId = id; // Store the current Idea ID
-            $('#editIdeaId').val(id);
-            $('#editIdeaTitle').val(title);
-            $('#editIdeaDescription').val(description);
-            $('#editIdeaCompany').val(company_name);
-            $('#editIdeaLocation').val(Idea_location);
-            $('#editIdeaSalary').val(salary);
-            $('#editIdeaDeadline').val(application_deadline);
-            $('#editIdeaType').val(Idea_type);
-            $('#editExperienceLevel').val(experience_level);
-            $('#editRequiredSkills').val(required_skills);
-            $('#editIdeaModal').modal('show'); // Show the edit modal
+
+            // Populate the edit form fields
+            $('#editIdeaModal .modal-body').html(`
+                <form id="editIdeaForm">
+                    <div class="form-group">
+                        <label for="editTitle">Title</label>
+                        <input type="text" class="form-control" id="editTitle" name="title" value="${title}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCompanyName">Company Name</label>
+                        <input type="text" class="form-control" id="editCompanyName" name="company_name" value="${companyName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" required>${description}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEstimatedAmount">Estimated Amount</label>
+                        <input type="number" class="form-control" id="editEstimatedAmount" name="estimated_amount" value="${estimatedAmount}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEstimatedTurnOver">Estimated Turn Over</label>
+                        <input type="number" class="form-control" id="editEstimatedTurnOver" name="estimated_turn_over" value="${estimatedTurnOver}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDateOfPost">Date Of Post</label>
+                        <input type="text" class="form-control" id="editDateOfPost" name="date_of_post" value="${new Date(createdAt).toLocaleDateString()}" readonly>
+                    </div>
+                </form>
+            `);
+
+            // Show the modal
+            $('#editIdeaModal').modal('show');
         }
 
         function updateIdea(id) {
             $.ajax({
                 url: "{{ url('/update-Idea') }}/" + id, // Adjust URL to match your update route
-                type: 'POST',
+                type: 'PUT',
                 data: $('#editIdeaForm').serialize(),
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
@@ -234,11 +210,13 @@
         }
 
         function showAlert(message, type) {
-            const alertHtml = `<div class="alert alert-${type}">${message}</div>`;
+            const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`;
             $('#alert-container').html(alertHtml);
-            setTimeout(() => {
-                $('#alert-container').fadeOut(); // Fade out alert after 3 seconds
-            }, 3000);
         }
     </script>
 </body>
