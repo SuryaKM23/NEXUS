@@ -16,7 +16,7 @@
             <span class="menu-icon">
                 <i class="mdi mdi-account-multiple-plus"></i>
             </span>
-            <span class="menu-title">Accept Startup/Investor</span>
+            <span class="menu-title">Approval</span>
         </a>
     </li>    
 

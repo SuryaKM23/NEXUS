@@ -7,93 +7,153 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa; /* Light background */
+            background-color: #f8f9fa;
         }
         .card {
-            border: none; /* Remove card border */
-            height: 100%; /* Ensure equal height for all cards */
+            border: none;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
         .card-title {
-            color: #007bff; /* Bootstrap primary color */
-        }
-        .card-body {
-            padding-bottom: 0;
+            color: #007bff;
         }
         .card-footer {
             background-color: transparent;
             border-top: none;
             text-align: center;
         }
+        .btn-view, .btn-hire {
+            background-color: white;
+            border: 2px solid;
+        }
         .btn-view {
             color: #007bff;
-            background-color: white;
-            border: 2px solid #007bff;
         }
         .btn-contact {
             background-color: #007bff;
+            color: white;
+        }
+        .btn-hire {
+            color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-hire.confirmed {
+            background-color: #28a745;
             color: white;
         }
     </style>
 </head>
 <body>
     @include('startup.nav')
+
     <div class="container mt-5">
         <h3 class="text-center">Job Applications for Your Company</h3>
         <div id="job-applied-cards" class="row mt-4">
-            <!-- Cards will be dynamically populated here -->
+            <!-- Dynamic job application cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Hire Confirmation Modal -->
+    <div class="modal fade" id="hireModal" tabindex="-1" role="dialog" aria-labelledby="hireModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hireModalLabel">Confirm Hire</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to hire this applicant?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmHire">Confirm</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
-            // AJAX request to fetch job applications where company_name matches current user's company
+            // Fetch and display job applications
             $.ajax({
-                url: '/job-applied',  // The route URL
-                method: 'GET',        // HTTP method to use for the request
-                dataType: 'json',     // Expected data type from the server
+                url: '/job-applied',
+                method: 'GET',
+                dataType: 'json',
                 success: function(data) {
-                    console.log('Fetched Data:', data); // Log the fetched data
-                    let cards = '';   // Variable to store HTML content for cards
-
-                    // Loop through the response data to build each card
-                    data.forEach(function(application) {
-                        cards += `
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${application.job_title}</h5>
-                                        <p class="card-text"><strong>Applicant Name:</strong> ${application.name}</p>
-                                        <p class="card-text"><strong>Email:</strong> ${application.email}</p>
-                                        <p class="card-text"><strong>Phone:</strong> ${application.phone}</p>
-                                        <p class="card-text"><strong>Degree:</strong> ${application.degree}</p>
-                                        <p class="card-text"><strong>Skills:</strong> ${application.skills}</p>
-                                        <p class="card-text"><strong>Experience:</strong> ${application.experience} years</p>
-                                        <p class="card-text"><strong>Applied On:</strong> ${new Date(application.created_at).toISOString().split('T')[0]}</p>
-                                        <p class="card-text"><strong>Company Name:</strong> ${application.company_name}</p>
-                                    </div>
-                                    <div class="card-footer d-flex justify-content-around">
-                                        <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
-                                        <a href="mailto:${application.email}?subject=Job Application for ${encodeURIComponent(application.job_title)}" class="btn btn-contact">Contact</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    // Append the constructed cards to the cards container
-                    $('#job-applied-cards').html(cards);
+                    renderJobCards(data);
                 },
                 error: function(jqXHR) {
                     console.error('Error fetching job applications:', jqXHR.responseJSON.error);
                     alert(jqXHR.responseJSON.error || "Failed to load job applications for your company.");
                 }
             });
+
+            // Confirm hire for a specific applicant
+            $('#confirmHire').on('click', function() {
+                const applicationId = $(this).data('applicationId');
+                hireApplicant(applicationId);
+                $('#hireModal').modal('hide');
+            });
         });
+
+        // Renders job application cards
+        function renderJobCards(applications) {
+            let cards = applications.map(application => `
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">${application.job_title}</h5>
+                                <button class="btn btn-hire" onclick="showHireModal('${application.id}')">Hire</button>
+                            </div>
+                            <p><strong>Applicant Name:</strong> ${application.name}</p>
+                            <p><strong>Email:</strong> ${application.email}</p>
+                            <p><strong>Phone:</strong> ${application.phone}</p>
+                            <p><strong>Degree:</strong> ${application.degree}</p>
+                            <p><strong>Skills:</strong> ${application.skills}</p>
+                            <p><strong>Experience:</strong> ${application.experience} years</p>
+                            <p><strong>Applied On:</strong> ${new Date(application.created_at).toISOString().split('T')[0]}</p>
+                            <p><strong>Company Name:</strong> ${application.company_name}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-around">
+                            <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
+                            <a href="mailto:${application.email}?subject=Job Application for ${encodeURIComponent(application.job_title)}" class="btn btn-contact">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            $('#job-applied-cards').html(cards);
+        }
+
+        // Show hire confirmation modal
+        function showHireModal(applicationId) {
+            $('#confirmHire').data('applicationId', applicationId);
+            $('#hireModal').modal('show');
+        }
+
+        // Hire an applicant via AJAX request
+        function hireApplicant(applicationId) {
+            $.ajax({
+                url: `/hire-applicant/${applicationId}`,
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: 'json',
+                success: function() {
+                    alert('Applicant hired successfully!');
+                    location.reload();
+                },
+                error: function(jqXHR) {
+                    console.error('Error hiring applicant:', jqXHR.responseJSON.error);
+                    alert(jqXHR.responseJSON.error || "Failed to hire applicant.");
+                }
+            });
+        }
     </script>
 </body>
 </html>

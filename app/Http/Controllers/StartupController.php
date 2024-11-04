@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\View\Factory; // Import for Factory
 use Illuminate\Http\JsonResponse; 
 use Illuminate\View\View;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -112,55 +112,57 @@ public function getRecentIdeas()
     // Return the recent ideas as a JSON response for AJAX
     return response()->json($recentIdeas);
 }
-public function view_Ideas(): JsonResponse|View
+
+public function viewIdeas(): JsonResponse|view
 {
-    $userCompanyName = auth()->user()->company_name;
+    $userCompanyName = Auth::user()->company_name;
 
-    // Query the database for the most recent records from the startup table
-    // where the user's company name matches the startup company name
-    $viewIdeas = Startup::where('company_name', $userCompanyName)
-        ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
+    $ideas = Startup::where('company_name', $userCompanyName)
+        ->orderBy('created_at', 'desc')
         ->get()
-        ->map(fn($idea) => $idea->setAttribute('created_at', \Carbon\Carbon::parse($idea->created_at)->format('Y-m-d')));
+        ->map(function ($idea) {
+            $idea->created_at = Carbon::parse($idea->created_at)->format('Y-m-d');
+            return $idea;
+        });
 
-    if (request()->expectsJson()) {
+    // Check if the request is an AJAX request
+    if (request()->ajax()) {
         return response()->json([
             'success' => true,
-            'message' => 'Ideas fetched successfully',
-            'data' => $viewIdeas, // Return the fetched ideas with formatted date
-        ], 200); // Return JSON response
-    } else {
-        return view('startup.viewideas', compact('viewIdeas')); // Render view
+            'data' => $ideas,
+        ]);
     }
+
+    // If it's not an AJAX request, return a view
+    return view('startup.ideadetails', ['ideas' => $ideas]);
 }
 
-//delete
-public function deleteIdea($id)
-{
-    // Attempt to find the idea by ID
-    $idea = Startup::findOrFail($id); // This will automatically return a 404 if not found
-
-    // Delete the idea
-    $idea->delete();
-
-    // Return a success response
-    return response()->json(['success' => true, 'message' => 'Idea deleted successfully.']);
-}
-
-// edit ideas
-public function editidea($id)
+    // Delete idea by ID
+    public function deleteIdea($id): JsonResponse
     {
-        // Fetch the startup data by ID
-        $startup = Startup::find($id);
-        if ($startup) {
-            return view('startup.EditIdeas', compact('startup')); // Return the edit view with data
+        $idea = Startup::find($id);
+        if (!$idea) {
+            return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
         }
-        return redirect()->back()->withErrors('Idea not found.');
+
+        $idea->delete();
+        return response()->json(['success' => true, 'message' => 'Idea deleted successfully.']);
     }
 
-    public function updateIdea(Request $request, $id)
+    // Show edit form for the idea by ID
+    public function editIdea($id)
     {
-        // Validate the request data
+        $idea = Startup::find($id);
+        if (!$idea) {
+            return redirect()->back()->withErrors('Idea not found.');
+        }
+
+        return view('startup.EditIdeas', compact('idea'));
+    }
+
+    // Update idea by ID
+    public function updateIdea(Request $request, $id): JsonResponse
+    {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -168,18 +170,15 @@ public function editidea($id)
             'estimated_turn_over' => 'required|numeric',
         ]);
 
-        // Find the startup record by ID and update it
-        $startup = Startup::find($id);
-        if ($startup) {
-            $startup->update($validatedData);
-            return response()->json(['success' => true]);
+        $idea = Startup::find($id);
+        if (!$idea) {
+            return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
         }
 
-        return response()->json(['success' => false, 'message' => 'Idea not found.']);
+        $idea->update($validatedData);
+
+        return response()->json(['success' => true, 'message' => 'Idea updated successfully.']);
     }
-
-
-
     //job
 
     public function showJobForm()

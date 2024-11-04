@@ -141,9 +141,18 @@ public function getAppliedJobs()
 }
 public function show($job_id)
 {
-    $job = JobApplied::where('job_id', $job_id)->firstOrFail();
+    // Fetch the job application details
+    $jobApplied = JobApplied::where('job_id', $job_id)->firstOrFail();
 
-    // Pass the job data to the view
+    // Fetch the job details from the jobs table
+    $job = Job::findOrFail($jobApplied->job_id);
+
+    // Check if the request is an AJAX request
+    if (request()->ajax()) {
+        return response()->json($job);
+    }
+
+    // Pass the job data to the view for non-AJAX requests
     return view('user.jobdetails', ['job' => $job]);
 }
 }

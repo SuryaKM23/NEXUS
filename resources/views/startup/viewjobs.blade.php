@@ -146,14 +146,13 @@ function fetchJobs() {
                     jobsHtml += `
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">${job.title}</h5>
-                                <p class="card-text">${job.description}</p>
+                                <h5 class="card-title"><b>${job.job_title}</b></h5>
                                 <p><strong>Company:</strong> ${job.company_name}</p>
                                 <p><strong>Location:</strong> ${job.job_location}</p>
                                 <p><strong>Salary:</strong> ${job.salary}</p>
                                 <p><strong>Application Deadline:</strong> ${new Date(job.application_deadline).toLocaleDateString()}</p>
                                 <button onclick="confirmDelete(${job.id});" class="btn btn-danger">Delete</button>
-                                <button onclick="showEditJobModal(${job.id}, '${job.title}', '${job.description}', '${job.company_name}', '${job.job_location}', '${job.salary}', '${job.application_deadline}', '${job.job_type}', '${job.experience_level}', '${job.required_skills}');" class="btn edit-button">Edit</button>
+                                <button onclick="showEditJobModal(${job.id}, '${job.job_title}', '${job.job_description}', '${job.company_name}', '${job.job_location}', '${job.salary}', '${job.application_deadline}', '${job.job_type}', '${job.experience_level}', '${job.required_skills}');" class="btn edit-button">Edit</button>
                             </div>
                         </div>
                     `;
@@ -195,11 +194,11 @@ function deleteJob(id) {
     });
 }
 
-function showEditJobModal(id, title, description, companyName, jobLocation, salary, applicationDeadline, jobType, experienceLevel, requiredSkills) {
+function showEditJobModal(id, job_title, job_description, companyName, jobLocation, salary, applicationDeadline, jobType, experienceLevel, requiredSkills) {
     currentJobId = id; // Set the current job ID for editing
     $('#editJobId').val(id);
-    $('#editJobTitle').val(title);
-    $('#editJobDescription').val(description);
+    $('#editJobTitle').val(job_title);
+    $('#editJobDescription').val(job_description);
     $('#editJobCompany').val(companyName);
     $('#editJobLocation').val(jobLocation);
     $('#editJobSalary').val(salary);
