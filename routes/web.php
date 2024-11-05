@@ -96,6 +96,8 @@ Route::get('/get-jobs', [UserController::class, 'getJobs']);
 Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
 Route::get('/crowdfunding', [UserController::class, 'showUserDataInRazorPay']);
 Route::post('/save-donation', [UserController::class, 'saveDonation'])->name('save.donation');
+Route::get('/donation', [userController::class, 'showDonations'])->name('donation.detail');
+Route::get('/donation/details/{id}', [UserController::class, 'showdonation']);
 // Route to show job application form
 Route::get('/apply_job/{job_id}', [UserController::class, 'applyJob']);
 

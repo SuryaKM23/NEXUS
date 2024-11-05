@@ -28,4 +28,8 @@ class Donation extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    public function startup()
+    {
+        return $this->belongsTo(Startup::class);
+    }
 }
