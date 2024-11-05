@@ -14,6 +14,7 @@ use App\Models\Startupinverstor;
 use App\Models\Job;
 use App\Models\JobApplied;
 use App\Models\User;
+use App\Models\Donation;
 
 
 class UserController extends Controller
@@ -31,27 +32,72 @@ public function getJobs(Request $request)
 
     return response()->json($jobs);
 }
-public function getCrowdfundingStartups(Request $request)
-{
-    $search = $request->input('search');
-    $query = Startup::where('investment', 'crowdfunding');
+public function showUserDataInRazorPay()
+    {
+        $user = Auth::user(); // Get the authenticated user
+        return view('crowdfunding', ['user' => $user]);
+    }
 
-    if (!empty($search)) {
-        $query->where(function ($q) use ($search) {
-            $q->where('company_name', 'like', "%$search%")
-              ->orWhere('title', 'like', "%$search%")
-              ->orWhere('description', 'like', "%$search%");
+    public function getCrowdfundingStartups(Request $request)
+    {
+        $search = $request->input('search');
+        $query = Startup::where('investment', 'crowdfunding');
+    
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('company_name', 'like', "%$search%")
+                  ->orWhere('title', 'like', "%$search%")
+                  ->orWhere('description', 'like', "%$search%");
+            });
+        }
+    
+        // Fetch startups with total donations calculated
+        $startups = $query->get()->map(function ($startup) {
+            // Calculate total donations matching the title
+            $totalDonations = Donation::where('title', $startup->title)
+                ->sum('donated_amount');
+    
+            // Add the total donations to the startup object
+            $startup->total_donations = $totalDonations;
+    
+            return $startup;
         });
+    
+        if ($request->ajax()) {
+            return response()->json($startups);
+        } else {
+            return view('user.Crowdfund', ['startups' => $startups]);
+        }
+    }
+    
+
+    public function saveDonation(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required|exists:startups,id',
+            'company_name' => 'required|string',
+            'user_name' => 'required|string',
+            'user_email' => 'required|email',
+            'title' => 'required|string',
+            'donated_amount' => 'required|numeric|min:0.01',
+            'transaction_id' => 'required|string|unique:donations,transaction_id',
+        ]);
+
+        // Save donation logic, including company name
+        $donation = new Donation();
+        $donation->company_id = $request->company_id;
+        $donation->company_name = $request->company_name; // Save company name
+        $donation->user_name = $request->user_name;
+        $donation->user_email = $request->user_email;
+        $donation->title = $request->title;
+        $donation->donated_amount = $request->donated_amount;
+        $donation->transaction_id = $request->transaction_id;
+        $donation->save();
+
+        return response()->json(['success' => true]);
     }
 
-    $startups = $query->get();
-
-    if ($request->ajax()) {
-        return response()->json($startups);
-    } else {
-        return view('user.Crowdfund', ['startups' => $startups]);
-    }
-}
+    
 // UserController.php
 public function applyJob($job_id)
 {

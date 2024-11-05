@@ -10,6 +10,7 @@ use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\StartupinverstorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,7 +94,8 @@ Route::post('/post-job-vacancy', [StartupController::class, 'storeJobVacancy'])-
 Route::get('/get-jobs', [UserController::class, 'getJobs']);
 //crowdfing
 Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
-
+Route::get('/crowdfunding', [UserController::class, 'showUserDataInRazorPay']);
+Route::post('/save-donation', [UserController::class, 'saveDonation'])->name('save.donation');
 // Route to show job application form
 Route::get('/apply_job/{job_id}', [UserController::class, 'applyJob']);
 
