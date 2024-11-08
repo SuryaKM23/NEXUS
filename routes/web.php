@@ -10,7 +10,8 @@ use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\StartupinverstorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
-
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,10 +49,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile.show');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/admin/dashboard/fetch-stats', [AdminController::class, 'fetchDashboardStats']);
 Route::get('/view_form',[AdminController::class,'view_form']);
@@ -91,7 +93,12 @@ Route::post('/post-job-vacancy', [StartupController::class, 'storeJobVacancy'])-
 
 
 //job fetch
-Route::get('/get-jobs', [UserController::class, 'getJobs']);
+Route::get('/get-jobs',[UserController::class,'getJobs']);
+Route::get('/job-suggestions', [UserController::class, 'getSuggestions'])->name('search.suggestions');
+Route::get('/job-search', [UserController::class, 'searchJobs'])->name('search.jobs');
+Route::get('/job-results', [UserController::class, 'showResults'])->name('job.results');
+
+Route::get('/job-detail/{id}', [UserController::class, 'showJobDetails'])->name('job.detail');
 //crowdfing
 Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
 Route::get('/crowdfunding', [UserController::class, 'showUserDataInRazorPay']);
@@ -122,6 +129,13 @@ Route::delete('/delete-job/{id}', [StartupController::class, 'deleteJob']);
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
+
+
+Route::get('/Chatify/{id}', [ChatController::class, 'redirectToChatify']);
+Route::get('/profileform', [UserController::class, 'showProfileForm'])->name('showProfileForm');
+Route::post('/check-and-store-profile', [UserController::class, 'checkAndStoreProfile'])->name('checkAndStoreProfile');
+Route::get('/profile/details', [UserController::class, 'showProfileDetails'])->name('user.profile.details');
+
 
 
 

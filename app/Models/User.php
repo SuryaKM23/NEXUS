@@ -43,6 +43,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Startupinverstor::class, 'startup_investor_id');
     }
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 
-    
 }

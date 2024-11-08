@@ -14,47 +14,28 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function showProfile(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
+        // Check if the user is authenticated
+        if (Auth::check()) {
+            $usertype = Auth::user()->usertype;
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            // Return views based on usertype
+            if ($usertype == 'admin') {
+                return view('admin.Profile');
+            } elseif ($usertype == 'user') {
+                return view('user.profiledetails');
+            } elseif ($usertype == 'startup') {
+                return view('startup.Profile');
+            } elseif ($usertype == 'investor') {
+                return view('investor.Profile');
+            } else {
+                // Handle unexpected user types
+                return redirect()->back()->with('error', 'Invalid user type');
+            }
         }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        // If the user is not authenticated, redirect to login
+        return redirect()->route('login');
     }
 }

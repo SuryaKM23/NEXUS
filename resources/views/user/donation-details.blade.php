@@ -8,31 +8,46 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #e9ecef;
         }
 
         .section-title {
             text-align: center;
             margin: 40px 0;
+            color: #343a40;
+            font-weight: bold;
         }
 
         .donation-item {
-            background-color: #ffffff;
-            border-radius: 10px;
+            background: linear-gradient(to right, #ffffff, #f8f9fa);
+            border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
-            position: relative;
-            transition: box-shadow 0.2s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            border-left: 5px solid #007bff;
         }
 
         .donation-item:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .donation-item h5 {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .donation-item p {
+            margin: 5px 0;
+            color: #495057;
         }
 
         #no-donations-message {
             display: none;
+            text-align: center;
+            font-style: italic;
         }
     </style>
 </head>

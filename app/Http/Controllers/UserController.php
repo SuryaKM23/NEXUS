@@ -15,23 +15,31 @@ use App\Models\Job;
 use App\Models\JobApplied;
 use App\Models\User;
 use App\Models\Donation;
+use App\Models\UserProfile;
 
 
 class UserController extends Controller
 {
     // In your UserController.php
-public function getJobs(Request $request)
-{
+    public function getJobs(Request $request)
+    {
+        $searchQuery = $request->input('search', '');
 
-    $search = $request->input('search');
+    // Get all jobs matching the search query
+    $jobs = Job::where('job_title', 'like', '%' . $searchQuery . '%')
+                ->orWhere('job_description', 'like', '%' . $searchQuery . '%')
+                ->orWhere('job_location', 'like', '%' . $searchQuery . '%')
+                ->get();
 
-    // Fetch jobs filtered by title
-    $jobs = Job::when($search, function ($query) use ($search) {
-        return $query->where('job_title', 'like', '%' . $search . '%');
-    })->get();
+    // If the request is an AJAX request, return the jobs as JSON response
+    if ($request->ajax()) {
+        return response()->json($jobs);
+    }
 
-    return response()->json($jobs);
-}
+    // Otherwise, return the jobs as a view
+    return view('user.job-search', compact('jobs'));
+    }
+    
 public function showUserDataInRazorPay()
 {
     $user = Auth::user(); // Get the authenticated user
@@ -246,5 +254,138 @@ public function show($job_id)
 
     // Pass the job data to the view for non-AJAX requests
     return view('user.jobdetails', ['job' => $job]);
+}public function getSuggestions(Request $request)
+{
+    $query = $request->input('query');
+    
+    // Fetch job titles that match the query (case-insensitive search)
+    $suggestions = Job::where('job_title', 'like', '%' . $query . '%')
+        ->distinct()
+        ->pluck('job_title');
+    
+    // If the request is AJAX, return JSON response
+    if ($request->ajax()) {
+        return response()->json([
+            'suggestions' => $suggestions
+        ]);
+    }
+
+    // Otherwise, return a view with the suggestions for normal requests
+    return view('user.body', compact('suggestions'));
 }
+
+public function searchJobs(Request $request)
+{
+    $searchTerm = $request->input('search'); // Get the search term from the input field
+
+    // Query the jobs table to find job titles that match the search term
+    $jobs = Job::where('job_title', 'LIKE', '%' . $searchTerm . '%')->get();
+    if ($request->ajax()) {
+        // Return the jobs data as JSON for the AJAX response
+        return response()->json([
+            'jobs' => $jobs
+        ]);
+    }
+    // Pass the search term and job results to the view
+    return view('user.result', compact('jobs', 'searchTerm'));
+}
+
+/**
+ * Display job search results on a separate page.
+ */
+public function showResults(Request $request)
+{
+    $jobs = session('jobs', []); // Retrieve jobs from session
+    $searchTerm = $request->input('search'); // Get search term from URL
+
+    return view('job.results', compact('jobs', 'searchTerm'));
+}
+// Method to display the job details
+    public function showJobDetails($id, Request $request)
+    {
+        // Fetch the job from the database by its ID
+        $job = Job::find($id);
+
+        // Check if job exists
+        if ($job) {
+            // If it's an AJAX request, return JSON response
+            if ($request->ajax()) {
+                return response()->json([
+                    'id' => $job->id,
+                    'job_title' => $job->job_title,
+                    'job_description' => $job->job_description,
+                    'company_name' => $job->company_name,
+                    'job_location' => $job->job_location,
+                    'salary' => $job->salary,
+                ]);
+            }
+
+            // If it's a normal request, return the view with job data
+            return view('user.job-detail', compact('job'));
+        } else {
+            // Return error response if job not found
+            return response()->json([
+                'error' => 'Job not found'
+            ], 404);
+        }
+    }public function showProfileForm()
+    {
+        $user = Auth::user(); // Get the authenticated user
+        return view('user.profile', compact('user')); // Pass the user data to the view
+    }
+
+    public function checkAndStoreProfile(Request $request)
+{
+    // Validate the incoming request
+    $request->validate([
+        'headline' => 'required|string|max:255',
+        'skills' => 'required|string|max:255',
+        'file' => 'nullable|mimes:pdf,doc,docx|max:10240', // Validate resume
+        'profile_pic' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate profile picture
+    ]);
+
+    // Handle the resume upload (if file is provided)
+    $filePath = null;
+    if ($request->hasFile('file')) {
+        // Store the file in 'resumes' directory within public storage
+        $filePath = $request->file('file')->store('public/resumes');
+    }
+
+    // Handle the profile picture upload
+    $profilePicPath = $request->file('profile_pic')->store('public/profile_pictures');
+
+    // Store the user's profile data
+    $userProfile = UserProfile::updateOrCreate(
+        ['user_id' => auth()->id()], // Update existing profile or create a new one
+        [
+            'username' => auth()->user()->name,
+            'email' => auth()->user()->email,
+            'headline' => $request->headline,
+            'website' => $request->website,
+            'linkedin_id' => $request->linkedin_id,
+            'description' => $request->description,
+            'experience' => $request->experience,
+            'education' => $request->education,
+            'skills' => $request->skills,
+            'file' => $filePath,
+            'profile_pic' => $profilePicPath,
+        ]
+    );
+
+    return response()->json([
+        'success' => true,
+        'profile' => $userProfile,
+    ]);
+}
+
+    public function showProfileDetails()
+    {
+        // Get the user's profile details from the database
+        $userProfile = UserProfile::where('user_id', Auth::id())->first();
+
+        // Return profile details as a JSON response
+        return response()->json([
+            'profile' => $userProfile
+        ]);
+    }
 }

@@ -10,6 +10,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "munafio/chatify": "^1.6",
         "razorpay/razorpay": "^2.9"
     },
     "require-dev": {

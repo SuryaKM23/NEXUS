@@ -51,11 +51,19 @@
   </div>
     <ul class="nav">
       <li class="nav-item menu-items">
-        <a class="nav-link" href="{{ url('/Home') }}">
+        <a class="nav-link" href="{{ url('Home') }}">
           <span class="menu-icon">
             <i class="mdi mdi-table-large"></i>
           </span>
-          <span class="menu-title">JobApply</span>
+          <span class="menu-title">Home</span>
+        </a>
+  </li>
+      <li class="nav-item menu-items">
+        <a class="nav-link" href="{{ url('/get-jobs') }}">
+          <span class="menu-icon">
+            <i class="mdi mdi-table-large"></i>
+          </span>
+          <span class="menu-title">Search Job</span>
         </a>
   </li>  
   <li class="nav-item menu-items">
@@ -71,7 +79,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-table-large"></i>
           </span>
-          <span class="menu-title">AppiledJob</span>
+          <span class="menu-title">Appiled Job</span>
         </a>
       </li>
       <li class="nav-item menu-items">
