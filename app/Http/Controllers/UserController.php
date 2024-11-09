@@ -332,12 +332,22 @@ public function showResults(Request $request)
 
     public function showProfileDetails()
     {
-        // Get the user's profile details from the database
-        $userProfile = UserProfile::where('user_id', Auth::id())->first();
-
+        // Get the user's basic details from the Auth
+        $user = Auth::user();
+        $basicProfile = [
+            'username' => $user->name,
+            'email' => $user->email,
+        ];
+    
+        // Retrieve the user's profile details from UserProfile
+        $userProfile = UserProfile::where('user_id', $user->id)->first();
+    
+        // Merge basic profile with user profile details if available
+        $profileData = $userProfile ? array_merge($basicProfile, $userProfile->toArray()) : $basicProfile;
+    
         // Return profile details as a JSON response
         return response()->json([
-            'profile' => $userProfile
+            'profile' => $profileData
         ]);
     }
 
@@ -358,7 +368,7 @@ public function showResults(Request $request)
         'experience' => 'required|string',
         'description' => 'required|string',
         'education' => 'required|string',
-        'website' => 'required|url',
+        // 'website' => 'required|url',
         'linkedin_id' => 'required|url',
         'profile_pic' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Profile picture validation
         'file' => 'required|mimes:pdf|max:2048', // Resume validation
@@ -396,31 +406,29 @@ public function showResults(Request $request)
             'experience' => $request->experience,
             'description' => $request->description,
             'education' => $request->education,
-            'website' => $request->website,
+            // 'website' => $request->website,
             'linkedin_id' => $request->linkedin_id,
             'profile_pic' => $profilePicFileName, // Save the profile pic if it exists
             'file' => $fileFileName, // Save the resume (now 'file') if it exists
         ]
     );
 
-    // If a profile picture was uploaded, delete the old one if necessary
-    if ($profilePicFileName && $userProfile->wasRecentlyCreated === false) {
-        if ($userProfile->profile_pic) {
-            unlink(public_path('profile_pictures/' . $userProfile->profile_pic)); // Delete the old profile picture
-        }
-        $userProfile->profile_pic = 'profile_pictures/'.$profilePicFileName;
-        $userProfile->save();
+    if ($request->hasFile('profile_pic')) {
+        $profilePic = $request->file('profile_pic');
+        $profilePicFileName = time() . '.' . $profilePic->getClientOriginalExtension();
+        $profilePic->move(public_path($profilePicPath), $profilePicFileName);
+        $profilePicFilePath = $profilePicPath . $profilePicFileName;
     }
 
-    // If a resume (file) was uploaded, delete the old one if necessary
-    if ($fileFileName && $userProfile->wasRecentlyCreated === false) {
-        if ($userProfile->file) {
-            unlink(public_path('resumes/' . $userProfile->file)); // Delete the old resume
-        }
-        $userProfile->file ='resumes/' . $fileFileName;
-        $userProfile->save();
+    // Handle resume upload if exists
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $resumeFileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path($resumePath), $resumeFileName);
+        $resumeFilePath = $resumePath . $resumeFileName;
     }
 
+    
     return response()->json([
         'success' => true,
         'message' => 'Profile updated successfully.'

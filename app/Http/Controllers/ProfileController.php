@@ -26,7 +26,7 @@ class ProfileController extends Controller
             } elseif ($usertype == 'user') {
                 return view('user.profiledetails');
             } elseif ($usertype == 'startup') {
-                return view('startup.Profile');
+                return view('startup.profiledetails');
             } elseif ($usertype == 'investor') {
                 return view('investor.Profile');
             } else {

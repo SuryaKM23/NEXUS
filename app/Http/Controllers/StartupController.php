@@ -14,6 +14,7 @@ use App\Models\Startupinverstor;
 use App\Models\Job;
 use App\Models\JobApplied;
 use App\Models\User;// Adjust this to match your Startup model namespace
+use App\Models\UserProfile;
 
 class StartupController extends Controller
 {
@@ -356,102 +357,4 @@ public function deleteJob($id)
 
     return response()->json(['success' => false, 'message' => 'Job not found.'], 404);
 }
-
-public function showProfileDetails()
-{
-    // Get the user's profile details from the database
-    $userProfile = UserProfile::where('user_id', Auth::id())->first();
-
-    // Return profile details as a JSON response
-    return response()->json([
-        'profile' => $userProfile
-    ]);
-}
-
-public function editProfile()
-{
-    $user = Auth::user(); // Assuming the user is authenticated
-    return view('startup.Profile', compact('user'));
-}
-
-public function update(Request $request)
-{
-// Validation rules
-$request->validate([
-    'username' => 'required|string|max:255',
-    'email' => 'required|email|max:255',
-    'headline' => 'required|string|max:255',
- //    'skills' => 'required|string',
- //    'experience' => 'required|string',
-    'description' => 'required|string',
- //    'education' => 'required|string',
-    'website' => 'required|url',
-    'linkedin_id' => 'required|url',
-    'profile_pic' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Profile picture validation
-    'file' => 'required|mimes:pdf|max:2048', // Resume validation
-]);
-
-// Fetch the authenticated user
-$user = Auth::user();
-
-// Initialize file names to null
-$profilePicFileName = null;
-$fileFileName = null;
-
-// Handle profile picture upload if exists
-if ($request->hasFile('profile_pic')) {
-    $profilePic = $request->file('profile_pic');
-    $profilePicFileName = time() . '.' . $profilePic->getClientOriginalExtension();
-    $profilePic->move(public_path('profile_pictures'), $profilePicFileName); // Move the uploaded file to the profile_pictures directory
-}
-
-// Handle resume upload if exists
-if ($request->hasFile('file')) {
-    $file = $request->file('file');
-    $fileFileName = time() . '.' . $file->getClientOriginalExtension();
-    $file->move(public_path('resumes'), $fileFileName); // Move the uploaded file to the resumes directory
-}
-
-// Update or create the user profile in the user_profiles table
-$userProfile = UserProfile::updateOrCreate(
-    ['user_id' => $user->id], // Condition to check if profile exists
-    [
-        'username' => $request->username,
-        'email' => $request->email,
-        'headline' => $request->headline,
-     //    'skills' => $request->skills,
-     //    'experience' => $request->experience,
-        'description' => $request->description,
-     //    'education' => $request->education,
-        'website' => $request->website,
-        'linkedin_id' => $request->linkedin_id,
-        'profile_pic' => $profilePicFileName, // Save the profile pic if it exists
-        'file' => $fileFileName, // Save the resume (now 'file') if it exists
-    ]
-);
-
-// If a profile picture was uploaded, delete the old one if necessary
-if ($profilePicFileName && $userProfile->wasRecentlyCreated === false) {
-    if ($userProfile->profile_pic) {
-        unlink(public_path('profile_pictures/' . $userProfile->profile_pic)); // Delete the old profile picture
-    }
-    $userProfile->profile_pic = 'profile_pictures/'.$profilePicFileName;
-    $userProfile->save();
-}
-
-// If a resume (file) was uploaded, delete the old one if necessary
-if ($fileFileName && $userProfile->wasRecentlyCreated === false) {
-    if ($userProfile->file) {
-        unlink(public_path('resumes/' . $userProfile->file)); // Delete the old resume
-    }
-    $userProfile->file ='resumes/' . $fileFileName;
-    $userProfile->save();
-}
-
-return response()->json([
-    'success' => true,
-    'message' => 'Profile updated successfully.'
-]);
-}
-
 }

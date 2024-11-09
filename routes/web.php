@@ -135,14 +135,9 @@ Route::get('/Chatify/{id}', [ChatController::class, 'redirectToChatify']);
 
 
 Route::get('/profile/details', [UserController::class, 'showProfileDetails'])->name('user.profile.details');
-
-
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('user.profile.edit');
 Route::put('/profile/update', [UserController::class, 'update'])->name('user.profile.update');
 
-
-Route::get('/profile/edit', [StartupController::class, 'editProfile'])->name('user.profile.edit');
-Route::put('/profile/update', [StartupController::class, 'update'])->name('user.profile.update');
 
 
 

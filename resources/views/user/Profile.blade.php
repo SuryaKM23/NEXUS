@@ -49,10 +49,10 @@
             <textarea name="description" id="description" class="form-control"></textarea>
         </div>
 
-        <div class="form-group mb-3">
+        {{-- <div class="form-group mb-3">
             <label for="website">Website</label>
             <input type="url" name="website" id="website" class="form-control">
-        </div>
+        </div> --}}
 
         <div class="form-group mb-3">
             <label for="linkedin_id">LinkedIn Profile</label>
