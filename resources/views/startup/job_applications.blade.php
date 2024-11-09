@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Applications</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         body {
             background-color: #f8f9fa;
@@ -80,19 +81,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Fetch and display job applications
-            $.ajax({
-                url: '/job-applied',
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    renderJobCards(data);
-                },
-                error: function(jqXHR) {
-                    console.error('Error fetching job applications:', jqXHR.responseJSON.error);
-                    alert(jqXHR.responseJSON.error || "Failed to load job applications for your company.");
-                }
-            });
+            fetchJobApplications();
 
             // Confirm hire for a specific applicant
             $('#confirmHire').on('click', function() {
@@ -102,9 +91,24 @@
             });
         });
 
-        // Renders job application cards
+        // Fetch and display job applications
+        function fetchJobApplications() {
+            $.ajax({
+                url: '/job-applied',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    renderJobCards(data);
+                },
+                error: function(jqXHR) {
+                    showAlert(jqXHR.responseJSON?.error || "Failed to load job applications for your company.");
+                }
+            });
+        }
+
+        // Render job application cards
         function renderJobCards(applications) {
-            let cards = applications.map(application => `
+            const cards = applications.map(application => `
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
@@ -123,7 +127,8 @@
                         </div>
                         <div class="card-footer d-flex justify-content-around">
                             <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
-                            <a href="mailto:${application.email}?subject=Job Application for ${encodeURIComponent(application.job_title)}" class="btn btn-contact">Contact</a>
+                            <!-- Modify Contact button to link to Chatify for direct messaging -->
+                            <a href="/chatify/message/${application.user_id}" class="btn btn-contact">Contact</a>
                         </div>
                     </div>
                 </div>
@@ -131,28 +136,38 @@
             $('#job-applied-cards').html(cards);
         }
 
-        // Show hire confirmation modal
-        function showHireModal(applicationId) {
-            $('#confirmHire').data('applicationId', applicationId);
+        function showHireModal(jobId) {
+            $('#confirmHire').data('applicationId', jobId);
             $('#hireModal').modal('show');
         }
 
         // Hire an applicant via AJAX request
-        function hireApplicant(applicationId) {
+        function hireApplicant(jobId) {
             $.ajax({
-                url: `/hire-applicant/${applicationId}`,
+                url: `/hire-applicant/${jobId}`,
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: 'json',
                 success: function() {
-                    alert('Applicant hired successfully!');
-                    location.reload();
+                    showAlert('Applicant hired successfully!', 'success');
+                    fetchJobApplications(); // Refresh job applications
                 },
                 error: function(jqXHR) {
-                    console.error('Error hiring applicant:', jqXHR.responseJSON.error);
-                    alert(jqXHR.responseJSON.error || "Failed to hire applicant.");
+                    showAlert(jqXHR.responseJSON?.error || "Failed to hire applicant.");
                 }
             });
+        }
+
+        // Function to show alerts
+        function showAlert(message, type = 'danger') {
+            const alertDiv = $(`<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`);
+            $('body').prepend(alertDiv);
+            setTimeout(() => alertDiv.alert('close'), 3000);
         }
     </script>
 </body>

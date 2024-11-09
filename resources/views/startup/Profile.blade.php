@@ -15,7 +15,7 @@
     <div id="message" class="mt-3"></div>
 
     <!-- Profile Edit Form -->
-    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('user.profile.update') }}" method="POST">
+    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('startup.profile.update') }}" method="POST">
         @csrf
         @method('PUT')
         
@@ -34,7 +34,7 @@
             <input type="text" name="headline" id="headline" class="form-control">
         </div>
 
-        <div class="form-group mb-3">
+        {{-- <div class="form-group mb-3">
             <label for="skills">Skills</label>
             <input type="text" name="skills" id="skills" class="form-control">
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group mb-3">
             <label for="experience">Experience</label>
             <textarea name="experience" id="experience" class="form-control"></textarea>
-        </div>
+        </div> --}}
 
         <div class="form-group mb-3">
             <label for="description">Description</label>
@@ -59,10 +59,10 @@
             <input type="url" name="linkedin_id" id="linkedin_id" class="form-control">
         </div>
 
-        <div class="form-group mb-3">
+        {{-- <div class="form-group mb-3">
             <label for="education">Education</label>
             <input type="text" name="education" id="education" class="form-control">
-        </div>
+        </div> --}}
 
         <div class="form-group mb-3">
             <label for="profile_pic">Profile Picture</label>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="file">Resume</label>
+            <label for="file">Portfolio</label>
             <input type="file" name="file" id="file" class="form-control">
         </div>
 
@@ -86,7 +86,7 @@ $(document).ready(function() {
         let formData = new FormData(this);
         
         $.ajax({
-            url: "{{ route('user.profile.update') }}",
+            url: "{{ route('startup.profile.update') }}",
             type: "POST",
             data: formData,
             processData: false,
@@ -95,7 +95,7 @@ $(document).ready(function() {
                 if (response.success) {
                     $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
                     setTimeout(function() {
-                        window.location.href = "{{ route('user.profile.details') }}";
+                        window.location.href = "{{ route('startup.profile.details') }}";
                     }, 2000); // Redirect to profile details page after 2 seconds
                 } else {
                     $('#message').html('<div class="alert alert-danger">Failed to update profile.</div>');

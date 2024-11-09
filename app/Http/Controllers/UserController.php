@@ -328,55 +328,7 @@ public function showResults(Request $request)
                 'error' => 'Job not found'
             ], 404);
         }
-    }public function showProfileForm()
-    {
-        $user = Auth::user(); // Get the authenticated user
-        return view('user.profile', compact('user')); // Pass the user data to the view
     }
-
-    public function checkAndStoreProfile(Request $request)
-{
-    // Validate the incoming request
-    $request->validate([
-        'headline' => 'required|string|max:255',
-        'skills' => 'required|string|max:255',
-        'file' => 'nullable|mimes:pdf,doc,docx|max:10240', // Validate resume
-        'profile_pic' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate profile picture
-    ]);
-
-    // Handle the resume upload (if file is provided)
-    $filePath = null;
-    if ($request->hasFile('file')) {
-        // Store the file in 'resumes' directory within public storage
-        $filePath = $request->file('file')->store('public/resumes');
-    }
-
-    // Handle the profile picture upload
-    $profilePicPath = $request->file('profile_pic')->store('public/profile_pictures');
-
-    // Store the user's profile data
-    $userProfile = UserProfile::updateOrCreate(
-        ['user_id' => auth()->id()], // Update existing profile or create a new one
-        [
-            'username' => auth()->user()->name,
-            'email' => auth()->user()->email,
-            'headline' => $request->headline,
-            'website' => $request->website,
-            'linkedin_id' => $request->linkedin_id,
-            'description' => $request->description,
-            'experience' => $request->experience,
-            'education' => $request->education,
-            'skills' => $request->skills,
-            'file' => $filePath,
-            'profile_pic' => $profilePicPath,
-        ]
-    );
-
-    return response()->json([
-        'success' => true,
-        'profile' => $userProfile,
-    ]);
-}
 
     public function showProfileDetails()
     {
@@ -388,4 +340,90 @@ public function showResults(Request $request)
             'profile' => $userProfile
         ]);
     }
+
+    public function editProfile()
+    {
+        $user = Auth::user(); // Assuming the user is authenticated
+        return view('user.Profile', compact('user'));
+    }
+
+    public function update(Request $request)
+{
+    // Validation rules
+    $request->validate([
+        'username' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'headline' => 'required|string|max:255',
+        'skills' => 'required|string',
+        'experience' => 'required|string',
+        'description' => 'required|string',
+        'education' => 'required|string',
+        'website' => 'required|url',
+        'linkedin_id' => 'required|url',
+        'profile_pic' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Profile picture validation
+        'file' => 'required|mimes:pdf|max:2048', // Resume validation
+    ]);
+
+    // Fetch the authenticated user
+    $user = Auth::user();
+
+    // Initialize file names to null
+    $profilePicFileName = null;
+    $fileFileName = null;
+
+    // Handle profile picture upload if exists
+    if ($request->hasFile('profile_pic')) {
+        $profilePic = $request->file('profile_pic');
+        $profilePicFileName = time() . '.' . $profilePic->getClientOriginalExtension();
+        $profilePic->move(public_path('profile_pictures'), $profilePicFileName); // Move the uploaded file to the profile_pictures directory
+    }
+
+    // Handle resume upload if exists
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $fileFileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('resumes'), $fileFileName); // Move the uploaded file to the resumes directory
+    }
+
+    // Update or create the user profile in the user_profiles table
+    $userProfile = UserProfile::updateOrCreate(
+        ['user_id' => $user->id], // Condition to check if profile exists
+        [
+            'username' => $request->username,
+            'email' => $request->email,
+            'headline' => $request->headline,
+            'skills' => $request->skills,
+            'experience' => $request->experience,
+            'description' => $request->description,
+            'education' => $request->education,
+            'website' => $request->website,
+            'linkedin_id' => $request->linkedin_id,
+            'profile_pic' => $profilePicFileName, // Save the profile pic if it exists
+            'file' => $fileFileName, // Save the resume (now 'file') if it exists
+        ]
+    );
+
+    // If a profile picture was uploaded, delete the old one if necessary
+    if ($profilePicFileName && $userProfile->wasRecentlyCreated === false) {
+        if ($userProfile->profile_pic) {
+            unlink(public_path('profile_pictures/' . $userProfile->profile_pic)); // Delete the old profile picture
+        }
+        $userProfile->profile_pic = 'profile_pictures/'.$profilePicFileName;
+        $userProfile->save();
+    }
+
+    // If a resume (file) was uploaded, delete the old one if necessary
+    if ($fileFileName && $userProfile->wasRecentlyCreated === false) {
+        if ($userProfile->file) {
+            unlink(public_path('resumes/' . $userProfile->file)); // Delete the old resume
+        }
+        $userProfile->file ='resumes/' . $fileFileName;
+        $userProfile->save();
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Profile updated successfully.'
+    ]);
+}
 }

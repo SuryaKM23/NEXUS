@@ -173,10 +173,6 @@
             <h4>Skills</h4>
             <p id="skills"></p>
         </div>
-        <div class="col-md-6">
-            <h4>Education</h4>
-            <p id="education"></p>
-        </div>
     </div>
 </div>
 
@@ -191,9 +187,9 @@
                     // Populate fields with profile data
                     $('#username').text(response.profile.username);
                     $('#email').text(response.profile.email);
-                    $('#headline').text(response.profile.headline);
-                    $('#education').text(response.profile.education);
-                    // $('#experience').text(response.profile.experience);
+                    // $('#headline').text(response.profile.headline);
+                    // $('#skills').text(response.profile.skills);
+                    $('#experience').text(response.profile.experience);
                     $('#description').text(response.profile.description);
                     $('#website').attr('href', response.profile.website).text(response.profile.website);
                     $('#linkedin').attr('href', response.profile.linkedin_id).text(response.profile.linkedin_id);

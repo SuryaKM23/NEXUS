@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StartupController;
 
@@ -53,3 +53,7 @@ Route::get('/viwepost_jobs',[StartupController::class,'view_jobs']);
 
 Route::get('/get-recent-ideas', [StartupController::class, 'getRecentIdeas']);
 Route::delete('delete-idea/{id}', [StartupController::class, 'deleteIdea']);
+
+
+Route::post('/check-and-store-profile', [UserController::class, 'checkAndStoreProfile'])->name('checkAndStoreProfile');
+Route::get('/profile/details', [UserController::class, 'showProfileDetails'])->name('user.profile.details');

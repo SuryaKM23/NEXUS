@@ -61,9 +61,5 @@ class StartupinverstorController extends Controller
                'startupinvestor' => $startupinvestor
            ], 201);
        }
-
- 
-
-
        
 }
