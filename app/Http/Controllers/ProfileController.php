@@ -21,14 +21,10 @@ class ProfileController extends Controller
             $usertype = Auth::user()->usertype;
 
             // Return views based on usertype
-            if ($usertype == 'admin') {
-                return view('admin.Profile');
-            } elseif ($usertype == 'user') {
+             if ($usertype == 'user') {
                 return view('user.profiledetails');
-            } elseif ($usertype == 'startup') {
-                return view('startup.profiledetails');
-            } elseif ($usertype == 'investor') {
-                return view('investor.Profile');
+            } elseif ($usertype == 'startup' || $usertype=='investor') {
+                return view('Profile_Startup_investor.Profile_details');
             } else {
                 // Handle unexpected user types
                 return redirect()->back()->with('error', 'Invalid user type');

@@ -18,13 +18,13 @@ return new class extends Migration
         $table->bigInteger('user_id');
         $table->string('username');
         $table->string('email')->unique();
-        $table->string('headline');
+        $table->string('headline')->nullable();;
         $table->string('website')->nullable();
         $table->string('linkedin_id')->nullable();
         $table->text('description')->nullable();
         $table->text('experience')->nullable();
         $table->text('education')->nullable();
-        $table->string('skills');
+        $table->string('skills')->nullable();;
         $table->string('file')->nullable(); 
         $table->string('profile_pic')->nullable();  // For file upload
         $table->timestamps();

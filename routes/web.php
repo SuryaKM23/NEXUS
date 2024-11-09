@@ -134,13 +134,17 @@ Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingV
 Route::get('/Chatify/{id}', [ChatController::class, 'redirectToChatify']);
 
 
-Route::get('/profile/details', [UserController::class, 'showProfileDetails'])->name('user.profile.details');
+Route::get('/profile/detail', [UserController::class, 'showProfileDetails'])->name('user.profile.details');
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('user.profile.edit');
 Route::put('/profile/update', [UserController::class, 'update'])->name('user.profile.update');
 
+Route::get('/profile/details', [StartupinverstorController::class, 'showProfileDetails'])->name('profiles.details');
 
+// Show edit profile page
+Route::get('/profileedit', [StartupinverstorController::class, 'editProfile'])->name('profiles.edit');
 
-
+// Update profile details
+Route::post('/profile/update', [StartupinverstorController::class, 'update'])->name('profiles.update');
 
 
 

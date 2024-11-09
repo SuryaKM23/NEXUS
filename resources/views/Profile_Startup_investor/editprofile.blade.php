@@ -11,23 +11,23 @@
     @include("user.nav")
 <div class="container mt-5">
     <h2 class="text-center">Edit Profile</h2>
-    
+
     <!-- Display Success and Error Messages -->
     <div id="message" class="mt-3"></div>
 
     <!-- Profile Edit Form -->
-    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('user.profile.update') }}" method="POST">
+    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('profiles.update') }}" method="POST">
         @csrf
-        @method('PUT')
+        @method('POST')
         
         <div class="form-group mb-3">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" value="{{ Auth::user()->name }}" readonly>
+            <input type="text" name="username" id="username" class="form-control" value="{{ Auth::user()->name }}" required>
         </div>
         
         <div class="form-group mb-3">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
+            <input type="email" name="email" id="email" class="form-control" value="{{ Auth::user()->email }}" required>
         </div>
 
         <div class="form-group mb-3">
@@ -36,33 +36,13 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="skills">Skills</label>
-            <input type="text" name="skills" id="skills" class="form-control">
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="experience">Experience</label>
-            <textarea name="experience" id="experience" class="form-control"></textarea>
-        </div>
-
-        <div class="form-group mb-3">
             <label for="description">Description</label>
             <textarea name="description" id="description" class="form-control"></textarea>
         </div>
 
-        {{-- <div class="form-group mb-3">
-            <label for="website">Website</label>
-            <input type="url" name="website" id="website" class="form-control">
-        </div> --}}
-
         <div class="form-group mb-3">
             <label for="linkedin_id">LinkedIn Profile</label>
             <input type="url" name="linkedin_id" id="linkedin_id" class="form-control">
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="education">Education</label>
-            <input type="text" name="education" id="education" class="form-control">
         </div>
 
         <div class="form-group mb-3">
@@ -71,11 +51,12 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="file">Resume</label>
+            <label for="file">Portfolio</label>
             <input type="file" name="file" id="file" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-primary">Update Profile</button>
+        <div id="loading" class="text-center mt-3" style="display: none;">Updating...</div>
     </form>
 </div>
 
@@ -84,25 +65,31 @@ $(document).ready(function() {
     $('#editProfileForm').submit(function(e) {
         e.preventDefault();
 
+        // Show loading indicator
+        $('#loading').show();
+        $('#message').empty();
+
         let formData = new FormData(this);
         
         $.ajax({
-            url: "{{ route('user.profile.update') }}",
+            url: "{{ route('profiles.update') }}",
             type: "POST",
             data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
+                $('#loading').hide();
                 if (response.success) {
                     $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
                     setTimeout(function() {
-                        window.location.href = "{{ route('user.profile.details') }}";
+                        window.location.href = "{{ route('profiles.details') }}";
                     }, 2000); // Redirect to profile details page after 2 seconds
                 } else {
                     $('#message').html('<div class="alert alert-danger">Failed to update profile.</div>');
                 }
             },
             error: function(xhr) {
+                $('#loading').hide();
                 let errors = xhr.responseJSON.errors;
                 let errorMessage = '<div class="alert alert-danger"><ul>';
                 $.each(errors, function(key, value) {
