@@ -79,17 +79,21 @@
         <div class="row">
         <!-- Left Side: Description and Experience -->
         <div class="col-md-8 pe-5">
-            <h4 class="section-title">Description</h4>
+            <div class="d-flex align-items-center">
+                {{-- <h4 class="section-title mb-0 me-3">Description</h4>
+                <h4 class="section-title mb-0 ms-3">Experience</h4> --}}
+            </div>
             <p id="description" class="section-content text-justify" style="text-align: justify !important;"></p>
-            <h4 class="section-title mt-3">Experience</h4>
+            <br>
             <p id="experience" class="section-content"></p>
         </div>
 
         <!-- Right Side: Education and Skills -->
         <div class="col-md-4">
-            <h4 class="section-title">Education</h4>
+            {{-- <h4 class="section-title">Education</h4> --}}
             <p id="education" class="section-content"></p>
-            <h4 class="section-title mt-3">Skills</h4>
+            <br>
+            {{-- <h4 class="section-title mt-3">Skills</h4> --}}
             <p id="skills" class="section-content"></p>
         </div>
     </div>
@@ -110,29 +114,55 @@
                 $('#email').text(profile.email || 'N/A');
                 
                 if (profile.headline) $('#headline').text(profile.headline);
-                if (profile.education) $('#education').text(profile.education);
-                if (profile.experience) $('#experience').text(profile.experience);
-                if (profile.description) $('#description').text(profile.description);
-                if (profile.skills) $('#skills').text(profile.skills);
-                // Website and LinkedIn fields
-                if (profile.website) {
-                    $('#website').attr('href', profile.website);
+
+                // Education and Experience sections
+                if (profile.education) {
+                    $('#education').html('<h4 class="section-title">Education</h4>' + profile.education).show();
+                } else {
+                    $('#education').hide();
                 }
-                if (profile.linkedin_id) {
-                    $('#linkedin').attr('href', profile.linkedin_id);
+
+                if (profile.experience) {
+                    $('#experience').html('<h4 class="section-title">Experience</h4>' + profile.experience).show();
+                } else {
+                    $('#experience').hide();
                 }
+
+                // Description and Skills sections
+                if (profile.description) {
+                    $('#description').html('<h4 class="section-title">Description</h4>' + profile.description).show();
+                } else {
+                    $('#description').hide();
+                }
+
+                if (profile.skills) {
+                    $('#skills').html('<h4 class="section-title">Skills</h4>' + profile.skills).show();
+                } else {
+                    $('#skills').hide();
+                }
+
+                if (response.profile.linkedin_id) {
+                            $('#linkedin').html(`
+                                <a href="${response.profile.linkedin_id}" target="_blank">
+                                    <img src="{{ asset('images/linkedin.png') }}" alt="LinkedIn" width="20">
+                                </a>
+                            `).show();
+                        } else {
+                            $('#linkedin').hide();
+                        }
+
 
                 // Profile picture and resume
                 if (profile.profile_pic) {
                     $('#profile-pic').attr('src', "{{ asset('profile_pictures/') }}/" + profile.profile_pic);
                 } else {
-                    $('#profile-pic').attr('src', 'images.jpg'); // Optional: Set a default image if not found
+                    $('#profile-pic').attr('src', 'images/images.jpg'); // Optional: Set a default image if not found
                 }
                 if (profile.file) {
-                        $('#resume-btn').attr('href', "{{ asset('resumes/') }}/" + profile.file).show();
-                    } else {
-                        $('#resume-btn').hide();
-                    }
+                    $('#resume-btn').attr('href', "{{ asset('resumes/') }}/" + profile.file).show();
+                } else {
+                    $('#resume-btn').hide();
+                }
             } else {
                 alert("No profile found!");
             }

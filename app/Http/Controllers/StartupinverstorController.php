@@ -88,7 +88,7 @@ class StartupinverstorController extends Controller
        public function editProfile()
        {
            $user = Auth::user(); // Assuming the user is authenticated
-           return view('Profile_Startup_investor.editprofile', compact('user'));
+           return view('startup.Profile', compact('user'));
        }
    
        public function update(Request $request)

@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+    @include("startup.nav")
 <div class="container mt-5">
     <h2 class="text-center">Edit Profile</h2>
     
@@ -15,7 +16,7 @@
     <div id="message" class="mt-3"></div>
 
     <!-- Profile Edit Form -->
-    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('startup.profile.update') }}" method="POST">
+    <form id="editProfileForm" enctype="multipart/form-data" action="{{ route('profiles.update') }}" method="POST">
         @csrf
         @method('PUT')
         
@@ -65,7 +66,7 @@
         </div> --}}
 
         <div class="form-group mb-3">
-            <label for="profile_pic">Profile Picture</label>
+           
             <input type="file" name="profile_pic" id="profile_pic" class="form-control">
         </div>
 
@@ -86,7 +87,7 @@ $(document).ready(function() {
         let formData = new FormData(this);
         
         $.ajax({
-            url: "{{ route('startup.profile.update') }}",
+            url: "{{ route('profiles.update') }}",
             type: "POST",
             data: formData,
             processData: false,
@@ -95,7 +96,7 @@ $(document).ready(function() {
                 if (response.success) {
                     $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
                     setTimeout(function() {
-                        window.location.href = "{{ route('startup.profile.details') }}";
+                        window.location.href = "{{ route('profiles.update') }}";
                     }, 2000); // Redirect to profile details page after 2 seconds
                 } else {
                     $('#message').html('<div class="alert alert-danger">Failed to update profile.</div>');
