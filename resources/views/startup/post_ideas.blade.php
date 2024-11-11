@@ -30,7 +30,10 @@
             border-radius: 10px;
             overflow: hidden;
         }
-
+        a:hover {
+    text-decoration: none;
+    color: #0069d9;
+}
         .image-section {
             flex: 1;
             background: url('your-image-url.jpg') no-repeat center center/cover;

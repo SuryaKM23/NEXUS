@@ -110,6 +110,10 @@
         color: rgb(0, 0, 0);
         padding: .5rem 1rem;
       }
+      a:hover {
+    text-decoration: none;
+    color: #0069d9;
+}
         /* No data message */
         .no-ideas {
             text-align: center;
@@ -131,6 +135,7 @@
 </head>
 <body>
 @include("startup.nav")
+<br>
     <h1><strong>Crowdfunding </strong></h1>
 <br>
 

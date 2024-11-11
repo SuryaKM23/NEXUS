@@ -92,6 +92,10 @@
       color: rgb(0, 0, 0);
       padding: .5rem 1rem;
     }
+    a:hover {
+    text-decoration: none;
+    color: #0069d9;
+}
     </style>
 </head>
 
