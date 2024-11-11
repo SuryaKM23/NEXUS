@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
     background-color: rgb(255, 255, 255);
   }
-  
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -14,9 +14,8 @@
     background-color: #ffffff;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
   }
-  
+
   .logo {
     font-size: 40px;
     font-weight: bold;
@@ -25,10 +24,8 @@
   .nav {
     display: flex;
     list-style-type: none;
-    justify-content: flex-start;
     margin: 0;
     padding: 0;
-    flex-wrap: wrap; /* Allow wrapping */
   }
 
   .nav-item {
@@ -38,6 +35,8 @@
   .nav-link {
     text-decoration: none;
     color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
   }
 
   .menu-icon {
@@ -47,18 +46,24 @@
   /* Responsive Styles */
   @media (max-width: 768px) {
     .header {
-      flex-direction: column; /* Stack elements vertically on small screens */
-      align-items: flex-start; /* Align items to the start */
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .nav {
-      flex-direction: column; /* Stack nav items vertically */
-      width: 100%; /* Full width for nav items */
+      flex-direction: column;
+      width: 100%;
+      margin-top: 10px;
     }
 
     .nav-item {
-      margin-right: 0; /* Remove right margin */
-      margin-bottom: 10px; /* Add space between items */
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    .nav-link {
+      width: 100%;
+      padding: 8px;
     }
   }
 </style>
@@ -70,6 +75,14 @@
     </a>
   </div>
   <ul class="nav">
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{ url('/Home') }}">
+        <span class="menu-icon">
+          <i class="mdi mdi-table-large"></i>
+        </span>
+        <span class="menu-title">Home</span>
+      </a>
+    </li>
     <li class="nav-item menu-items">
       <a class="nav-link" href="{{ url('post_ideas') }}">
         <span class="menu-icon">
@@ -99,7 +112,7 @@
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>
-        <span class="menu-title">Job Details</span>
+        <span class="menu-title">Edit Job Details</span>
       </a>
     </li>
     <li class="nav-item menu-items">
@@ -110,7 +123,14 @@
         <span class="menu-title">Recruit</span>
       </a>
     </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{ url('/get-crowdfunding-startups') }}">
+        <span class="menu-icon">
+          <i class="mdi mdi-table-large"></i>
+        </span>
+        <span class="menu-title">Crowdfund Status</span>
+      </a>
+    </li>
   </ul>
   <x-app-layout></x-app-layout>
 </div>
-

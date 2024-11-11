@@ -9,12 +9,16 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Startupinvestor;
 use App\Models\Startup;
 use App\Models\Startupinverstor;
 use App\Models\Job;
 use App\Models\JobApplied;
 use App\Models\User;// Adjust this to match your Startup model namespace
 use App\Models\UserProfile;
+use App\Models\Donation;
+use App\Http\Controllers\DB;
+
 
 class StartupController extends Controller
 {
@@ -439,5 +443,41 @@ public function update(Request $request)
         'success' => true,
         'message' => 'Profile updated successfully.'
     ]);
+}
+public function getCrowdfundingIdeas()
+{
+    // Assuming the current user's company name is stored in session or auth
+    $companyName = auth()->user()->company_name;
+
+    // Fetch the relevant data from the startups table
+    $ideas = Startup::where('company_name', $companyName)
+                    ->where('investment', 'crowdfunding')
+                    ->get(['id','company_name', 'title', 'description', 'estimated_amount', 
+                           'estimated_turn_over', 'created_at', 'account_holder_name', 
+                           'account_number', 'ifsc_code', 'swift_code', 
+                           'upi_id', 'pdf_file']);
+
+    if (request()->ajax()) {
+        // Return the data as a JSON response
+        return response()->json($ideas);
+    }
+
+    // If not an AJAX request, return the view with ideas
+    return view('startup.fundstatus', compact('ideas'));
+}
+
+public function viewDetails($id)
+{
+    // Fetch startup details
+    $startup = Startup::findOrFail($id);
+
+    // Fetch total donated amount for the startup
+    $donatedAmount = Donation::where('company_id', $id)->sum('donated_amount');
+    
+    // Fetch total amount of donations expected for the startup
+    $estimatedAmount = $startup->estimated_amount;
+
+    // Return the view with data
+    return view('startup.viewDetails', compact('startup', 'donatedAmount', 'estimatedAmount'));
 }
 }

@@ -129,6 +129,8 @@ Route::delete('/delete-job/{id}', [StartupController::class, 'deleteJob']);
 
 
 Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
+Route::get('/get-crowdfunding-startups', [StartupController::class, 'getCrowdfundingIdeas']);
+Route::get('/view-details/{id}', [StartupController::class, 'viewDetails']);
 
 
 Route::get('/Chatify/{id}', [ChatController::class, 'redirectToChatify']);
