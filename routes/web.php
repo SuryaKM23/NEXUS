@@ -138,13 +138,22 @@ Route::get('/profile/detail', [UserController::class, 'showProfileDetails'])->na
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('user.profile.edit');
 Route::put('/profile/update', [UserController::class, 'update'])->name('user.profile.update');
 
-Route::get('/profile/details', [StartupinverstorController::class, 'showProfileDetails'])->name('profiles.details');
+Route::get('/profile_details', [StartupController::class, 'showProfileDetails'])->name('profiles.details');
 
 // Show edit profile page
-Route::get('/profileedit', [StartupinverstorController::class, 'editProfile'])->name('profiles.edit');
+Route::get('/profile_edit', [StartupController::class, 'editProfile'])->name('profiles.edit');
 
 // Update profile details
-Route::post('/profile/update', [StartupinverstorController::class, 'update'])->name('profiles.update');
+Route::post('/profile_update', [StartupController::class, 'update'])->name('profiles.update');
+
+
+Route::get('/profile-details', [InvestorController::class, 'showProfileDetails'])->name('pro.details');
+
+// Show edit profile page
+Route::get('/profile-edit', [InvestorController::class, 'editProfile'])->name('pro.edit');
+
+// Update profile details
+Route::post('/profile-update', [InvestorController::class, 'update'])->name('pro.update');
 
 
 

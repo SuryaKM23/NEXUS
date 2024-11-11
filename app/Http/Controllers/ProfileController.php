@@ -23,9 +23,13 @@ class ProfileController extends Controller
             // Return views based on usertype
              if ($usertype == 'user') {
                 return view('user.profiledetails');
-            } elseif ($usertype == 'startup' || $usertype=='investor') {
+            } elseif ($usertype == 'startup' ) {
                 return view('startup.profiledetails');
-            } else {
+            } 
+            elseif($usertype=='investor'){
+                return view('investor.profiledetails');
+            }
+            else {
                 // Handle unexpected user types
                 return redirect()->back()->with('error', 'Invalid user type');
             }
