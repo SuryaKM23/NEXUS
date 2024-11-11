@@ -6,6 +6,14 @@
     <title>Edit Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+
+    .nav-link {
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        padding: .5rem 1rem;
+      }
+      </style>
 </head>
 <body>
     @include("startup.nav")

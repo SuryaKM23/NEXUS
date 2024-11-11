@@ -118,6 +118,11 @@
             text-align: center;
             margin-top: 20px;
         }
+        .nav-link {
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+      padding: .5rem 1rem;
+    }
 
         @media (max-width: 768px) {
             .content-wrapper {

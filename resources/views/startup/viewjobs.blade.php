@@ -19,6 +19,11 @@
         .form-row {
             margin-bottom: 1rem; /* Spacing between rows */
         }
+        .nav-link {
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        padding: .5rem 1rem;
+      }
     </style>
 </head>
 <body>

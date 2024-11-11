@@ -36,6 +36,7 @@
     .nav-link {
       text-decoration: none;
       color: rgb(0, 0, 0);
+      padding: .5rem 1rem;
     }
   
     .menu-icon {
@@ -67,7 +68,7 @@
         </a>
   </li>  
   <li class="nav-item menu-items">
-    <a class="nav-link" href="{{ url('get-crowdfunding-startups') }}">
+    <a class="nav-link" href="{{ url('getcrowdfundingstartups') }}">
       <span class="menu-icon">
         <i class="mdi mdi-table-large"></i>
       </span>

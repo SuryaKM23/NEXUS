@@ -100,7 +100,7 @@ Route::get('/job-results', [UserController::class, 'showResults'])->name('job.re
 
 Route::get('/job-detail/{id}', [UserController::class, 'showJobDetails'])->name('job.detail');
 //crowdfing
-Route::get('/get-crowdfunding-startups', [UserController::class, 'getCrowdfundingStartups']);
+Route::get('/getcrowdfundingstartups', [UserController::class, 'getCrowdfundingStartups']);
 Route::get('/crowdfunding', [UserController::class, 'showUserDataInRazorPay']);
 Route::post('/save-donation', [UserController::class, 'saveDonation'])->name('save.donation');
 Route::get('/donation', [userController::class, 'showDonations'])->name('donation.detail');

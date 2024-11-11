@@ -87,6 +87,11 @@
             border-radius: 5px;
             font-size: 14px;
         }
+        .nav-link {
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+      padding: .5rem 1rem;
+    }
     </style>
 </head>
 

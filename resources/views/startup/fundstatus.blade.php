@@ -105,7 +105,11 @@
         .details a:hover {
             background-color: #2980b9;
         }
-
+        .nav-link {
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        padding: .5rem 1rem;
+      }
         /* No data message */
         .no-ideas {
             text-align: center;

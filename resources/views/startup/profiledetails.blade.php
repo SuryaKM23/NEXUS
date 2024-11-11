@@ -27,6 +27,11 @@
         /* Bottom Container Styling */
         .section-title { font-size: 1.5rem; color: #0077b5; font-weight: bold; }
         .section-content p { font-size: 1.1rem; color: #555; line-height: 1.6; }
+        .nav-link {
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        padding: .5rem 1rem;
+      }
         
         /* Responsive adjustments */
         @media (max-width: 768px) {

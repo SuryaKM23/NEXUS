@@ -56,22 +56,25 @@
         </div>
     </div>
 
-    <!-- Hire Confirmation Modal -->
-    <div class="modal fade" id="hireModal" tabindex="-1" role="dialog" aria-labelledby="hireModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- Bootstrap Modal for Email -->
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="hireModalLabel">Confirm Hire</h5>
+                    <h5 class="modal-title" id="emailModalLabel">Interview Invitation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to hire this applicant?
+                    <p><strong>To:</strong> <span id="applicantEmail"></span></p>
+                    <p><strong>Subject:</strong> <span id="emailSubject"></span></p>
+                    <p><strong>Message:</strong></p>
+                    <textarea id="emailBody" class="form-control" rows="5" readonly></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmHire">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendEmail()">Send</button>
                 </div>
             </div>
         </div>
@@ -82,13 +85,6 @@
     <script>
         $(document).ready(function() {
             fetchJobApplications();
-
-            // Confirm hire for a specific applicant
-            $('#confirmHire').on('click', function() {
-                const applicationId = $(this).data('applicationId');
-                hireApplicant(applicationId);
-                $('#hireModal').modal('hide');
-            });
         });
 
         // Fetch and display job applications
@@ -114,7 +110,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">${application.job_title}</h5>
-                                <button class="btn btn-hire" onclick="showHireModal('${application.id}')">Hire</button>
+                                <button class="btn btn-hire" onclick="showHireModal('${application.id}', '${application.email}', '${application.name}', '${application.company_name}')">Hire</button>
                             </div>
                             <p><strong>Applicant Name:</strong> ${application.name}</p>
                             <p><strong>Email:</strong> ${application.email}</p>
@@ -127,8 +123,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-around">
                             <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
-                            <!-- Modify Contact button to link to Chatify for direct messaging -->
-                            <a href="/chatify/message/${application.user_id}" class="btn btn-contact">Contact</a>
+                            <a href="/chatify/message/${application.user_id}" class="btn btn-contact">View Profile</a>
                         </div>
                     </div>
                 </div>
@@ -136,26 +131,35 @@
             $('#job-applied-cards').html(cards);
         }
 
-        function showHireModal(jobId) {
-            $('#confirmHire').data('applicationId', jobId);
-            $('#hireModal').modal('show');
+        // Show modal with email content
+        function showHireModal(applicationId, applicantEmail, applicantName, companyName) {
+            const messageSubject = `Interview Call for ${applicantName}`;
+            const messageBody = `Dear ${applicantName},\n\nWe are pleased to invite you for an interview regarding your application for the position. Please let us know your availability.\n\nBest Regards,\n${companyName}`;
+
+            // Set email content in modal
+            $('#applicantEmail').text(applicantEmail);
+            $('#emailSubject').text(messageSubject);
+            $('#emailBody').text(messageBody);
+
+            // Show modal
+            $('#emailModal').modal('show');
         }
 
-        // Hire an applicant via AJAX request
-        function hireApplicant(jobId) {
-            $.ajax({
-                url: `/hire-applicant/${jobId}`,
-                method: 'POST',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                dataType: 'json',
-                success: function() {
-                    showAlert('Applicant hired successfully!', 'success');
-                    fetchJobApplications(); // Refresh job applications
-                },
-                error: function(jqXHR) {
-                    showAlert(jqXHR.responseJSON?.error || "Failed to hire applicant.");
-                }
-            });
+        // Function to send the email (opens Gmail)
+        function sendEmail() {
+            const applicantEmail = $('#applicantEmail').text();
+            const emailSubject = $('#emailSubject').text();
+            const emailBody = $('#emailBody').val();
+
+            // Construct the Gmail compose URL
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${applicantEmail}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Open Gmail compose window
+            window.open(gmailUrl, '_blank');
+
+            // Optionally, hide the modal after sending the email
+            $('#emailModal').modal('hide');
+            showAlert('Email draft opened in Gmail.', 'success');
         }
 
         // Function to show alerts

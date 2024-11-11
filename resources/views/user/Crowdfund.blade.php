@@ -269,7 +269,7 @@
         function fetchCompanies() {
             $('#loading').show();
             $.ajax({
-                url: "{{ url('/get-crowdfunding-startups') }}",
+                url: "{{ url('/getcrowdfundingstartups') }}",
                 type: 'GET',
                 success: (data) => {
                     $('#loading').hide();
