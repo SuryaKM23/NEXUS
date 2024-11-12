@@ -77,6 +77,33 @@
             width: 250px; 
             margin-left: 20px; 
         }
+        .profile-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #1a73e8;
+            color: #fff;
+            /* padding: 12px 18px; */
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .profile-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+        .profile-btn {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -100,6 +127,9 @@
         </div>
     </div>
 </div>
+<button class="profile-btn" onclick="redirectToChatify()">
+    <i class="bi bi-chat"></i>
+</button>
 
 <script>
     $(document).ready(() => {
@@ -143,6 +173,9 @@
             }
         });
     }
+    function redirectToChatify() {
+            window.location.href = `/chatify/`;
+        }
 </script>
 </body>
 </html>

@@ -480,4 +480,51 @@ public function viewDetails($id)
     // Return the view with data
     return view('startup.viewDetails', compact('startup', 'donatedAmount', 'estimatedAmount'));
 }
+
+public function showProfile(Request $request)
+{
+    // Get the email from the URL and decode it
+    $encodedEmail = $request->query('email');
+    if ($encodedEmail) {
+        $email = base64_decode($encodedEmail);
+        // Find the user by email
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            return view('user.profileother', compact('user'));
+        } else {
+            return redirect()->route('home')->with('error', 'User not found.');
+        }
+    } else {
+        return redirect()->route('home')->with('error', 'Invalid request.');
+    }
+}
+public function getUserProfile(Request $request)
+{
+    // Get the email from the request
+    $email = $request->input('email');
+    $userProfile = User::where('email', $email)->first();
+
+    // Check if user profile exists
+    if ($userProfile) {
+        // If it's an AJAX request, return JSON data
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $userProfile
+            ]);
+        }
+        // If it's a normal request, return the view with user profile data
+        else {
+            return view('user.profileother', ['userProfile' => $userProfile]);
+        }
+    } else {
+        // If user profile not found, return error response
+        return response()->json([
+            'status' => 'error',
+            'message' => 'User profile not found.'
+        ], 404);
+    }
+}
+
 }

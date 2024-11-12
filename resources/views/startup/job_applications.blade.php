@@ -80,6 +80,9 @@
         </div>
     </div>
 
+    <!-- User Profile Section -->
+    <div id="user-profile-section" class="mt-4"></div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -100,6 +103,11 @@
                     showAlert(jqXHR.responseJSON?.error || "Failed to load job applications for your company.");
                 }
             });
+        }
+
+        // Encode email using Base64
+        function encodeEmail(email) {
+            return btoa(email);  // Base64 encode the email
         }
 
         // Render job application cards
@@ -123,7 +131,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-around">
                             <a href="${application.resume}" class="btn btn-view" target="_blank">View Resume</a>
-                            <a href="/chatify/message/${application.user_id}" class="btn btn-contact">View Profile</a>
+                            <a href="javascript:void(0);" class="btn btn-contact" onclick="fetchUserProfile('${application.email}')">View Profile</a>
                         </div>
                     </div>
                 </div>
@@ -173,6 +181,8 @@
             $('body').prepend(alertDiv);
             setTimeout(() => alertDiv.alert('close'), 3000);
         }
+
+        
     </script>
 </body>
 </html>

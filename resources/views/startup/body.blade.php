@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Startup Home</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
         body {
             margin: 0;
@@ -17,6 +18,7 @@
             text-decoration: none;
             color: #0069d9;
         }
+    
 
         .container {
             max-width: auto;
@@ -144,6 +146,27 @@
             font-size: 16px;
             color: #555;
         }
+        .profile-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #1a73e8;
+            color: #fff;
+            /* padding: 12px 18px; */
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .profile-btn:hover {
+            background-color: #0056b3;
+        }
+        
 
         @media (max-width: 768px) {
             .header-section h1 {
@@ -162,6 +185,10 @@
 
             #recent-ideas-container {
                 justify-content: center;
+            }
+            .profile-btn {
+                bottom: 10px;
+                right: 10px;
             }
         }
     </style>
@@ -185,6 +212,9 @@
             </div>
         </div>
     </div>
+    <button class="profile-btn" onclick="redirectToChatify()">
+        <i class="bi bi-chat"></i>
+    </button>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
@@ -227,6 +257,9 @@
                     $('#recent-ideas-container').html('<div class="alert alert-danger">Error fetching recent ideas.</div>');
                 }
             });
+        }
+        function redirectToChatify() {
+            window.location.href = `/chatify/`;
         }
     </script>
 

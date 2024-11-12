@@ -31,7 +31,7 @@ Route::get('/',[FrontController::class,'frontpage']);
 Route::get('/startupregister',[StartupinverstorController::class,'view']);
 Route::post('/createregister' ,[StartupinverstorController::class,'createregister'])->name('createregister');
 
-Route::get('/Home',[IndexController::class,'Index']);
+Route::get('/Home',[IndexController::class,'Index'])->name('home');
 // Route::get('/startup/home',[IndexController::class,'startup_home']);
 // Route::get('/investor/home',[InvestorController::class,'investor_home']);
 
@@ -156,9 +156,6 @@ Route::get('/profile-edit', [InvestorController::class, 'editProfile'])->name('p
 
 // Update profile details
 Route::post('/profile-update', [InvestorController::class, 'update'])->name('pro.update');
-
-
-
 
 
 require __DIR__.'/auth.php';
