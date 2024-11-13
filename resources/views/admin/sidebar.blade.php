@@ -1,8 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <img src="{{ asset('logo/startup.jpg') }}" alt="Startup Logo">
+
   <ul class="nav">
-      <li class="nav-item nav-category">
-          <span class="nav-link">Navigation</span>
-      </li>
       <li class="nav-item menu-items">
         <a class="nav-link" href="{{ url('/Home') }}">
           <span class="menu-icon">
@@ -28,6 +27,7 @@
               <span class="menu-title">Startup/Investor details</span>
           </a>
       </li> --}}
+      
       <li class="nav-item menu-items">
           <a class="nav-link" href="{{ url('startup_details') }}">
               <span class="menu-icon">

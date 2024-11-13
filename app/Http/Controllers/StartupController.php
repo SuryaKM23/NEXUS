@@ -601,7 +601,6 @@ public function show_profile_other($email){
 
     $profile = UserProfile::where('email', $email)->first(); // Use first() to get a single record
 
-    // Check if the profile was found
     if (!$profile) {
         return response()->json(['error' => 'User not found'], 404);
     }

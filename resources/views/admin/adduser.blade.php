@@ -34,7 +34,7 @@
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       margin: 20px auto;
-      margin-top: 100px;
+      margin-top: 50px;
     }
 
     .addform header {
@@ -107,7 +107,7 @@
     }
 
     .form button:hover {
-      background: rgb(88, 56, 250);
+      background: rgb(56, 127, 250);
     }
 
     .input_color {
@@ -190,7 +190,7 @@
           <div id="message" class="message"></div>
           <form action="{{ url('/add_form') }}" class="form" method="post" id="add_form">
             @csrf
-            <header>Add Admin</header>
+            <header>Admin</header>
             <div class="input-box">
               <label>Name</label>
               <input type="text" class="input_color" name="name" placeholder="name" required />

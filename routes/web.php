@@ -160,4 +160,5 @@ Route::get('/show_profile/{email}', [StartupController::class, 'show_profile']);
 
 Route::get('/profile_detail/{email}', [StartupController::class, 'show_profile_other']);
 
+
 require __DIR__.'/auth.php';

@@ -6,9 +6,10 @@
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
-    @include('admin.sidebar')
+   
       <!-- partial -->
       @include('admin.partial')
+      @include('admin.sidebar')
         <!-- partial -->
         @include('admin.contentWrapper')
           <!-- content-wrapper ends -->
