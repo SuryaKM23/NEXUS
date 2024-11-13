@@ -235,7 +235,7 @@
     <p>Are you a startup looking for funding? Contribute to our crowdfunding platform and receive the
         support you need to grow your business. Learn more about how we can help you!</p>
 </div>
-<a href="/get-crowdfunding-startups" class="crowdfunding-btn">Start a Contribution Now</a>
+<a href="/getcrowdfundingstartups" class="crowdfunding-btn">Start a Contribution Now</a>
 </div>
 
 <!-- Job Content Section -->

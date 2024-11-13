@@ -117,6 +117,21 @@ public function getRecentIdeas()
     // Return the recent ideas as a JSON response for AJAX
     return response()->json($recentIdeas);
 }
+public function view_Ideas()
+{
+    // Retrieve the authenticated user's company name
+    $userCompanyName = auth()->user()->company_name;
+
+    // Query the database for the most recent records from the startup table
+    // where the user's company name matches the startup company name
+    $recentIdeas = Startup::where('company_name', $userCompanyName)
+        ->orderBy('created_at', 'desc') // Sort by 'created_at' column in descending order
+       // Limit to the most recent four records
+        ->get();
+
+    // Return the recent ideas as a JSON response for AJAX
+    return view('startup.view_ideas', ['ideas' => $recentIdeas]);
+}
 
 public function viewIdeas(): JsonResponse|view
 {
@@ -525,6 +540,80 @@ public function getUserProfile(Request $request)
             'message' => 'User profile not found.'
         ], 404);
     }
+}
+
+//progileupdwtesss 
+
+// public function show_profile() {
+//     // Get the authenticated user
+//     $user = auth()->user();
+
+//     // Fetch the profile from JobApplied where name and email match the authenticated user
+//     $userProfile = JobApplied::where('name', $user->name)
+//                               ->where('email', $user->email)
+//                               ->first();
+
+//     // Check if profile exists
+//     if ($userProfile) {
+//         // Pass the profile data to the 'profile' view
+//         return view('user.profileother', [
+//             'name' => $userProfile->name,
+//             'email' => $userProfile->email
+//         ]);
+//     }
+
+//     // Redirect back with an error message if no matching profile is found
+//     return redirect()->back()->withErrors(['error' => 'Profile data not found or does not match']);
+// }
+
+// public function show_profile($email)
+// {
+//     // // Fetch the user profile by email
+//     // $user = UserProfile::where('email', $email)->first();
+
+//     // // If the user is not found, return a view with an error message
+//     // if (!$user) {
+//     //     return view('error', ['message' => 'User not found']);  // Optionally, you can create an error view
+//     // }
+
+//     // // Return the user data to the profile view
+//     // return view('user.profileother', ['user' => $user]);\
+
+//     $user = UserProfile::where('email', $email)->first();
+//     return view('user.profileother',compact('user'));
+// }
+
+public function show_profile($email)
+{
+    // Fetch the user profile by email
+    $user = UserProfile::where('email', $email)->first();
+
+    // If the user is not found, return a JSON error response
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    // Return the user data as a JSON response
+    return response()->json($user);
+}
+
+public function show_profile_other($email){
+
+    $profile = UserProfile::where('email', $email)->first(); // Use first() to get a single record
+
+    // Check if the profile was found
+    if (!$profile) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    // Return the profile data as JSON (for AJAX requests)
+    if (request()->ajax()) {
+        return response()->json(['profile' => $profile]);
+    }
+
+    // Return the profile data to the view (for regular requests)
+    return view('user.profileother', compact('profile'));
+
 }
 
 }

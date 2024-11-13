@@ -86,7 +86,7 @@
   $(document).ready(function() {
     // Fetch profile details via AJAX
     $.ajax({
-        url: '{{ route("user.profile.details") }}',
+        url: '/profile_detail/{email}',
         type: 'GET',
         success: function(response) {
             if (response.profile) {
