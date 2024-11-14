@@ -23,10 +23,10 @@
         /* Section Titles */
         .section-title, .crowdfunding-title {
             font-size: 3rem;
-            font-weight: 700;
+            font-weight: 100;
             text-transform: uppercase;
             color: #1a73e8;
-            margin-bottom: 40px;
+            /* margin-bottom: 40px; */
             text-align: center;
             letter-spacing: 1.5px;
             transition: margin-top 0.5s ease-in-out;
@@ -44,7 +44,7 @@
         .search-box {
             position: relative;
             width: 100%;
-            max-width: 700px;
+            max-width: 500px;
             padding-left: 15px;
         }
         
@@ -52,10 +52,10 @@
             width: 100%;
             padding: 15px 20px;
             font-size: 1.2rem;
-            border-radius: 50px;
-            border: 2px solid #ddd;
+            border-radius: 10px;
+            border: 2px solid #f3f3f3;
             background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
             transition: all 0.3s ease;
         }
         
@@ -214,8 +214,8 @@
             <div class="col-md-6 col-12">
                 <div class="search-container">
                     <div class="search-box mb-4">
-                        <h1 class="section-title">Search for Jobs</h1>
-                        <input type="text" class="form-control" id="search-input" placeholder="Search for job titles..." oninput="fetchSuggestions()">
+                        <h1 class="section-title">Find Job</h1>
+                        <input type="text" class="form-control" id="search-input" placeholder="Search" oninput="fetchSuggestions()">
                         <div id="suggestions" class="suggestions-list"></div>
                     </div>
                 </div>
@@ -235,7 +235,9 @@
     <p>Are you a startup looking for funding? Contribute to our crowdfunding platform and receive the
         support you need to grow your business. Learn more about how we can help you!</p>
 </div>
-<a href="/getcrowdfundingstartups" class="crowdfunding-btn">Start a Contribution Now</a>
+<a href="/getcrowdfundingstartups" class="crowdfunding">
+    <button class="btn btn-primary">Start a Contribution Now</button>
+</a>
 </div>
 
 <!-- Job Content Section -->
@@ -260,9 +262,9 @@
 </div>
 
     <!-- Chatify Button -->
-    <button class="profile-btn" onclick="redirectToChatify()">
+    {{-- <button class="profile-btn" onclick="redirectToChatify()">
         <i class="bi bi-chat"></i>
-    </button>
+    </button> --}}
 
     <script>
         function fetchSuggestions() {

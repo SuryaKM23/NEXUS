@@ -23,10 +23,11 @@
 
         h1 {
             text-align: center;
-            font-size: 85px;
+            font-size: 2.8rem;
             margin-bottom: 30px;
-            color: #333;
+            color: #000000;
         }
+        
 
         /* Card Container */
         #ideas-list {
@@ -136,7 +137,7 @@
 <body>
 @include("startup.nav")
 <br>
-    <h1><strong>Crowdfunding </strong></h1>
+    <h1><strong>Crowdfunding</strong></h1>
 <br>
 
     <div id="ideas-list">
@@ -173,8 +174,8 @@
                                     <div class="idea-details">
                                         <h3>${idea.title}</h3>
                                         <p class="description"><strong>Description:</strong> ${idea.description}</p>
-                                        <p><strong>Estimated Amount:</strong> ${idea.estimated_amount}</p>
-                                        <p><strong>Turnover:</strong> ${idea.estimated_turn_over}</p>
+                                        <p><strong>Estimated Amount:₹</strong> ${idea.estimated_amount}</p>
+                                        <p><strong>Turnover:₹</strong> ${idea.estimated_turn_over}</p>
                                         <p><strong>Date of Post:</strong> ${new Date(idea.created_at).toLocaleDateString()}</p>
                                     </div>
 

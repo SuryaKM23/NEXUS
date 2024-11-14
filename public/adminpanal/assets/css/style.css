@@ -20671,7 +20671,7 @@ div.tagsinput {
     flex-wrap: nowrap;
     flex-direction: column;
     margin-bottom: 60px;
-    padding-top: 70px; }
+    padding-top: 30px; }
     @media (max-width: 992px) {
       .sidebar .nav {
         padding-top: 0; } }

@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    
   }
 
   .header {
@@ -69,7 +70,9 @@
 
 <div class="header">
   <div class="logo">
-    <img src="{{ asset('logo/startup.png') }}" alt="Logo" class="logo-image">
+    <a href="{{ url('/Home') }}">
+      <img src="{{ asset('logo/startup.png') }}" width="150px" height="50px" alt="Startup Logo">
+    </a>
   </div>
   <ul class="nav">
     {{-- Uncomment and add additional nav items as needed --}}

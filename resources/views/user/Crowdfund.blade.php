@@ -244,27 +244,29 @@
         }
 
         function saveDonation(transactionId, amount) {
-            $.ajax({
-                url: "{{ route('save.donation') }}",
-                type: 'POST',
-                data: {
-                    company_id: selectedCompanyId,
-                    company_name: selectedCompanyName,
-                    user_name: currentUserName,
-                    user_email: currentUserEmail,
-                    donated_amount: amount,
-                    transaction_id: transactionId,
-                    _token: "{{ csrf_token() }}",
-                },
-                success: (response) => {
-                    showNotification(response.message, "success");
-                    fetchCompanies();
-                },
-                error: () => {
-                    showNotification('Error saving donation. Please try again.', "error");
-                }
-            });
+    $.ajax({
+        url: "{{ route('save.donation') }}",
+        type: 'POST',
+        data: {
+            company_id: selectedCompanyId,
+            company_name: selectedCompanyName,
+            user_name: currentUserName,
+            user_email: currentUserEmail,
+            donated_amount: amount,
+            transaction_id: transactionId,
+            title: selectedCompanyName, // Ensure the title field is added here
+            _token: "{{ csrf_token() }}",
+        },
+        success: (response) => {
+            showNotification(response.message, "success");
+            fetchCompanies();
+        },
+        error: () => {
+            showNotification('Error saving donation. Please try again.', "error");
         }
+    });
+}
+
 
         function fetchCompanies() {
             $('#loading').show();

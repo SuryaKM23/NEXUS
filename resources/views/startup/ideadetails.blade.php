@@ -9,15 +9,38 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
+        .card {
+            position: relative;
+        }
+        .card-header-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .card-header-buttons .btn {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .card-body {
+            padding-top: 50px; /* To avoid overlap with buttons */
+        }
         .edit-button {
             background-color: #007bff; /* Bootstrap primary color */
             color: white; /* White text */
         }
         .edit-button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #0056b3;
+            color: white; /* Darker shade on hover */
         }
-        .form-row {
-            margin-bottom: 1rem; /* Spacing between rows */
+        .delete-button {
+            background-color: #dc3545; /* Bootstrap danger color */
+            color: white;
+        }
+        .delete-button:hover {
+            background-color: #931925; /* Darker shade on hover */
+            color: white;
         }
     </style>
 </head>
@@ -97,17 +120,37 @@
                     let IdeasHtml = '';
                     if (response.success && response.data.length > 0) {
                         response.data.forEach(function(viewIdea) {
+                            let editButton = `
+                                <button onclick="showEditIdeaModal(${viewIdea.id}, '${viewIdea.title}', '${viewIdea.description}', '${viewIdea.company_name}', '${viewIdea.estimated_amount}', '${viewIdea.estimated_turn_over}', '${viewIdea.created_at}');" class="btn edit-button">
+                                    Edit
+                                </button>
+                            `;
+                            let deleteButton = `
+                                <button onclick="confirmDelete(${viewIdea.id});" class="btn delete-button">
+                                    Delete
+                                </button>
+                            `;
+
+                            // Check if both buttons should be displayed or just one
+                            let buttons = '';
+                            if (editButton && deleteButton) {
+                                buttons = editButton + deleteButton;
+                            } else {
+                                buttons = (editButton || deleteButton);
+                            }
+
                             IdeasHtml += `
                                 <div class="card mb-3">
                                     <div class="card-body">
+                                        <div class="card-header-buttons">
+                                            ${buttons}
+                                        </div>
                                         <h5 class="card-title"><b>${viewIdea.title}</b></h5>
                                         <p><strong>Company:</strong> ${viewIdea.company_name}</p>
                                         <p><strong>Description:</strong> ${viewIdea.description}</p>
                                         <p><strong>Estimated Amount: ₹</strong> ${viewIdea.estimated_amount}</p>
                                         <p><strong>Estimated Turn Over: ₹</strong> ${viewIdea.estimated_turn_over}</p>
                                         <p><strong>Date Of Post:</strong> ${new Date(viewIdea.created_at).toLocaleDateString()}</p>
-                                        <button onclick="confirmDelete(${viewIdea.id});" class="btn btn-danger">Delete</button>
-                                        <button onclick="showEditIdeaModal(${viewIdea.id}, '${viewIdea.title}', '${viewIdea.description}', '${viewIdea.company_name}', '${viewIdea.estimated_amount}', '${viewIdea.estimated_turn_over}', '${viewIdea.created_at}');" class="btn edit-button">Edit</button>
                                     </div>
                                 </div>
                             `;
@@ -176,29 +219,28 @@
                         <input type="number" class="form-control" id="editEstimatedTurnOver" name="estimated_turn_over" value="${estimatedTurnOver}" required>
                     </div>
                     <div class="form-group">
-                        <label for="editDateOfPost">Date Of Post</label>
-                        <input type="text" class="form-control" id="editDateOfPost" name="date_of_post" value="${new Date(createdAt).toLocaleDateString()}" readonly>
+                        <label for="editCreatedAt">Date Of Post</label>
+                        <input type="text" class="form-control" id="editCreatedAt" value="${new Date(createdAt).toLocaleDateString()}" disabled>
                     </div>
                 </form>
             `);
-
-            // Show the modal
             $('#editIdeaModal').modal('show');
         }
 
         function updateIdea(id) {
+            let formData = $('#editIdeaForm').serialize();
             $.ajax({
                 url: "{{ url('/update-Idea') }}/" + id, // Adjust URL to match your update route
-                type: 'PUT',
-                data: $('#editIdeaForm').serialize(),
+                type: 'POST',
+                data: formData,
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
                 },
                 success: function(response) {
                     if (response.success) {
                         fetchIdeas(); // Refresh Ideas after update
-                        $('#editIdeaModal').modal('hide'); // Hide the modal
                         showAlert('Idea updated successfully.', 'success');
+                        $('#editIdeaModal').modal('hide');
                     } else {
                         showAlert('Error updating Idea.', 'danger');
                     }
@@ -210,13 +252,14 @@
         }
 
         function showAlert(message, type) {
-            const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>`;
-            $('#alert-container').html(alertHtml);
+            $('#alert-container').html(`
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `);
         }
     </script>
 </body>

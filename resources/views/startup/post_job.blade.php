@@ -10,7 +10,7 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            /* background-color: #f4f6f9; */
         }
 
         .main-panel {
@@ -18,37 +18,55 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 2px;
         }
 
         .content-wrapper {
-            max-width: 600px;
+            display: flex;
+            max-width: 1200px;
             width: 100%;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 12px;
+            /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); */
+            overflow: hidden;
+        }
+
+        .image-section {
+            width: 40%;
+            background: url('{{asset("images/post_job.png")}}') no-repeat center center;
+            background-size: cover;
+        }
+
+        .form-section {
+            width: 60%;
+            padding: 50px;
         }
 
         header {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 26px;
+            margin-bottom: 25px;
             text-align: center;
-            color: #343a40;
+            color: #333;
             font-weight: 600;
-            border-bottom: 3px solid #007bff;
+            border-bottom: 4px solid #007bff;
             padding-bottom: 15px;
         }
 
-        .input-box {
+        .form-row {
+            display: flex;
+            gap: 20px;
             margin-bottom: 15px;
+        }
+
+        .input-box {
+            flex: 1;
         }
 
         .input-box label {
             display: block;
-            margin-bottom: 5px;
-            color: #495057;
             font-weight: 500;
+            margin-bottom: 6px;
+            color: #495057;
         }
 
         .input_color {
@@ -87,15 +105,6 @@
             border-radius: 5px;
             font-size: 14px;
         }
-        .nav-link {
-      text-decoration: none;
-      color: rgb(0, 0, 0);
-      padding: .5rem 1rem;
-    }
-    a:hover {
-    text-decoration: none;
-    color: #0069d9;
-}
     </style>
 </head>
 
@@ -103,11 +112,13 @@
     @include("startup.nav")
     <div class="main-panel">
         <div class="content-wrapper">
+            <div class="image-section"></div>
             <div class="form-section">
+                <header>Post a Job Vacancy</header>
                 <div id="message"></div> <!-- Display AJAX messages here -->
                 <form class="form" id="add_form" method="POST" action="{{ route('post.job.vacancy') }}">
                     @csrf
-                    <header>Post a Job Vacancy</header>
+                    <!-- Row 1 -->
                     <div class="form-row">
                         <div class="input-box">
                             <label for="job_title">Job Title</label>
@@ -117,6 +128,9 @@
                             <label for="company_name">Company Name</label>
                             <input type="text" class="input_color" id="company_name" name="company_name" placeholder="Enter Company Name" value="{{ old('company_name', $companyName) }}" required />
                         </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="form-row">
                         <div class="input-box">
                             <label for="job_description">Job Description</label>
                             <textarea class="input_color" id="job_description" name="job_description" placeholder="Enter Job Description" rows="4" required></textarea>
@@ -125,6 +139,9 @@
                             <label for="job_location">Job Location</label>
                             <input type="text" class="input_color" id="job_location" name="job_location" placeholder="Enter Job Location" required />
                         </div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="form-row">
                         <div class="input-box">
                             <label for="salary">Salary</label>
                             <input type="text" class="input_color" id="salary" name="salary" placeholder="Enter Salary" required />
@@ -133,6 +150,9 @@
                             <label for="application_deadline">Application Deadline</label>
                             <input type="date" class="input_color" id="application_deadline" name="application_deadline" required />
                         </div>
+                    </div>
+                    <!-- Row 4 -->
+                    <div class="form-row">
                         <div class="input-box">
                             <label for="job_type">Job Type</label>
                             <input type="text" class="input_color" id="job_type" name="job_type" placeholder="Enter Job Type" required />
@@ -141,6 +161,9 @@
                             <label for="experience_level">Experience Level</label>
                             <input type="text" class="input_color" id="experience_level" name="experience_level" placeholder="Enter Experience Level" required />
                         </div>
+                    </div>
+                    <!-- Row 5 -->
+                    <div class="form-row">
                         <div class="input-box">
                             <label for="required_skills">Required Skills</label>
                             <textarea class="input_color" id="required_skills" name="required_skills" placeholder="Enter Required Skills" rows="4" required></textarea>
@@ -168,7 +191,7 @@
                         $('#message').html('<div class="alert alert-success alert-dismissible fade show">' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             'Job vacancy posted successfully!' +
-                            '</div>'); // Added fadeIn and fadeOut
+                            '</div>');
                     },
                     error: function (xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -179,7 +202,7 @@
                         $('#message').html('<div class="alert alert-danger alert-dismissible fade show">' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             errorMessage +
-                            '</div>'); // Added fadeIn and fadeOut
+                            '</div>');
                     }
                 });
             });

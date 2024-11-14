@@ -43,7 +43,7 @@
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .col-spacing {
@@ -80,7 +80,7 @@
     <div class="row">
       <!-- Image Section -->
       <div class="col-md-6 d-flex align-items-center justify-content-center">
-        <img src="images/reg.jpg" alt="Registration Image" class="img-fluid"style="max-width: 700px; height: auto;">
+        <img src="images/register.png" alt="Registration Image" class="img-fluid"style="max-width: 700px; height: auto;">
       </div>
 
       <!-- Form Section -->

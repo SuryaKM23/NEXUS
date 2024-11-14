@@ -17,4 +17,6 @@
 <!-- Layout styles -->
 <link rel="stylesheet" href="adminpanal/assets/css/style.css">
 <!-- End layout styles -->
+<link rel="icon" href="logo/logo.png" type="image/icon type">
 <link rel="shortcut icon" href="adminpanal/assets/images/favicon.png" />
+

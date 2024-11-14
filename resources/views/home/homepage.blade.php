@@ -43,7 +43,7 @@
     <div class="" data-wow-delay="0.1s">
         
         <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-            <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+            <a href="/" class="navbar-brand ms-4 ms-lg-0">
                 <h1 class="display-5 text-primary m-0"><img src="logo\startup.jpg" width="200px" height="50px"></h1>
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -72,7 +72,6 @@
                                 <div class="col-lg-8">
                                     <p class="d-inline-block border border-white rounded text-primary fw-semi-bold py-1 px-3 animated slideInDown">Welcome to Nexus</p>
                                     <h1 class="display-1 mb-4 animated slideInDown">Your Connection Is Our Goal</h1>
-                                    <a href="" class="btn btn-primary py-3 px-5 animated slideInDown">Explore More</a>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +85,6 @@
                                 <div class="col-lg-7">
                                     <p class="d-inline-block border border-white rounded text-primary fw-semi-bold py-1 px-3 animated slideInDown">Welcome to Nexus</p>
                                     <h1 class="display-1 mb-4 animated slideInDown">True Support For Your Development</h1>
-                                    <a href="" class="btn btn-primary py-3 px-5 animated slideInDown">Explore More</a>
                                 </div>
                             </div>
                         </div>
@@ -234,8 +232,7 @@
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <p class="d-inline-block border rounded text-primary fw-semi-bold py-1 px-3">Why Choosing Us!</p>
                     <h1 class="display-5 mb-4">Few Reasons Why People Choosing Us!</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                    <a class="btn btn-primary py-3 px-5" href="">Explore More</a>
+                    <p class="mb-4">Our platform bridges the gap between startups, investors, and talented individuals, offering a unique ecosystem for growth and collaboration. Here’s why people choose us.</p>
                 </div>
                 <div class="col-lg-6">
                     <div class="row g-4 align-items-center">
@@ -244,17 +241,17 @@
                                 <div class="col-12 wow fadeIn" data-wow-delay="0.3s">
                                     <div class="feature-box border rounded p-4">
                                         <i class="fa fa-check fa-3x text-primary mb-3"></i>
-                                        <h4 class="mb-3">Fast Executions</h4>
-                                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                                        <a class="fw-semi-bold" href="">Read More <i class="fa fa-arrow-right ms-1"></i></a>
+                                        <h4 class="mb-3">Fast and Efficient Matching</h4>
+                                        <p class="mb-3">Our  matching process ensures quick, precise connections, helping you find potential collaborators or investors who are the best fit for your business goals.</p>
+
                                     </div>
                                 </div>
                                 <div class="col-12 wow fadeIn" data-wow-delay="0.5s">
                                     <div class="feature-box border rounded p-4">
                                         <i class="fa fa-check fa-3x text-primary mb-3"></i>
                                         <h4 class="mb-3">Guide & Support</h4>
-                                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                                        <a class="fw-semi-bold" href="">Read More <i class="fa fa-arrow-right ms-1"></i></a>
+                                        <p class="mb-3">Our platform provides end-to-end guidance, resources, and support to help startups and investors make informed decisions and establish fruitful partnerships.</p>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -263,8 +260,8 @@
                             <div class="feature-box border rounded p-4">
                                 <i class="fa fa-check fa-3x text-primary mb-3"></i>
                                 <h4 class="mb-3">Financial Secure</h4>
-                                <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                                <a class="fw-semi-bold" href="">Read More <i class="fa fa-arrow-right ms-1"></i></a>
+                                <p class="mb-3">We prioritize secure transactions and transparent communications, creating a trusted space for startups and investors to collaborate confidently.</p>
+
                             </div>
                         </div>
                     </div>
@@ -581,27 +578,29 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Services</h4>
-                    <a class="btn btn-link" href="">Financial Planning</a>
-                    <a class="btn btn-link" href="">Cash Investment</a>
-                    <a class="btn btn-link" href="">Financial Consultancy</a>
-                    <a class="btn btn-link" href="">Business Loans</a>
-                    <a class="btn btn-link" href="">Business Analysis</a>
+                    <h4 class="text-white mb-4">Our Services</h4>
+                    <a class="btn btn-link" href="">Startup-Investor Matchmaking</a>
+                    <a class="btn btn-link" href="">Talent Acquisition</a>
+                    <a class="btn btn-link" href="">Business Strategy Consultation</a>
+                    <a class="btn btn-link" href="">Funding Guidance</a>
+                    <a class="btn btn-link" href="">Market Research & Analysis</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-4">Quick Links</h4>
                     <a class="btn btn-link" href="">About Us</a>
                     <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
+                    <a class="btn btn-link" href="">How It Works</a>
+                    <a class="btn btn-link" href="">Privacy Policy</a>
+                    <a class="btn btn-link" href="">Help Center</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <h4 class="text-white mb-4">Stay Updated</h4>
+                    <p>Subscribe to our newsletter for the latest updates on funding opportunities, industry insights, and exclusive resources.</p>
+                </div>
+                
                     <div class="position-relative w-100">
-                        <input class="form-control bg-white border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        {{-- <input class="form-control bg-white border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email"> --}}
+                        {{-- <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button> --}}
                     </div>
                 </div>
             </div>
@@ -615,11 +614,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    &copy; <a class="border-bottom" href="#">Nexus</a>, All Right Reserved.
                 </div>
             </div>
         </div>

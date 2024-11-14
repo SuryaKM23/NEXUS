@@ -31,7 +31,7 @@ class ProfileController extends Controller
             }
             else {
                 // Handle unexpected user types
-                return redirect()->back()->with('error', 'Invalid user type');
+                return view ('admin.profile');
             }
         }
 

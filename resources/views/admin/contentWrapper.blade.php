@@ -10,13 +10,13 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         body {
-            background-color: #181818;
+            background-color: #000000;
             font-family: 'Roboto', sans-serif;
             color: #e0e0e0;
         }
         .dashboard-container {
             margin-top: 30px;
-            margin-left: 30px; /* Shift towards the left */
+            /* margin-left: 30px; Shift towards the left */
         }
         .card {
             border: none;
@@ -52,6 +52,7 @@
     </style>
 </head>
 <body>
+    
     <div class="container dashboard-container">
         <br><br>
         <h2 class="mb-4">Dashboard Overview</h2>
