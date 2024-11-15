@@ -212,9 +212,9 @@
             </div>
         </div>
     </div>
-    <button class="profile-btn" onclick="redirectToChatify()">
+    {{-- <button class="profile-btn" onclick="redirectToChatify()">
         <i class="bi bi-chat"></i>
-    </button>
+    </button> --}}
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>

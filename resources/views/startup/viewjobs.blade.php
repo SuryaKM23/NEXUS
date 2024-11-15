@@ -9,21 +9,35 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
-        .edit-button {
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white; /* White text */
+        .edit-button, .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
         }
-        .edit-button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+        .delete-button {
+            background-color: #dc3545;
+            margin-right: 70px;
+        }
+        .edit-button:hover, .delete-button:hover {
+            background-color: #0056b3;
+        }
+        .card {
+            position: relative;
+            margin-bottom: 1rem;
         }
         .form-row {
             margin-bottom: 1rem; /* Spacing between rows */
         }
         .nav-link {
-        text-decoration: none;
-        color: rgb(0, 0, 0);
-        padding: .5rem 1rem;
-      }
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            padding: .5rem 1rem;
+        }
+        .job-card {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -31,7 +45,7 @@
 <div class="container mt-5">
     <h2 class="mb-4">Job Listings</h2>
     <div id="alert-container"></div>
-    <div id="recent-jobs-container"></div>
+    <div id="recent-jobs-container" class="row"></div> <!-- Row container for jobs -->
 
     <!-- Modal for Delete Confirmation -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -147,20 +161,27 @@ function fetchJobs() {
         success: function(response) {
             let jobsHtml = '';
             if (response.success && response.data.length > 0) {
-                response.data.forEach(function(job) {
+                response.data.forEach(function(job, index) {
+                    // Create two jobs per row
+                    if (index % 2 === 0) {
+                        jobsHtml += `<div class="col-md-6">`; // Start new row for every 2 jobs
+                    }
                     jobsHtml += `
-                        <div class="card mb-3">
+                        <div class="card job-card">
                             <div class="card-body">
                                 <h5 class="card-title"><b>${job.job_title}</b></h5>
                                 <p><strong>Company:</strong> ${job.company_name}</p>
                                 <p><strong>Location:</strong> ${job.job_location}</p>
                                 <p><strong>Salary:</strong> ${job.salary}</p>
                                 <p><strong>Application Deadline:</strong> ${new Date(job.application_deadline).toLocaleDateString()}</p>
-                                <button onclick="confirmDelete(${job.id});" class="btn btn-danger">Delete</button>
+                                <button onclick="confirmDelete(${job.id});" class="btn delete-button">Delete</button>
                                 <button onclick="showEditJobModal(${job.id}, '${job.job_title}', '${job.job_description}', '${job.company_name}', '${job.job_location}', '${job.salary}', '${job.application_deadline}', '${job.job_type}', '${job.experience_level}', '${job.required_skills}');" class="btn edit-button">Edit</button>
                             </div>
                         </div>
                     `;
+                    if (index % 2 === 1 || index === response.data.length - 1) {
+                        jobsHtml += `</div>`; // Close row after every 2 jobs
+                    }
                 });
             } else {
                 jobsHtml = '<div class="alert alert-warning">No jobs found for your company.</div>';
@@ -172,7 +193,6 @@ function fetchJobs() {
         }
     });
 }
-
 
 function confirmDelete(id) {
     currentJobId = id; // Set the current job ID for deletion
@@ -188,60 +208,47 @@ function deleteJob(id) {
         },
         success: function(response) {
             if (response.success) {
-                fetchJobs(); // Refresh jobs after deletion
-                showAlert('Job deleted successfully.', 'success');
-            } else {
-                showAlert('Error deleting job.', 'danger');
+                fetchJobs(); // Refresh the job listings after deletion
             }
         },
-        error: function() {
-            showAlert('Error deleting job.', 'danger');
+        error: function(xhr, status, error) {
+            console.error('Error deleting job:', error);
         }
     });
 }
 
-function showEditJobModal(id, job_title, job_description, companyName, jobLocation, salary, applicationDeadline, jobType, experienceLevel, requiredSkills) {
-    currentJobId = id; // Set the current job ID for editing
-    $('#editJobId').val(id);
-    $('#editJobTitle').val(job_title);
-    $('#editJobDescription').val(job_description);
-    $('#editJobCompany').val(companyName);
-    $('#editJobLocation').val(jobLocation);
+function showEditJobModal(id, title, description, company, location, salary, deadline, type, level, skills) {
+    currentJobId = id;
+    $('#editJobTitle').val(title);
+    $('#editJobDescription').val(description);
+    $('#editJobCompany').val(company);
+    $('#editJobLocation').val(location);
     $('#editJobSalary').val(salary);
-    $('#editJobDeadline').val(applicationDeadline);
-    $('#editJobType').val(jobType);
-    $('#editExperienceLevel').val(experienceLevel);
-    $('#editRequiredSkills').val(requiredSkills);
-    $('#editJobModal').modal('show'); // Show the edit job modal
+    $('#editJobDeadline').val(deadline);
+    $('#editJobType').val(type);
+    $('#editExperienceLevel').val(level);
+    $('#editRequiredSkills').val(skills);
+    $('#editJobModal').modal('show'); // Show the edit modal
 }
 
 function updateJob(id) {
-    const formData = $('#editJobForm').serialize(); // Serialize the form data
     $.ajax({
         url: "{{ url('/update-job') }}/" + id, // Adjust URL to match your update route
         type: 'PUT',
+        data: $('#editJobForm').serialize(),
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
         },
-        data: formData,
         success: function(response) {
             if (response.success) {
-                fetchJobs(); // Refresh jobs after updating
-                $('#editJobModal').modal('hide'); // Hide the edit modal
-                showAlert('Job updated successfully.', 'success');
-            } else {
-                showAlert('Error updating job.', 'danger');
+                $('#editJobModal').modal('hide');
+                fetchJobs(); // Refresh the job listings after update
             }
         },
-        error: function() {
-            showAlert('Error updating job.', 'danger');
+        error: function(xhr, status, error) {
+            console.error('Error updating job:', error);
         }
     });
-}
-
-function showAlert(message, type) {
-    const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`;
-    $('#alert-container').html(alertHtml);
 }
 </script>
 </body>
