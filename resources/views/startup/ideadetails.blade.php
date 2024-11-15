@@ -24,7 +24,7 @@
             font-size: 14px;
         }
         .card-body {
-            padding-top: 50px;
+            padding-top: 15px;
         }
         .edit-button {
             background-color: #007bff;
@@ -40,6 +40,14 @@
         .delete-button:hover {
             background-color: #931925;
         }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .col-12.col-md-6 {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +55,7 @@
     <div class="container mt-5">
         <h2 class="mb-4">Idea Listings</h2>
         <div id="alert-container"></div>
-        <div id="recent-Ideas-container"></div>
+        <div class="row" id="recent-Ideas-container"></div>
 
         <!-- Modal for Delete Confirmation -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -128,17 +136,18 @@
                             `;
 
                             IdeasHtml += `
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="card-header-buttons">
-                                            ${editButton} ${deleteButton}
+                                <div class="col-12 col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="card-header-buttons">
+                                                ${editButton} ${deleteButton}
+                                            </div>
+                                            <h5 class="card-title"><b>${viewIdea.title}</b></h5>
+                                            <p><strong>Description:</strong> ${viewIdea.description}</p>
+                                            <p><strong>Estimated Amount: ₹</strong> ${viewIdea.estimated_amount}</p>
+                                            <p><strong>Estimated Turn Over: ₹</strong> ${viewIdea.estimated_turn_over}</p>
+                                            <p><strong>Date Of Post:</strong> ${new Date(viewIdea.created_at).toLocaleDateString()}</p>
                                         </div>
-                                        <h5 class="card-title"><b>${viewIdea.title}</b></h5>
-                                        <p><strong>Company:</strong> ${viewIdea.company_name}</p>
-                                        <p><strong>Description:</strong> ${viewIdea.description}</p>
-                                        <p><strong>Estimated Amount: ₹</strong> ${viewIdea.estimated_amount}</p>
-                                        <p><strong>Estimated Turn Over: ₹</strong> ${viewIdea.estimated_turn_over}</p>
-                                        <p><strong>Date Of Post:</strong> ${new Date(viewIdea.created_at).toLocaleDateString()}</p>
                                     </div>
                                 </div>
                             `;
@@ -224,8 +233,8 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        $('#editIdeaModal').modal('hide');
                         fetchIdeas();
+                        $('#editIdeaModal').modal('hide');
                         showAlert('Idea updated successfully.', 'success');
                     } else {
                         showAlert('Error updating Idea.', 'danger');
@@ -239,13 +248,13 @@
 
         function showAlert(message, type) {
             $('#alert-container').html(`
-                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                <div class="alert alert-${type}">
                     ${message}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
             `);
+            setTimeout(function() {
+                $('#alert-container').html('');
+            }, 3000);
         }
     </script>
 </body>
