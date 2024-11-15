@@ -24,23 +24,21 @@
             font-size: 14px;
         }
         .card-body {
-            padding-top: 50px; /* To avoid overlap with buttons */
+            padding-top: 50px;
         }
         .edit-button {
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white; /* White text */
+            background-color: #007bff;
+            color: white;
         }
         .edit-button:hover {
             background-color: #0056b3;
-            color: white; /* Darker shade on hover */
         }
         .delete-button {
-            background-color: #dc3545; /* Bootstrap danger color */
+            background-color: #dc3545;
             color: white;
         }
         .delete-button:hover {
-            background-color: #931925; /* Darker shade on hover */
-            color: white;
+            background-color: #931925;
         }
     </style>
 </head>
@@ -87,7 +85,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn edit-button" id="updateIdeaButton">Update Idea</button>
+                        <button type="button" class="btn btn-primary" id="updateIdeaButton">Update Idea</button>
                     </div>
                 </div>
             </div>
@@ -98,15 +96,13 @@
         let currentIdeaId = null;
 
         $(document).ready(function() {
-            fetchIdeas(); // Fetch Ideas on page load
+            fetchIdeas();
 
-            // Handle Idea deletion confirmation
             $('#confirmDeleteButton').on('click', function() {
-                deleteIdea(currentIdeaId); // Pass the current Idea ID for deletion
-                $('#deleteModal').modal('hide'); // Hide the modal after confirming deletion
+                deleteIdea(currentIdeaId);
+                $('#deleteModal').modal('hide');
             });
 
-            // Handle Idea update button click
             $('#updateIdeaButton').on('click', function() {
                 updateIdea(currentIdeaId);
             });
@@ -114,7 +110,7 @@
 
         function fetchIdeas() {
             $.ajax({
-                url: "{{ url('/IdeasDetails') }}", // Ensure this matches your route in web.php
+                url: "{{ url('/IdeasDetails') }}",
                 type: 'GET',
                 success: function(response) {
                     let IdeasHtml = '';
@@ -131,19 +127,11 @@
                                 </button>
                             `;
 
-                            // Check if both buttons should be displayed or just one
-                            let buttons = '';
-                            if (editButton && deleteButton) {
-                                buttons = editButton + deleteButton;
-                            } else {
-                                buttons = (editButton || deleteButton);
-                            }
-
                             IdeasHtml += `
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="card-header-buttons">
-                                            ${buttons}
+                                            ${editButton} ${deleteButton}
                                         </div>
                                         <h5 class="card-title"><b>${viewIdea.title}</b></h5>
                                         <p><strong>Company:</strong> ${viewIdea.company_name}</p>
@@ -167,20 +155,20 @@
         }
 
         function confirmDelete(id) {
-            currentIdeaId = id; // Set the current Idea ID for deletion
-            $('#deleteModal').modal('show'); // Show the delete confirmation modal
+            currentIdeaId = id;
+            $('#deleteModal').modal('show');
         }
 
         function deleteIdea(id) {
             $.ajax({
-                url: "{{ url('/delete-Idea') }}/" + id, // Adjust URL to match your delete route
+                url: "{{ url('/delete-Idea') }}/" + id,
                 type: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     if (response.success) {
-                        fetchIdeas(); // Refresh Ideas after deletion
+                        fetchIdeas();
                         showAlert('Idea deleted successfully.', 'success');
                     } else {
                         showAlert('Error deleting Idea.', 'danger');
@@ -193,34 +181,32 @@
         }
 
         function showEditIdeaModal(id, title, description, companyName, estimatedAmount, estimatedTurnOver, createdAt) {
-            currentIdeaId = id; // Store the current Idea ID
-
-            // Populate the edit form fields
+            currentIdeaId = id;
             $('#editIdeaModal .modal-body').html(`
                 <form id="editIdeaForm">
                     <div class="form-group">
-                        <label for="editTitle">Title</label>
-                        <input type="text" class="form-control" id="editTitle" name="title" value="${title}" required>
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="${title}" required>
                     </div>
                     <div class="form-group">
-                        <label for="editCompanyName">Company Name</label>
-                        <input type="text" class="form-control" id="editCompanyName" name="company_name" value="${companyName}" required>
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required>${description}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editDescription">Description</label>
-                        <textarea class="form-control" id="editDescription" name="description" required>${description}</textarea>
+                        <label for="company_name">Company Name</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name" value="${companyName}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="editEstimatedAmount">Estimated Amount</label>
-                        <input type="number" class="form-control" id="editEstimatedAmount" name="estimated_amount" value="${estimatedAmount}" required>
+                        <label for="estimated_amount">Estimated Amount</label>
+                        <input type="number" class="form-control" id="estimated_amount" name="estimated_amount" value="${estimatedAmount}" required>
                     </div>
                     <div class="form-group">
-                        <label for="editEstimatedTurnOver">Estimated Turn Over</label>
-                        <input type="number" class="form-control" id="editEstimatedTurnOver" name="estimated_turn_over" value="${estimatedTurnOver}" required>
+                        <label for="estimated_turn_over">Estimated Turn Over</label>
+                        <input type="number" class="form-control" id="estimated_turn_over" name="estimated_turn_over" value="${estimatedTurnOver}" required>
                     </div>
                     <div class="form-group">
-                        <label for="editCreatedAt">Date Of Post</label>
-                        <input type="text" class="form-control" id="editCreatedAt" value="${new Date(createdAt).toLocaleDateString()}" disabled>
+                        <label for="created_at">Date of Post</label>
+                        <input type="text" class="form-control" id="created_at" name="created_at" value="${createdAt}" readonly>
                     </div>
                 </form>
             `);
@@ -228,19 +214,19 @@
         }
 
         function updateIdea(id) {
-            let formData = $('#editIdeaForm').serialize();
+            const formData = $('#editIdeaForm').serialize();
             $.ajax({
-                url: "{{ url('/update-Idea') }}/" + id, // Adjust URL to match your update route
-                type: 'POST',
+                url: "{{ url('/update-Idea') }}/" + id,
+                type: 'PUT',
                 data: formData,
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     if (response.success) {
-                        fetchIdeas(); // Refresh Ideas after update
-                        showAlert('Idea updated successfully.', 'success');
                         $('#editIdeaModal').modal('hide');
+                        fetchIdeas();
+                        showAlert('Idea updated successfully.', 'success');
                     } else {
                         showAlert('Error updating Idea.', 'danger');
                     }

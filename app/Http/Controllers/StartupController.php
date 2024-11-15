@@ -157,48 +157,49 @@ public function viewIdeas(): JsonResponse|view
     return view('startup.ideadetails', ['ideas' => $ideas]);
 }
 
-    // Delete idea by ID
-    public function deleteIdea($id): JsonResponse
-    {
-        $idea = Startup::find($id);
-        if (!$idea) {
-            return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
-        }
-
-        $idea->delete();
-        return response()->json(['success' => true, 'message' => 'Idea deleted successfully.']);
+// Delete idea by ID
+public function deleteIdea($id): JsonResponse
+{
+    $idea = Startup::find($id);
+    if (!$idea) {
+        return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
     }
 
-    // Show edit form for the idea by ID
-    public function editIdea($id)
-    {
-        $idea = Startup::find($id);
-        if (!$idea) {
-            return redirect()->back()->withErrors('Idea not found.');
-        }
+    $idea->delete();
+    return response()->json(['success' => true, 'message' => 'Idea deleted successfully.']);
+}
 
-        return view('startup.EditIdeas', compact('idea'));
+// Show edit form for the idea by ID
+public function editIdea($id)
+{
+    $idea = Startup::find($id);
+    if (!$idea) {
+        return redirect()->back()->withErrors('Idea not found.');
     }
 
-    // Update idea by ID
-    public function updateIdea(Request $request, $id): JsonResponse
-    {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'estimated_amount' => 'required|numeric',
-            'estimated_turn_over' => 'required|numeric',
-        ]);
+    return view('startup.EditIdeas', compact('idea'));
+}
 
-        $idea = Startup::find($id);
-        if (!$idea) {
-            return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
-        }
+// Update idea by ID
+public function updateIdea(Request $request, $id): JsonResponse
+{
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'estimated_amount' => 'required|numeric',
+        'estimated_turn_over' => 'required|numeric',
+    ]);
 
-        $idea->update($validatedData);
-
-        return response()->json(['success' => true, 'message' => 'Idea updated successfully.']);
+    $idea = Startup::find($id);
+    if (!$idea) {
+        return response()->json(['success' => false, 'message' => 'Idea not found.'], 404);
     }
+
+    $idea->update($validatedData);
+
+    return response()->json(['success' => true, 'message' => 'Idea updated successfully.']);
+}
+
     //job
 
     public function showJobForm()
@@ -340,8 +341,6 @@ public function updateJob(Request $request, $id)
     $validatedData = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
-        'estimated_amount' => 'required|numeric',
-        'estimated_turn_over' => 'required|numeric',
         'company_name' => 'required|string|max:255',
         'job_location' => 'required|string|max:255',
         'salary' => 'required|string|max:255',
@@ -351,16 +350,23 @@ public function updateJob(Request $request, $id)
         'required_skills' => 'required|string',
     ]);
 
-    // Find the startup record by ID
-    $startup = Startup::find($id);
+    // Find the job to update
+    $job = Job::find($id);
 
-    if ($startup) {
-        // Update the startup record with validated data
-        $startup->update($validatedData);
-        return response()->json(['success' => true, 'message' => 'Job updated successfully.']); // Return success response
+    if ($job) {
+        // Update job fields
+        $job->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Job updated successfully.',
+        ], 200);
     }
 
-    return response()->json(['success' => false, 'message' => 'Job not found.']); // Return error response
+    return response()->json([
+        'success' => false,
+        'message' => 'Job not found.',
+    ], 404);
 }
 
 // Method to delete a job
@@ -376,6 +382,8 @@ public function deleteJob($id)
 
     return response()->json(['success' => false, 'message' => 'Job not found.'], 404);
 }
+
+// profile
 public function showProfileDetails()
 {
     // Get the user's basic details from the Auth

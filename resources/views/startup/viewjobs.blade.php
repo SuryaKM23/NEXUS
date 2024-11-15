@@ -142,7 +142,7 @@ $(document).ready(function() {
 
 function fetchJobs() {
     $.ajax({
-        url: "{{ url('/viewJobs') }}", // Ensure this matches your route in web.php
+        url: "{{ url('/viewJobs') }}",
         type: 'GET',
         success: function(response) {
             let jobsHtml = '';
@@ -167,11 +167,12 @@ function fetchJobs() {
             }
             $('#recent-jobs-container').html(jobsHtml);
         },
-        error: function() {
-            $('#recent-jobs-container').html('<div class="alert alert-danger">Error fetching jobs.</div>');
+        error: function(xhr, status, error) {
+            $('#recent-jobs-container').html('<div class="alert alert-danger">Error fetching jobs: ' + error + '</div>');
         }
     });
 }
+
 
 function confirmDelete(id) {
     currentJobId = id; // Set the current job ID for deletion

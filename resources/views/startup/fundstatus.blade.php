@@ -105,6 +105,7 @@
 
         .details a:hover {
             background-color: #2980b9;
+            color:#fff;
         }
         .nav-link {
         text-decoration: none;

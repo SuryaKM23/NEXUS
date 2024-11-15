@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    @include("startup.nav")
+    @include("investor.nav")
 <div class="container mt-5">
     <h2 class="text-center">Edit Profile</h2>
     
