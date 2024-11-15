@@ -139,9 +139,9 @@
               
             </div>
           </li>
-        <li>
-        <x-app-layout>
-        </x-app-layout>
-        </li>
+          <li>
+            <x-app-layout>
+            </x-app-layout>
+            </li>
       </div>
     </nav>

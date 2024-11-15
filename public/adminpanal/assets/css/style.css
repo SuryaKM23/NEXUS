@@ -20356,7 +20356,7 @@ div.tagsinput {
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
     background: #191c24;
-    width: 244px;
+    width: 250px;
     height: 70px; }
     @media (max-width: 991px) {
       .navbar .navbar-brand-wrapper {
@@ -20628,7 +20628,7 @@ div.tagsinput {
   font-weight: normal;
   padding: 0;
   width: 244px;
-  z-index: 11;
+  z-index: 1111;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;

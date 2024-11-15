@@ -44,7 +44,7 @@
         .search-box {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: px;
             padding-left: 15px;
         }
         
@@ -215,7 +215,7 @@
                 <div class="search-container">
                     <div class="search-box mb-4">
                         <h1 class="section-title">Find Job</h1>
-                        <input type="text" class="form-control" id="search-input" placeholder="Search" oninput="fetchSuggestions()">
+                        <input type="text" class="form-control" id="search-input" placeholder="Search for job titles..." oninput="fetchSuggestions()">
                         <div id="suggestions" class="suggestions-list"></div>
                     </div>
                 </div>
@@ -232,34 +232,13 @@
 <div class="crowdfunding-section container">
 <h2 class="crowdfunding-title">Crowdfunding for Startups</h2>
 <div class="crowdfunding-info">
-    <p>Are you a startup looking for funding? Contribute to our crowdfunding platform and receive the
-        support you need to grow your business. Learn more about how we can help you!</p>
+    <p>Are you a crowdfunder looking to support a promising startup? Join our crowdfunding platform and help startups get the funding they need to grow, innovate, and succeed. Your contribution can make a real difference in the success of a startup’s journey. Become a part of their success.</p>
 </div>
 <a href="/getcrowdfundingstartups" class="crowdfunding">
     <button class="btn btn-primary">Start a Contribution Now</button>
 </a>
 </div>
 
-<!-- Job Content Section -->
-<div class="job-content container">
-<h2>Job Opportunities & Startups</h2>
-<div class="vc-info">
-    <h3>About Venture Capitalists (VCs)</h3>
-    <ul>
-        <li>VCs provide funding for startups and emerging companies in exchange for equity.</li>
-        <li>They help startups scale by offering guidance, networking opportunities, and capital.</li>
-        <li>VCs are essential players in the startup ecosystem.</li>
-    </ul>
-</div>
-<div class="startup-info">
-    <h3>About Startups</h3>
-    <ul>
-        <li>Startups are newly established businesses focused on innovation and growth.</li>
-        <li>They aim to solve real-world problems with cutting-edge technologies.</li>
-        <li>Startups often require funding, mentorship, and support to succeed.</li>
-    </ul>
-</div>
-</div>
 
     <!-- Chatify Button -->
     {{-- <button class="profile-btn" onclick="redirectToChatify()">

@@ -10,7 +10,7 @@
         body {
             background-color: #f4f7fa;
             font-family: 'Arial', sans-serif;
-            color: #333;
+            color: #000000;
         }
     
         .container {
@@ -57,7 +57,7 @@
     
         .job-details-card p {
             font-size: 1.2rem;
-            color: #6c757d;
+            color: #000000;
             line-height: 1.8;
             margin: 1px 0;
         }
@@ -91,7 +91,7 @@
     
         /* Buttons */
         .btn-secondary {
-            background-color: #6c757d;
+            background-color: #0088ff;
             color: white;
             padding: 12px 30px;
             border-radius: 30px;

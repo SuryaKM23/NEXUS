@@ -41,7 +41,11 @@
             width: 60%;
             padding: 50px;
         }
-
+        .nav-link {
+        text-decoration: none;
+        color: rgb(0, 0, 0);
+        padding: .5rem 1rem;
+      }
         header {
             font-size: 26px;
             margin-bottom: 25px;

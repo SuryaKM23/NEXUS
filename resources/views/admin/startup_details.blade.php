@@ -21,7 +21,7 @@
             margin: auto;
             border-collapse: collapse;
             color: white; /* Ensure table text color is white */
-            text-align: center;
+            text-align:left;
         }
 
         th, td, tr {
@@ -42,6 +42,7 @@
     </style>
 </head>
 <body>
+    
     <div class="container-scroller">
         @include('admin.sidebar')
         @include('admin.partial')
