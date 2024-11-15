@@ -1,6 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <div></div>
-    <img src="{{ asset('logo/logo.png') }}" alt="Startup Logo" style="width: 200px; display: block; margin: 10px auto;">
+    <img src="{{ asset('logo/logo.png') }}" alt="Startup Logo" style="width: 180px; display: block; margin: 20px 30px;"
+    >
     <ul class="nav">
         <li class="nav-item menu-items {{ Request::is('Home') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('/Home') }}">

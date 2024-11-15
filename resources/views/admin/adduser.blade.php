@@ -190,7 +190,7 @@
           <div id="message" class="message"></div>
           <form action="{{ url('/add_form') }}" class="form" method="post" id="add_form">
             @csrf
-            <header>Admin</header>
+            <header>Add Admin</header>
             <div class="input-box">
               <label>Name</label>
               <input type="text" class="input_color" name="name" placeholder="name" required />

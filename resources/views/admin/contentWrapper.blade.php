@@ -55,7 +55,7 @@
     
     <div class="container dashboard-container">
         <br><br>
-        <h2 class="mb-4">Dashboard Overview</h2>
+        <h2 class="mb-4"><strong>Dashboard Overview</h2>
 
         <!-- Cards Section -->
         <div class="row mb-4">

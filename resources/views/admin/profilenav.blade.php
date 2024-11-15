@@ -12,6 +12,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 60px;
       background-color: #191c24;
       padding: 10px 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,7 +25,7 @@
     }
   
     .logo-image {
-      width: 140px;
+      width: 180px;
       height: auto; /* Maintain aspect ratio */
     }
   
