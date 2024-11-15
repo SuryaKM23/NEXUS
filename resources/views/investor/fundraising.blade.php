@@ -187,7 +187,7 @@
                         <div class="col-md-4 mb-3">
                             <div class="startup-item border p-3">
                                 <div class="data-spacing">
-                                    <h5 class="company-name">${startup.company_name}</h5>
+                                   <a href="/profile/${startup.company_name}"><h5 class="company-name">${startup.company_name}</h5></a>
                                     <p class="title" style="font-size: 24px; font-weight: bold;">${startup.title}</p>
                                     <p>${startup.description}</p>
                                     <p><strong>Estimation amount: </strong> ${startup.estimated_amount}</p>

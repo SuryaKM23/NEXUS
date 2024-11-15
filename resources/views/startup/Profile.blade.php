@@ -49,8 +49,8 @@
                     @method('PUT')
 
                     <div class="form-group mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                        <label for="username">Name</label>
+                        <input type="text" name="username" id="username" class="form-control" value="" readonly>
                     </div>
                     
                     <div class="form-group mb-3">
@@ -77,6 +77,10 @@
                         <label for="profile_pic">Profile Picture</label>
                         <input type="file" name="profile_pic" id="profile_pic" class="form-control">
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="file">Portfolio</label>
+                        <input type="file" name="file" id="file" class="form-control">
+                    </div>
 
                     <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
                 </form>
@@ -85,6 +89,21 @@
     </div>
 
     <script>
+        $(document).ready(function () {
+        $.ajax({
+            url: '{{ route('fetch.company.name') }}',
+            type: 'GET',
+            success: function (response) {
+                if (response.company_name) {
+                    $('#username').val(response.company_name);
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseJSON.error || 'An error occurred');
+            }
+        });
+    });
+    
     $(document).ready(function() {
         $('#editProfileForm').submit(function(e) {
             e.preventDefault();
@@ -119,6 +138,7 @@
             });
         });
     });
+    
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

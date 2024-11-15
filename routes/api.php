@@ -57,3 +57,8 @@ Route::delete('delete-idea/{id}', [StartupController::class, 'deleteIdea']);
 
 Route::post('/check-and-store-profile', [UserController::class, 'checkAndStoreProfile'])->name('checkAndStoreProfile');
 Route::get('/profile/details', [UserController::class, 'showProfileDetails'])->name('user.profile.details');
+
+
+
+
+Route::get('/profile/{company_name}', [StartupController::class, 'profilecompany']);

@@ -623,4 +623,36 @@ public function show_profile_other($email){
 
 }
 
+// porfile viwer
+
+public function profilecompany($company_name)
+{
+    $profile = UserProfile::where('username', $company_name)->first();
+
+    if (!$profile) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    if (request()->ajax()) {
+        return response()->json(['profile' => $profile]);
+    }
+
+    // For non-AJAX requests, return a view
+    return view('startup.profileother', compact('profile'));
+}
+
+
+
+public function fetchCompanyName(Request $request)
+{
+    $email = auth()->user()->email; // Assuming the user is authenticated
+    $user1 = Startupinverstor::where('email', $email)->first();
+
+    if ($user1) {
+        return response()->json(['company_name' => $user1->company_name]);
+    }
+
+    return response()->json(['error' => 'Company not found'], 404);
+}
+
 }

@@ -152,7 +152,7 @@ Route::get('/profile_details', [StartupController::class, 'showProfileDetails'])
 Route::get('/profile_edit', [StartupController::class, 'editProfile'])->name('profiles.edit');
 
 // Update profile details
-Route::post('/profile_update', [StartupController::class, 'update'])->name('profiles.update');
+Route::put('/profile_update', [StartupController::class, 'update'])->name('profiles.update');
 
 
 Route::get('/profile-details', [InvestorController::class, 'showProfileDetails'])->name('pro.details');
@@ -161,13 +161,16 @@ Route::get('/profile-details', [InvestorController::class, 'showProfileDetails']
 Route::get('/profile-edit', [InvestorController::class, 'editProfile'])->name('pro.edit');
 
 // Update profile details
-Route::post('/profile-update', [InvestorController::class, 'update'])->name('pro.update');
+Route::put('/profile-update', [InvestorController::class, 'update'])->name('pro.update');
 Route::get('/show_profile/{email}', [StartupController::class, 'show_profile']);
 
 Route::get('/profile_detail/{email}', [StartupController::class, 'show_profile_other']);
 
 
 Route::get('/get-startup-investor-email', [InvestorController::class, 'getStartupInvestorEmail']);
+Route::get('/fetch-company-name', [StartupController::class, 'fetchCompanyName'])->name('fetch.company.name');
+
+Route::get('/profile/{company_name}', [StartupController::class, 'profilecompany']);
 
 
 require __DIR__.'/auth.php';
