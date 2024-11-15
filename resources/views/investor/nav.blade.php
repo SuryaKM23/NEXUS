@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-    
   }
 
   .header {
@@ -22,8 +21,8 @@
     font-weight: bold;
   }
 
-  .logo-image {
-    width: 140px;
+  .logo img {
+    width: 150px;
     height: auto; /* Maintain aspect ratio */
   }
 
@@ -42,11 +41,19 @@
 
   .nav-link {
     text-decoration: none;
-    color: white;
+    color: black;
+    font-weight: 500;
   }
 
   .menu-icon {
     margin-right: 5px;
+  }
+
+  /* Add hamburger icon for mobile devices */
+  .menu-toggle {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
   }
 
   /* Responsive Styles */
@@ -59,32 +66,64 @@
     .nav {
       flex-direction: column; /* Stack nav items vertically */
       width: 100%; /* Full width for nav items */
+      display: none; /* Hide nav by default */
     }
 
     .nav-item {
       margin-right: 0; /* Remove right margin */
       margin-bottom: 10px; /* Add space between items */
     }
+
+    .menu-toggle {
+      display: block; /* Show hamburger icon on mobile */
+    }
+  }
+
+  /* Show navigation when menu is active */
+  .nav.active {
+    display: flex;
   }
 </style>
 
 <div class="header">
   <div class="logo">
     <a href="{{ url('/Home') }}">
-      <img src="{{ asset('logo/startup.png') }}" width="150px" height="50px" alt="Startup Logo">
+      <img src="{{ asset('logo/startup.png') }}" alt="Startup Logo">
     </a>
   </div>
-  <ul class="nav">
-    {{-- Uncomment and add additional nav items as needed --}}
-    {{-- <li class="nav-item menu-items">
-      <a class="nav-link" href="{{ url('') }}">
+
+  <!-- Hamburger Icon -->
+  <div class="menu-toggle" id="menu-toggle">
+    &#9776; <!-- Hamburger icon -->
+  </div>
+
+  <ul class="nav" id="nav-menu">
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{ url('/Home') }}">
+        <span class="menu-icon">
+          <i class="mdi mdi-table-large"></i>
+        </span>
+        <span class="menu-title">Home</span>
+      </a>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{ url('/get-crowdfunding-vc') }}">
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>
         <span class="menu-title">Investment</span>
       </a>
-    </li> --}}
+    </li>
+    <!-- Add more nav items here if needed -->
   </ul>
-  <x-app-layout></x-app-layout>
 
+  <x-app-layout></x-app-layout>
 </div>
+
+<script>
+  // Toggle the navigation menu when the hamburger icon is clicked
+  document.getElementById('menu-toggle').addEventListener('click', function() {
+    const navMenu = document.getElementById('nav-menu');
+    navMenu.classList.toggle('active'); // Toggle the 'active' class to show/hide the nav
+  });
+</script>

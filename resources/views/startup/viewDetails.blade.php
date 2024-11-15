@@ -11,17 +11,16 @@
         body {
             font-family: 'Roboto', sans-serif;
             color: #000000;
-            padding: 30px;
+            padding: 20px;
             margin: 0;
             background-color: #f9f9f9;
         }
 
         h1 {
             text-align: center;
-            font-size:8rem;
-            margin-bottom: 40px;
+            font-size: 36px;
+            margin-bottom: 20px;
             color: #000000;
-
         }
 
         .details-container {
@@ -29,11 +28,12 @@
             margin: 0 auto;
             background-color: #fff;
             border-radius: 12px;
-            padding: 0px;
+            padding: 20px;
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             gap: 20px;
+            box-sizing: border-box;
         }
 
         .startup-info {
@@ -42,13 +42,13 @@
         }
 
         .startup-info h3 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #2980b9;
             margin-bottom: 15px;
         }
 
         .startup-info p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #000000;
             margin-bottom: 10px;
         }
@@ -62,27 +62,124 @@
 
         .chart-wrapper {
             width: 100%;
-            max-width: 400px;
-            height: 400px;
+            max-width: 350px;
+            height: 350px;
         }
 
         .donut-label {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #2c3e50;
-            margin-top: 15px;
+            margin-top: 10px;
             text-align: center;
         }
+
+        /* Navigation Link Style */
         .nav-link {
-        text-decoration: none;
-        color: rgb(0, 0, 0);
-        padding: .5rem 1rem;
-      }
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            padding: .5rem 1rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .details-container {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .startup-info h3 {
+                font-size: 1.6rem;
+            }
+
+            .startup-info p {
+                font-size: 0.95rem;
+            }
+
+            .chart-container {
+                margin-top: 20px;
+                align-items: flex-start;
+            }
+
+            .chart-wrapper {
+                max-width: 300px;
+                height: 300px;
+            }
+
+            .donut-label {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .details-container {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .startup-info h3 {
+                font-size: 1.4rem;
+            }
+
+            .startup-info p {
+                font-size: 0.9rem;
+            }
+
+            .chart-wrapper {
+                max-width: 250px;
+                height: 250px;
+            }
+
+            .donut-label {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .details-container {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .startup-info h3 {
+                font-size: 1.2rem;
+            }
+
+            .startup-info p {
+                font-size: 0.8rem;
+            }
+
+            .chart-wrapper {
+                max-width: 200px;
+                height: 200px;
+            }
+
+            .donut-label {
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
     @include("startup.nav")
     <br>
-    <h1 style="font-size: 48px"><strong>Startup Funding Details</strong></h1>
+    <h1><strong>Startup Funding Details</strong></h1>
     <br>
     <br>
     <div class="details-container">
@@ -102,7 +199,6 @@
                 <canvas id="donutChart"></canvas>
             </div>
             <div class="donut-label">
-                {{-- <p><strong>Donation Progress:</strong></p> --}}
                 <p><strong>₹{{ number_format($donatedAmount, 2) }} Donated | ₹{{ number_format($startup->estimated_amount - $donatedAmount, 2) }} Remaining</p>
             </div>
         </div>
@@ -125,7 +221,7 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: '',
+                        position: 'bottom',
                     },
                     tooltip: {
                         callbacks: {

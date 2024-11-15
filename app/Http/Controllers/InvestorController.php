@@ -4,29 +4,33 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserProfile;
 use App\Models\Startup;
+use App\Models\Startupinverstor;
 use Illuminate\Http\Request;
+
 
 class InvestorController extends Controller
 {
     public function getCrowdfundingVC(Request $request)
     {
-        $search = $request->input('search');
-        $query = Startup::where('investment', 'vc');
-    
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('company_name', 'like', "%$search%")
-                  ->orWhere('title', 'like', "%$search%")
-                  ->orWhere('description', 'like', "%$search%");
-            });
-        }
-    
-        $startups = $query->get();
-    
+        // Get the search query from the request
+        $searchQuery = $request->input('search');
+        
+        // Fetch only crowdfunding startups with investment type 'vc'
+        $startups = Startup::where('investment', 'vc')
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('company_name', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('title', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('description', 'like', '%' . $searchQuery . '%');
+            })
+            ->get();
+        
+        // Check if the request is AJAX or not
         if ($request->ajax()) {
+            // Return the data as JSON if the request is AJAX
             return response()->json($startups);
         } else {
-            return view('user.Crowdfund', ['startups' => $startups]);
+            // Return the data in a view if it's a normal HTTP request
+            return view('investor.fundraising', compact('startups'));
         }
     }
 
@@ -113,4 +117,27 @@ class InvestorController extends Controller
         ]);
     }
 
-}
+        // Method to fetch email from the startupinvestor table
+        public function getStartupInvestorEmail(Request $request)
+        {
+            // Fetch the company name from the request
+            $companyName = $request->input('company_name');
+            
+            // Query the StartupInvestor table for the email where company_name matches
+            $startupInvestor = Startupinverstor::where('company_name', $companyName)->first();
+        
+            // Check if the record exists
+            if ($startupInvestor) {
+                // Return the email in the response
+                return response()->json([
+                    'email' => $startupInvestor->email
+                ]);
+            }
+        
+            // If no record found, return an error
+            return response()->json([
+                'error' => 'No startup found with the given company name.'
+            ], 404);
+        }
+    }
+    
