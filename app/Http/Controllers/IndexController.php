@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\Donation;
+use App\Models\Startup;
 
 class IndexController extends Controller
 {
@@ -90,4 +92,19 @@ class IndexController extends Controller
                'user' => $user
            ], 201);
        }
-}
+
+       public function getFactsCounts()
+       {
+           $activeUsersCount = User::count();
+           $startupCompaniesCount = User::where('usertype', 'startup')->count();
+           $totalContributions = Donation::sum('donated_amount');
+           $innovativeIdeasCount = Startup::count();
+       
+           return response()->json([
+               'activeUsersCount' => $activeUsersCount,
+               'innovativeIdeasCount' => $innovativeIdeasCount,
+               'startupCompaniesCount' => $startupCompaniesCount,
+               'totalContributions' => $totalContributions
+           ]);
+       }
+    }

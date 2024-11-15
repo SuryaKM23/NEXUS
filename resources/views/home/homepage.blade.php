@@ -190,38 +190,45 @@
     </div>
     <!-- About End -->
 
-
-    <!-- Facts Start -->
-    <div class="container-fluid facts my-5 py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
-                    <i class="fa fa-users fa-3x text-white mb-3"></i>
-                    <h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
-                    <span class="fs-5 text-white">Happy Clients</span>
-                    <hr class="bg-white w-25 mx-auto mb-0">
-                </div>
-                <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
-                    <i class="fa fa-check fa-3x text-white mb-3"></i>
-                    <h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
-                    <span class="fs-5 text-white">Projects Completed</span>
-                    <hr class="bg-white w-25 mx-auto mb-0">
-                </div>
-                <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <i class="fa fa-users-cog fa-3x text-white mb-3"></i>
-                    <h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
-                    <span class="fs-5 text-white">Project Posted</span>
-                    <hr class="bg-white w-25 mx-auto mb-0">
-                </div>
-                <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
-                    <i class="fa fa-award fa-3x text-white mb-3"></i>
-                    <h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
-                    <span class="fs-5 text-white">Contributions</span>
-                    <hr class="bg-white w-25 mx-auto mb-0">
-                </div>
+<!-- Facts Start -->
+<!-- Facts Start -->
+<div class="container-fluid facts my-5 py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <!-- Active Users -->
+            <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
+                <i class="fa fa-users fa-3x text-white mb-3"></i>
+                <h1 class="display-4 text-white" id="activeUsersCount">0</h1>
+                <span class="fs-5 text-white">Active Users</span> 
+                <hr class="bg-white w-25 mx-auto mb-0">
+            </div>
+            
+            <!-- Innovative Ideas -->
+            <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+                <i class="fa fa-lightbulb fa-3x text-white mb-3"></i>
+                <h1 class="display-4 text-white" id="innovativeIdeasCount">0</h1>
+                <span class="fs-5 text-white">Innovative Ideas</span> 
+                <hr class="bg-white w-25 mx-auto mb-0">
+            </div>
+            
+            <!-- Startup Companies -->
+            <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
+                <i class="fa fa-building fa-3x text-white mb-3"></i>
+                <h1 class="display-4 text-white" id="startupCompaniesCount">0</h1>
+                <span class="fs-5 text-white">Startup Companies</span>
+                <hr class="bg-white w-25 mx-auto mb-0">
+            </div>
+            
+            <!-- Total Contributions -->
+            <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
+                <i class="fa fa-hand-holding-heart fa-3x text-white mb-3"></i>
+                <h1 class="display-4 text-white" id="totalContributions">$0.00</h1>
+                <span class="fs-5 text-white">Total Contributions</span> 
+                <hr class="bg-white w-25 mx-auto mb-0">
             </div>
         </div>
     </div>
+</div>
     <!-- Facts End -->
 
 
@@ -625,7 +632,6 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -637,6 +643,28 @@
 
     <!-- Template Javascript -->
     <script src="landingpage/js/main.js"></script>
+
+    <script>
+        // Fetch dynamic data using AJAX
+        $(document).ready(function() {
+            $.ajax({
+                url: '/facts-counts', // Ensure this is the correct route in your Laravel app
+                method: 'GET',
+                success: function(response) {
+                    // Update the counters with the data from the response
+                    $('#activeUsersCount').text(response.activeUsersCount);
+                    $('#innovativeIdeasCount').text(response.innovativeIdeasCount);
+                    $('#startupCompaniesCount').text(response.startupCompaniesCount);
+                    $('#totalContributions').text('₹' + response.totalContributions);
+                },
+                error: function() {
+                    // Handle error if the request fails
+                    console.error('Error fetching data');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

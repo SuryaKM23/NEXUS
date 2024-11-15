@@ -32,6 +32,7 @@ Route::get('/startupregister',[StartupinverstorController::class,'view']);
 Route::post('/createregister' ,[StartupinverstorController::class,'createregister'])->name('createregister');
 
 Route::get('/Home',[IndexController::class,'Index'])->name('home');
+Route::get('/facts-counts', [IndexController::class, 'getFactsCounts']);
 // Route::get('/startup/home',[IndexController::class,'startup_home']);
 // Route::get('/investor/home',[InvestorController::class,'investor_home']);
 
