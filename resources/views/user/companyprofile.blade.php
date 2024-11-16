@@ -42,7 +42,7 @@
     </style>
 </head>
 <body>
-@include("investor.nav")
+@include("user.nav")
 
 <div class="container-fluid">
     {{-- <h2>Profile Details</h2> --}}
@@ -90,7 +90,7 @@
        $(document).ready(function() {
     const companyName = window.location.pathname.split('/').pop(); // Extract the company name from the URL
     $.ajax({
-        url: `/profile/${companyName}`,
+        url: `/profile_/${companyName}`,
         type: 'GET',
         success: function(response) {
             if (response.profile) {

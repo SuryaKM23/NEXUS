@@ -285,7 +285,7 @@
                             <div class="col-md-4 col-sm-6 mb-3">
                                 <div class="company-item">
                                     <div class="top-section">
-                                        <h5 class="company-name">${company.company_name}</h5>
+                                        <a href="/profile/${company.company_name}"><h5 class="company-name">${company.company_name}</h5></a>
                                         <p class="company-title"><strong>${company.title}</strong></p>
                                         <p class="company-description">${company.description.substring(0, 100)}...</p>
                                         <p class="description">${company.description}</p>

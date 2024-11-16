@@ -623,7 +623,7 @@ public function show_profile_other($email){
 
 }
 
-// porfile viwer
+// porfile viwer investor
 
 public function profilecompany($company_name)
 {
@@ -641,7 +641,24 @@ public function profilecompany($company_name)
     return view('startup.profileother', compact('profile'));
 }
 
+//user side
+public function profile_company($company_name)
+{
+    $profile = UserProfile::where('username', $company_name)->first();
 
+    if (!$profile) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    if (request()->ajax()) {
+        return response()->json(['profile' => $profile]);
+    }
+
+    // For non-AJAX requests, return a view
+    return view('user.companyprofile', compact('profile'));
+}
+
+//
 
 public function fetchCompanyName(Request $request)
 {

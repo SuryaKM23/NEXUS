@@ -111,7 +111,7 @@
         <span class="menu-icon">
           <i class="mdi mdi-table-large"></i>
         </span>
-        <span class="menu-title">Investment</span>
+        <span class="menu-title">Fund Raising</span>
       </a>
     </li>
     <!-- Add more nav items here if needed -->

@@ -171,6 +171,7 @@ Route::get('/get-startup-investor-email', [InvestorController::class, 'getStartu
 Route::get('/fetch-company-name', [StartupController::class, 'fetchCompanyName'])->name('fetch.company.name');
 
 Route::get('/profile/{company_name}', [StartupController::class, 'profilecompany']);
+Route::get('/profile_/{company_name}', [StartupController::class, 'profile_company']);
 
 
 require __DIR__.'/auth.php';

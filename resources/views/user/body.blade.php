@@ -281,9 +281,9 @@
             window.location.href = "{{ route('search.jobs') }}?search=" + jobTitle;
         }
 
-        function redirectToChatify() {
-            window.location.href = `/chatify/`;
-        }
-    </script>
+    //     function redirectToChatify() {
+    //         window.location.href = `/chatify/`;
+    //     }
+    // </script>
 </body>
 </html>
