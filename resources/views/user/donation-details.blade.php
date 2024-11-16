@@ -77,7 +77,7 @@
                         $.each(data, function(index, donation) {
                             $('#donation-details').append(`
                                 <div class="donation-item" data-id="${donation.id}">
-                                    <h5><strong>Company Name:</strong> ${donation.company_name}</h5>
+                                   <a href="/profile/${donation.company_name}"><h5><strong>Company Name:</strong> ${donation.company_name}</h5></a>
                                     <p><strong>Donated Amount:</strong> ₹${donation.donated_amount}</p>
                                     <p><strong>Transaction ID: </strong> ${donation.transaction_id}</p>
                                     <p><strong>Date:</strong> ${new Date(donation.created_at).toLocaleDateString()}</p>

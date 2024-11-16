@@ -133,7 +133,7 @@
                                 '<div class="donation-item row mx-1 mb-3" data-url="/job/details/' + job.job_id + '">' +
                                     '<div class="col-md-8">' +
                                         '<strong>Job Title:</strong> ' + job.job_title + '<br>' +
-                                        '<strong>Company Name:</strong> ' + job.company_name + '<br>' +
+                                        ' <strong>Company :</strong> <a href="/profile/${job.company_name}">' + job.company_name + '</a><br>' +
                                         '<strong>Date of Posting:</strong> ' + new Date(job.updated_at).toLocaleDateString() +
                                     '</div>' +
                                     '<div class="col-md-4 text-right"></div>' +

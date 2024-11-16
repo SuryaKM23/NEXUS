@@ -148,6 +148,7 @@
                                     <div class="job-item" data-id="${job.id}">
                                         <div class="job-details">
                                             <h5 class="job-title" data-id="${job.id}">${job.job_title}</h5>
+                                             <a href="/profile/${job.company_name}"><p><h2><strong>${job.company_name}</p></strong></h2></a>
                                             <p>${job.job_description}</p>
                                             <p><strong>Location:</strong> ${job.job_location}</p>
                                             <p><strong>Salary:</strong> ${job.salary}</p>
