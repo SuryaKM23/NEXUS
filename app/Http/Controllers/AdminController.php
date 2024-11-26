@@ -59,59 +59,58 @@ class AdminController extends Controller
     public function startup_details(Request $request)
     {
         try {
-            // Fetch data where usertype is 'investor' and status is 'accepted'
+            // Fetch data where usertype is 'startup' and status is 'accepted'
             $data = Startupinverstor::where('usertype', 'startup')
                             ->where('status', 'accepted')
                             ->get();
-
-            // Check if the request is AJAX
-            if ($request->ajax()) {
+    
+            // Check the request type
+            if ($request->expectsJson()) {
+                // Return JSON response if requested
                 return response()->json(['data' => $data]);
-            } else {
-                // If not AJAX, return a view with the data
-                return view('admin.startup_details', compact('data'));
             }
+    
+            // Return view with data
+            return view('admin.startup_details', ['data' => $data]);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur
-            if ($request->ajax()) {
-                // If AJAX, return JSON with error message
+            if ($request->expectsJson()) {
+                // Return JSON with error message on exception
                 return response()->json(['error' => $e->getMessage()], 500);
-            } else {
-                // If not AJAX, return a view with an error message
-                return view('error_page', ['error' => $e->getMessage()]);
             }
+    
+            // Return view with error message
+            return view('admin.error', ['message' => $e->getMessage()]);
         }
-    }   
-
+    }
 
     //investor details fetch 
 
     public function investor_details(Request $request)
-    {
-        try {
-            // Fetch data where usertype is 'investor' and status is 'accepted'
-            $data = Startupinverstor::where('usertype', 'investor')
-                            ->where('status', 'accepted')
-                            ->get();
+{
+    try {
+        // Fetch data where usertype is 'investor' and status is 'accepted'
+        $data = Startupinverstor::where('usertype', 'investor')
+                        ->where('status', 'accepted')
+                        ->get();
 
-            // Check if the request is AJAX
-            if ($request->ajax()) {
-                return response()->json(['data' => $data]);
-            } else {
-                // If not AJAX, return a view with the data
-                return view('admin.investor_details', compact('data'));
-            }
-        } catch (\Exception $e) {
-            // Handle any exceptions that occur
-            if ($request->ajax()) {
-                // If AJAX, return JSON with error message
-                return response()->json(['error' => $e->getMessage()], 500);
-            } else {
-                // If not AJAX, return a view with an error message
-                return view('error_page', ['error' => $e->getMessage()]);
-            }
+        // Check if the request expects JSON (e.g., AJAX)
+        if ($request->expectsJson()) {
+            return response()->json(['data' => $data]);
         }
-    }    
+
+        // Otherwise, return a view with the data
+        return view('admin.investor_details', ['data' => $data]);
+    } catch (\Exception $e) {
+        // Handle exceptions separately for JSON and view
+        if ($request->expectsJson()) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        // Return a view with the error message
+        return view('error_page', ['error' => $e->getMessage()]);
+    }
+}
+ 
 
 
     // over all accept and reject code

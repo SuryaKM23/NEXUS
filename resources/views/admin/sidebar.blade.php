@@ -1,6 +1,6 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <div></div>
-    <img src="{{ asset('logo/logo.png') }}" alt="Startup Logo" style="width: 180px; display: block; margin: 20px 30px;"
+    <img src="{{ asset('logo/logo.png') }}" alt="Startup Logo" style="width: 150px; display: block; margin: 20px 30px;"
     >
     <ul class="nav">
         <li class="nav-item menu-items {{ Request::is('Home') ? 'active' : '' }}">
@@ -35,14 +35,14 @@
                 <span class="menu-title">Investor Information</span>
             </a>
         </li>
-        <li class="nav-item menu-items {{ Request::is('view_form') ? 'active' : '' }}">
+        {{-- <li class="nav-item menu-items {{ Request::is('view_form') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('view_form') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-account-multiple-plus"></i>
                 </span>
                 <span class="menu-title">Add Admin</span>
             </a>
-        </li>
+        </li> --}}
     </ul>
 </nav>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

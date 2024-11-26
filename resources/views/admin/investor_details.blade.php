@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Investor Details Management</title>
-        <!-- Include your CSS -->
-        @include('admin.css')
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                color: white;
-            }
-    
-            .table-container {
-                
-                overflow-x: auto; /* Enable horizontal scroll if needed */
-            }
-    
-            table {
-                width: auto;
-                /* margin: auto; */
-                border-collapse: collapse;
-                color: aliceblue;
-                text-align: center;
-            }
-    
-            th, td, tr {
-                border: 1px solid #ddd;
-                padding: 5px;
-                text-align: center;
-            }
-    
-            th {
-                background-color: rgb(27, 27, 27);
-                color: white;
-            }
-        </style>
-    
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Details Management</title>
+    <!-- Include your CSS -->
+    @include('admin.css')
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            color: white;
+            text-align: left;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            color: white;
+        }
+
+        th {
+            background-color: rgb(27, 27, 27);
+            color: white;
+        }
+
+        .alert {
+            color: black;
+        }
+    </style>
+</head>
 <body>
     <div class="container-scroller">
         @include('admin.sidebar')

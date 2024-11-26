@@ -4,45 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Startup Details Management</title>
-    <!-- Include your CSS -->
     @include('admin.css')
     <style>
         body {
             font-family: Arial, sans-serif;
-            color: white; /* Set text color to white */
+            color: white;
         }
         .table-container {
-            max-height: 400px; /* Set a max height for the scrollable area */
-            overflow-y: auto; /* Enable vertical scrolling */
-            margin-bottom: 20px; /* Add some space at the bottom */
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
         }
         table {
-            width: 100%; /* Increase table width */
+            width: 100%;
             margin: auto;
             border-collapse: collapse;
-            color: white; /* Ensure table text color is white */
-            text-align:left;
+            color: white;
+            text-align: left;
         }
 
-        th, td, tr {
+        th, td {
             border: 1px solid #ddd;
             padding: 5px;
             text-align: center;
-            color: white; /* Ensure th, td, tr text color is white */
+            color: white;
         }
 
         th {
             background-color: rgb(27, 27, 27);
-            color: white; /* Header text color */
+            color: white;
         }
 
         .alert {
-            color: black; /* Keep alerts readable */
+            color: black;
         }
     </style>
 </head>
 <body>
-    
     <div class="container-scroller">
         @include('admin.sidebar')
         @include('admin.partial')
@@ -57,7 +55,7 @@
                 <h1>Startup Details Management</h1>
                 <br>
                 <div class="table-container">
-                    <table id="investorTable">
+                    <table id="startupTable">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -68,7 +66,6 @@
                                 <th>Country</th>
                                 <th>License No</th>
                                 <th>Role</th>
-                                <th>Password</th>
                                 <th>Website</th>
                                 <th>Profile Picture</th>
                             </tr>
@@ -82,7 +79,6 @@
         </div>
     </div>
 
-    <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -93,34 +89,38 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        // Clear existing table rows
-                        $('#investorTable tbody').empty();
-                        
-                        // Iterate through response data and append rows to the table
-                        $.each(response.data, function(index, item) {
-                            var row = `<tr>
-                                <td>${item.name}</td>
-                                <td>${item.company_name}</td>
-                                <td>${item.email}</td>
-                                <td>${item.phone}</td>
-                                <td>${item.address}</td>
-                                <td>${item.country}</td>
-                                <td>${item.license_no}</td>
-                                <td>${item.usertype}</td>
-                                <td>${item.password}</td>
-                                <td>${item.website}</td>
-                                <td><img src="${item.profile_picture}" width="100px" height="100px"></td>
-                            </tr>`;
-                            $('#investorTable tbody').append(row);
-                        });
+                        if (response.data) {
+                            $('#startupTable tbody').empty(); // Clear existing rows
+
+                            // Append rows with fetched data
+                            $.each(response.data, function(index, item) {
+                                var row = `<tr>
+                                    <td>${item.name}</td>
+                                    <td>${item.company_name}</td>
+                                    <td>${item.email}</td>
+                                    <td>${item.phone}</td>
+                                    <td>${item.address}</td>
+                                    <td>${item.country}</td>
+                                    <td>${item.license_no}</td>
+                                    <td>${item.usertype}</td>
+                                    <td>${item.website}</td>
+                                    <td>
+                                        <img src="${item.profile_picture}" alt="Profile Picture" width="100px" height="100px">
+                                    </td>
+                                </tr>`;
+                                $('#startupTable tbody').append(row);
+                            });
+                        } else {
+                            console.error('No data received from the server.');
+                        }
                     },
                     error: function(error) {
-                        console.log('Error fetching data:', error);
+                        console.error('Error fetching data:', error);
                     }
                 });
             }
 
-            // Call fetchData function when document is ready
+            // Fetch data on page load
             fetchData();
         });
     </script>
