@@ -22,6 +22,7 @@
         }
         .edit-button:hover, .delete-button:hover {
             background-color: #0056b3;
+            color: aliceblue;
         }
         .card {
             position: relative;
@@ -174,7 +175,6 @@ function fetchJobs() {
                                 <p><strong>Location:</strong> ${job.job_location}</p>
                                 <p><strong>Salary:</strong> ${job.salary}</p>
                                 <p><strong>Application Deadline:</strong> ${new Date(job.application_deadline).toLocaleDateString()}</p>
-                                <button onclick="confirmDelete(${job.id});" class="btn delete-button">Delete</button>
                                 <button onclick="showEditJobModal(${job.id}, '${job.job_title}', '${job.job_description}', '${job.company_name}', '${job.job_location}', '${job.salary}', '${job.application_deadline}', '${job.job_type}', '${job.experience_level}', '${job.required_skills}');" class="btn edit-button">Edit</button>
                             </div>
                         </div>

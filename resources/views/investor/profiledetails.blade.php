@@ -57,7 +57,7 @@
                 <!-- Third Column: Website and LinkedIn -->
                 <div class="col-md-3 text-end">
                     <p class="d-flex justify-content-end">
-                        <a href="/profile_edit" class="btn-edit-profile me-2">Edit Profile</a>
+                        <a href="/profile-edit" class="btn-edit-profile me-2">Edit Profile</a>
                     </p>
                     <p class="d-flex text-center justify-content-end">
                         <a href="#" id="linkedin" target="_blank" class="mt-2">

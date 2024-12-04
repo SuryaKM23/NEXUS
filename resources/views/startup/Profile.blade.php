@@ -120,7 +120,7 @@
                     if (response.success) {
                         $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
                         setTimeout(function() {
-                            window.location.href = "{{ route('profiles.update') }}";
+                            window.location.href = "{{ url('/profile_details') }}";
                         }, 2000); // Redirect to profile details page after 2 seconds
                     } else {
                         $('#message').html('<div class="alert alert-danger">Failed to update profile.</div>');

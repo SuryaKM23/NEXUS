@@ -32,6 +32,7 @@
         }
         .edit-button:hover {
             background-color: #0056b3;
+            color: white;
         }
         .delete-button {
             background-color: #dc3545;
@@ -140,7 +141,7 @@
                                     <div class="card mb-3">
                                         <div class="card-body">
                                             <div class="card-header-buttons">
-                                                ${editButton} ${deleteButton}
+                                                ${editButton} 
                                             </div>
                                             <h5 class="card-title"><b>${viewIdea.title}</b></h5>
                                             <p><strong>Description:</strong> ${viewIdea.description}</p>
