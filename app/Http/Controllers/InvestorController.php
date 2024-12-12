@@ -11,28 +11,42 @@ use Illuminate\Http\Request;
 class InvestorController extends Controller
 {
     public function getCrowdfundingVC(Request $request)
-    {
-        // Get the search query from the request
-        $searchQuery = $request->input('search');
-        
-        // Fetch only crowdfunding startups with investment type 'vc'
-        $startups = Startup::where('investment', 'vc')
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('company_name', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('title', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('description', 'like', '%' . $searchQuery . '%');
-            })
-            ->get();
-        
-        // Check if the request is AJAX or not
-        if ($request->ajax()) {
-            // Return the data as JSON if the request is AJAX
-            return response()->json($startups);
-        } else {
-            // Return the data in a view if it's a normal HTTP request
-            return view('investor.fundraising', compact('startups'));
-        }
+{
+    // Fetch startups with investment type 'vc'
+    $startups = Startup::where('investment', 'vc')->get();
+
+    // Ensure JSON is returned when the client explicitly wants JSON
+    if (($request->ajax())|| ($request->wantsJson())) {
+        return response()->json($startups);
     }
+
+    // Render a view with the startups data for standard HTTP requests
+    return view('investor.fundraising', compact('startups'));
+}
+
+public function searchCrowdfundingVC(Request $request)
+{
+    // Retrieve the search query
+    $searchQuery = $request->input('search');
+
+    // Search startups with investment type 'vc' by query
+    $startups = Startup::where('investment', 'vc')
+        ->where(function ($query) use ($searchQuery) {
+            $query->where('company_name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('title', 'like', '%' . $searchQuery . '%')
+                ->orWhere('description', 'like', '%' . $searchQuery . '%');
+        })
+        ->get();
+
+    // Ensure JSON is returned when the client explicitly wants JSON
+    if (($request->ajax())|| ($request->wantsJson())){
+        return response()->json($startups);
+    }
+
+    // Render a view with the startups data for standard HTTP requests
+    return view('investor.fundraising', compact('startups'));
+}
+
 
     public function showProfileDetails()
     {

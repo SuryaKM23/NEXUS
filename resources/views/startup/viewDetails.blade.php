@@ -188,8 +188,8 @@
             <br>
             <h3><strong>{{ $startup->title }}</strong></h3>
             <p><strong>Description:</strong> {{ $startup->description }}</p>
-            <p><strong>Estimated Amount:</strong> ₹{{ number_format($startup->estimated_amount, 2) }}</p>
-            <p><strong>Turnover:</strong> ₹{{ number_format($startup->estimated_turn_over, 2) }}</p>
+            <p><strong>Estimated Amount:</strong> ${{ number_format($startup->estimated_amount, 2) }}</p>
+            <p><strong>Turnover:</strong> ${{ number_format($startup->estimated_turn_over, 2) }}</p>
             <p><strong>Date of Post:</strong> {{ \Carbon\Carbon::parse($startup->created_at)->format('d M Y') }}</p>
         </div>
 
@@ -199,7 +199,7 @@
                 <canvas id="donutChart"></canvas>
             </div>
             <div class="donut-label">
-                <p><strong>₹{{ number_format($donatedAmount, 2) }} Donated | ₹{{ number_format($startup->estimated_amount - $donatedAmount, 2) }} Remaining</p>
+                <p><strong>${{ number_format($donatedAmount, 2) }} Donated | ${{ number_format($startup->estimated_amount - $donatedAmount, 2) }} Remaining</p>
             </div>
         </div>
     </div>

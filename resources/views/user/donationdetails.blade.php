@@ -95,9 +95,9 @@
                 text-align: center;
             }
 
-            .card-body {
+            /* .card-body {
                 padding: 20px;
-            }
+            } */
         }
     </style>
 </head>
@@ -115,7 +115,7 @@
                 <div class="card-body">
                     <p><strong>Title:</strong> <span id="title"></span></p>
                     <p><strong>Description:</strong> <span id="description"></span></p>
-                    <p><strong>Donated Amount:</strong> <span id="donated-amount"></span></p>
+                    <p><strong>Donated Amount:<strong> <span id="donated-amount"></span></p>
                     <p><strong>Total Amount:</strong> <span id="total-amount"></span></p>
                     <p><strong>Transaction ID:</strong> <span id="transaction-id"></span></p>
                     <p><strong>Date:</strong> <span id="date"></span></p>
@@ -141,8 +141,8 @@
                         $('#company-name').text(data.company_name);
                         $('#title').text(data.title);
                         $('#description').text(data.description || 'No description available');
-                        $('#donated-amount').text('₹' + data.donated_amount);
-                        $('#total-amount').text('₹' + data.total_amount);
+                        $('#donated-amount').text('$ ' + data.donated_amount);
+                        $('#total-amount').text('$ ' + data.total_amount);
                         $('#transaction-id').text(data.transaction_id);
                         $('#date').text(new Date(data.created_at).toLocaleDateString());
                     },

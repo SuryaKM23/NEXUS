@@ -65,10 +65,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 5px solid #007bff;
         }
-        .donation-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
+        /* + */
         .navbar {
             background-color: #343a40;
             border-radius: 0;
@@ -133,7 +130,7 @@
                                 '<div class="donation-item row mx-1 mb-3" data-url="/job/details/' + job.job_id + '">' +
                                     '<div class="col-md-8">' +
                                         '<strong>Job Title:</strong> ' + job.job_title + '<br>' +
-                                        ' <strong>Company :</strong> <a href="/profile/${job.company_name}">' + job.company_name + '</a><br>' +
+                                        '<strong>Company :</strong> <a href="/profiles/' + encodeURIComponent(job.company_name) + '">' + job.company_name + '</a><br>' +
                                         '<strong>Date of Posting:</strong> ' + new Date(job.updated_at).toLocaleDateString() +
                                     '</div>' +
                                     '<div class="col-md-4 text-right"></div>' +

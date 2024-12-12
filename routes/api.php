@@ -8,7 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StartupController;
 
 use App\Http\Controllers\StartupinverstorController;
-
+use App\Http\Controllers\InvestorController;
 Use App\Http\Controllers\IndexController;
 
 
@@ -107,7 +107,8 @@ Route::get('/profile_/{company_name}', [StartupController::class, 'profile_compa
 
 //Investor
 
-Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
+Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC']);
+Route::get('/search-crowdfunding-vc', [InvestorController::class, 'searchCrowdfundingVC']);
 
 Route::get('/profile-details', [InvestorController::class, 'showProfileDetails'])->name('pro.details');
 

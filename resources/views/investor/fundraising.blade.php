@@ -15,19 +15,20 @@
 
         .title {
             font-size: 32px;
+            margin-bottom: 10px;
         }
 
         .rippon {
             background-color: #f8f9fa;
-            padding: 20px;
+            padding: 10px;
             box-sizing: border-box;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .bar {
             font-size: 24px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .custom-button {
@@ -63,29 +64,30 @@
         .button-container {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .startup-item {
-            height: 400px;
+            height: 380px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            margin-bottom: 10px;
         }
 
         .startup-item p {
-            margin: 5px 0;
+            margin: 3px 0;
         }
 
         #search-input {
             width: 250px;
-            margin-left: 20px;
+            margin-left: 10px;
         }
 
         .profile-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             width: 50px;
             height: 50px;
             background-color: #1a73e8;
@@ -104,8 +106,8 @@
 
         @media (max-width: 768px) {
             .profile-btn {
-                bottom: 10px;
-                right: 10px;
+                bottom: 5px;
+                right: 5px;
             }
         }
     </style>
@@ -156,74 +158,66 @@
 
     <script>
         $(document).ready(() => {
-            fetchCrowdfundingStartups(); // Fetch startups initially
-    
-            $('#search-icon').on('click', () => {
-                $('#search-input').slideToggle(300, function() {
-                    if ($(this).is(':visible')) $(this).focus(); // Focus on input after toggle
-                });
-            });
-    
-            // Confirm and send email when the user confirms in the modal
-            $('#confirm-send-email').on('click', function() {
+            fetchCrowdfundingStartups();
+
+            $('#confirm-send-email').on('click', function () {
                 const to = $('#popup-to').text();
                 const subject = $('#popup-subject').text();
                 const body = $('#popup-body').text();
-                const emailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.location.href = emailLink; // Redirect to Gmail with the pre-filled details
+                const emailLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = emailLink;
             });
         });
-    
-        // Function to fetch crowdfunding startups based on search query
+
         function fetchCrowdfundingStartups() {
-            const searchQuery = $('#search-input').val(); // Get search input value
+            const searchQuery = $('#search-input').val();
+            const url = searchQuery
+                ? "{{ url('/search-crowdfunding-vc') }}"
+                : "{{ url('/get-crowdfunding-vc') }}";
+
             $.ajax({
-                url: "{{ url('/get-crowdfunding-vc') }}", // Endpoint to get crowdfunding startups
+                url: url,
                 type: 'GET',
-                data: { search: searchQuery }, // Send search query as data
+                data: { search: searchQuery },
                 success: (data) => {
-                    // Check if the response has data
-                    const startupsHtml = data.length > 0 ? data.map(startup => `
-                        <div class="col-md-4 mb-3">
-                            <div class="startup-item border p-3">
-                                <div class="data-spacing">
-                                   <a href="/profile/${startup.company_name}"><h5 class="company-name">${startup.company_name}</h5></a>
-                                    <p class="title" style="font-size: 24px; font-weight: bold;">${startup.title}</p>
+                    const startupsHtml = data.length > 0
+                        ? data.map(startup => `
+                            <div class="col-md-4 mb-3">
+                                <div class="startup-item border p-3">
+                                    <a href="/profile/${encodeURIComponent(startup.company_name)}"><h5>${startup.company_name}</h5></a>
+                                    <p><strong>${startup.title}</strong></p>
                                     <p>${startup.description}</p>
-                                    <p><strong>Estimation amount: </strong> ${startup.estimated_amount}</p>
-                                    <p><strong>Estimation Turn Over: </strong> ${startup.estimated_turn_over}</p>
-                                </div>
-                                <div class="button-container">
-                                    <a href="${startup.pdf_file}" target="_blank" class="custom-button view-pdf-button">View PDF</a>
-                                    <button class="custom-button invest-button" onclick="openEmailPopup('${startup.company_name}', '${startup.title}')">Contact</button>
+                                    <p><strong>Estimated Amount: $</strong> ${startup.estimated_amount}</p>
+                                    <p><strong>Estimated Turnover: $</strong> ${startup.estimated_turn_over}</p>
+                                    <div class="button-container">
+                                        <a href="${startup.pdf_file}" target="_blank" class="custom-button view-pdf-button">View PDF</a>
+                                        <button class="custom-button invest-button" onclick="openEmailPopup('${startup.company_name}', '${startup.title}')">Contact</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('') : '<p class="col-12">No available crowdfunding startups at the moment.</p>';
-                    $('#startups-container').html(startupsHtml); // Insert the HTML into the container
+                        `).join('')
+                        : '<p class="col-12 text-danger">No startups found.</p>';
+                    $('#startups-container').html(startupsHtml);
                 },
                 error: () => {
-                    $('#startups-container').html('<p class="text-danger">Error fetching startups.</p>'); // Show error message if AJAX fails
+                    $('#startups-container').html('<p class="col-12 text-danger">Failed to load startups.</p>');
                 }
             });
         }
-    
-        // Function to open the email confirmation popup
+
         function openEmailPopup(companyName, title) {
-            // Fetch the email for the company
             $.ajax({
-                url: "{{ url('/get-startup-investor-email') }}", // Controller method URL
+                url: "{{ url('/get-startup-investor-email') }}",
                 type: 'GET',
-                data: { company_name: companyName }, // Send company name to get the email
+                data: { company_name: companyName },
                 success: (response) => {
                     if (response.email) {
-                        // Populate the modal with email and other info
                         $('#popup-to').text(response.email);
                         $('#popup-subject').text(`Investment Inquiry for ${title}`);
-                        $('#popup-body').text(`Hello, I am interested in your startup, ${title}. Please provide more information.`);
-                        $('#email-popup').modal('show'); // Show the modal
+                        $('#popup-body').text(`Hello, I am interested in your startup, ${title}. Please provide more details.`);
+                        $('#email-popup').modal('show');
                     } else {
-                        alert('Email not found for this company.');
+                        alert('Email not found.');
                     }
                 },
                 error: () => {
@@ -232,10 +226,6 @@
             });
         }
     </script>
-    
-
-
-    <!-- Bootstrap JS (required for the modal to function) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

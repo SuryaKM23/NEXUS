@@ -133,8 +133,9 @@ Route::delete('/delete-job/{id}', [StartupController::class, 'deleteJob']);
 
 // Route to redirect to edit job
 
+Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC']);
+Route::get('/search-crowdfunding-vc', [InvestorController::class, 'searchCrowdfundingVC']);
 
-Route::get('/get-crowdfunding-vc', [InvestorController::class, 'getCrowdfundingVC'])->name('getCrowdfundingvc');
 Route::get('/get-crowdfunding-startups', [StartupController::class, 'getCrowdfundingIdeas']);
 Route::get('/view-details/{id}', [StartupController::class, 'viewDetails']);
 
@@ -170,8 +171,8 @@ Route::get('/profile_detail/{email}', [StartupController::class, 'show_profile_o
 Route::get('/get-startup-investor-email', [InvestorController::class, 'getStartupInvestorEmail']);
 Route::get('/fetch-company-name', [StartupController::class, 'fetchCompanyName'])->name('fetch.company.name');
 
-Route::get('/profile/{company_name}', [StartupController::class, 'profilecompany']);
-Route::get('/profile_/{company_name}', [StartupController::class, 'profile_company']);
+Route::get('/profiles/{company_name}', [StartupController::class, 'profilecompany']);
+Route::get('/profile/{company_name}', [StartupController::class, 'profile_company']);
 
 
 require __DIR__.'/auth.php';

@@ -169,7 +169,8 @@
                                 <h1>${response.job_title}</h1>
                                 <h3>Job Description</h3>
                                 <p>${response.job_description}</p>
-                                 <a href="/profile/${response.company_name}"><p><strong>Company:</strong> ${response.company_name}</p>
+                                <a href="/profiles/${response.company_name}" style="text-decoration: none; color: inherit;">
+                                    <h5><strong>Company Name:</strong> ${response.company_name}</h5></a>
                                 <p><strong>Location:</strong> ${response.job_location}</p>
                                 <p><strong>Salary:</strong> ${response.salary}</p>
                                 <div class="apply-now-wrapper">

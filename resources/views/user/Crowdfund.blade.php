@@ -181,7 +181,7 @@
     <div class="modal" id="donationModal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
         <div class="modal-content">
             <h5 id="modalTitle">Enter Donation Amount</h5>
-            <input type="number" id="donationAmount" class="form-control" placeholder="Enter amount in INR" min="1" required>
+            <input type="number" id="donationAmount" class="form-control" placeholder="Enter amount in USD" min="1" required>
             <button class="btn btn-primary mt-2" onclick="processDonation()">Donate</button>
             <button class="btn btn-secondary mt-2" onclick="closeModal()">Cancel</button>
         </div>
@@ -219,7 +219,7 @@
             const options = {
                 key: 'rzp_test_DrASf34mihEAtB',
                 amount: amountInPaise,
-                currency: 'INR',
+                currency: 'USD',
                 name: 'Crowdfunding Donation',
                 description: `Donation for ${selectedCompanyName}`,
                 handler: function (response) {
@@ -285,7 +285,7 @@
                             <div class="col-md-4 col-sm-6 mb-3">
                                 <div class="company-item">
                                     <div class="top-section">
-                                        <a href="/profile/${company.company_name}"><h5 class="company-name">${company.company_name}</h5></a>
+                                        <a href="/profiles/${company.company_name}"><h5 class="company-name">${company.company_name}</h5></a>
                                         <p class="company-title"><strong>${company.title}</strong></p>
                                         <p class="company-description">${company.description.substring(0, 100)}...</p>
                                         <p class="description">${company.description}</p>
@@ -295,7 +295,7 @@
                                         <div class="bar">
                                             <div class="bar-fill" style="width: ${totalWidthPercentage}%"></div>
                                         </div>
-                                        <p>₹${totalDonations}Raised Out Of ₹${availableAmount}</p>
+                                        <p>$${totalDonations}Raised Out Of $${availableAmount}</p>
                                     </div>
                                     <div class="button-container">
                                         <a class="custom-button" href="${pdfPath}" target="_blank">View PDF</a>

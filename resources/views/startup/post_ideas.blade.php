@@ -174,11 +174,11 @@
                             <input type="text" class="input_color" id="description" name="description" placeholder="Describe your idea" required />
                         </div>
                         <div class="input-box">
-                            <label for="estimated_amount">Estimated Amount</label>
+                            <label for="estimated_amount">Estimated Amount (in USD) </label>
                             <input type="number" class="input_color" id="estimated_amount" name="estimated_amount" placeholder="Estimated Amount" required />
                         </div>
                         <div class="input-box">
-                            <label for="estimated_turn_over">Estimated Turn Over</label>
+                            <label for="estimated_turn_over">Estimated Turn Over (in USD)</label>
                             <input type="number" class="input_color" id="estimated_turn_over" name="estimated_turn_over" placeholder="Estimated Turn Over" required />
                         </div>
                         <div class="input-box">

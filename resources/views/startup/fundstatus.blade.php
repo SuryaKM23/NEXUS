@@ -175,8 +175,8 @@
                                     <div class="idea-details">
                                         <h3>${idea.title}</h3>
                                         <p class="description"><strong>Description:</strong> ${idea.description}</p>
-                                        <p><strong>Estimated Amount:₹</strong> ${idea.estimated_amount}</p>
-                                        <p><strong>Turnover:₹</strong> ${idea.estimated_turn_over}</p>
+                                        <p><strong>Estimated Amount:$</strong> ${idea.estimated_amount}</p>
+                                        <p><strong>Turnover:$</strong> ${idea.estimated_turn_over}</p>
                                         <p><strong>Date of Post:</strong> ${new Date(idea.created_at).toLocaleDateString()}</p>
                                     </div>
 

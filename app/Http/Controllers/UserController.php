@@ -67,7 +67,7 @@ public function getCrowdfundingStartups(Request $request)
         return $startup;
     });
 
-    if ($request->ajax()) {
+    if (($request->ajax())|| ($request->wantsJson())) {
         return response()->json($startups);
     } else {
         return view('user.Crowdfund', ['startups' => $startups]);
@@ -254,7 +254,8 @@ public function show($job_id)
 
     // Pass the job data to the view for non-AJAX requests
     return view('user.jobdetails', ['job' => $job]);
-}public function getSuggestions(Request $request)
+}
+public function getSuggestions(Request $request)
 {
     $query = $request->input('query');
     

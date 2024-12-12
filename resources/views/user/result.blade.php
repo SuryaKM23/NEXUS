@@ -153,7 +153,7 @@
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="job-card">
                             <h5>{{ $job->job_title }}</h5>
-                            <p><strong>Company:</strong><a href="/profile/{{ $job->company_name }}"> {{ $job->company_name }}</p></a>
+                            <p><strong>Company:</strong><a href="/profiles/{{ $job->company_name }}"> {{ $job->company_name }}</p></a>
                             <p><strong>Location:</strong> {{ $job->job_location }}</p>
                             <p><strong>Description:</strong> {{ $job->job_description }}</p>
                             <p class="salary"><strong>Salary:</strong> {{ $job->salary }}</p>

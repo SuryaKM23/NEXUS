@@ -147,7 +147,7 @@
                     <!-- Row 3 -->
                     <div class="form-row">
                         <div class="input-box">
-                            <label for="salary">Salary</label>
+                            <label for="salary">Salary </label>
                             <input type="text" class="input_color" id="salary" name="salary" placeholder="Enter Salary" required />
                         </div>
                         <div class="input-box">

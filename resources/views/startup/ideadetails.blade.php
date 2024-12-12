@@ -145,8 +145,8 @@
                                             </div>
                                             <h5 class="card-title"><b>${viewIdea.title}</b></h5>
                                             <p><strong>Description:</strong> ${viewIdea.description}</p>
-                                            <p><strong>Estimated Amount: ₹</strong> ${viewIdea.estimated_amount}</p>
-                                            <p><strong>Estimated Turn Over: ₹</strong> ${viewIdea.estimated_turn_over}</p>
+                                            <p><strong>Estimated Amount: $</strong> ${viewIdea.estimated_amount}</p>
+                                            <p><strong>Estimated Turn Over: $</strong> ${viewIdea.estimated_turn_over}</p>
                                             <p><strong>Date Of Post:</strong> ${new Date(viewIdea.created_at).toLocaleDateString()}</p>
                                         </div>
                                     </div>

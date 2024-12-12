@@ -29,10 +29,10 @@
             border-left: 5px solid #007bff;
         }
 
-        .donation-item:hover {
+        /* .donation-item:hover {
             transform: scale(1.02);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
+        } */
 
         .donation-item h5 {
             color: #007bff;
@@ -77,8 +77,9 @@
                         $.each(data, function(index, donation) {
                             $('#donation-details').append(`
                                 <div class="donation-item" data-id="${donation.id}">
-                                   <a href="/profile/${donation.company_name}"><h5><strong>Company Name:</strong> ${donation.company_name}</h5></a>
-                                    <p><strong>Donated Amount:</strong> ₹${donation.donated_amount}</p>
+                                   <a href="/profiles/${donation.company_name}" style="text-decoration: none; color: inherit;">
+                                    <h5><strong>Company Name:</strong> ${donation.company_name}</h5></a>
+                                    <p><strong>Donated Amount: $</strong> ${donation.donated_amount}</p>
                                     <p><strong>Transaction ID: </strong> ${donation.transaction_id}</p>
                                     <p><strong>Date:</strong> ${new Date(donation.created_at).toLocaleDateString()}</p>
                                 </div>

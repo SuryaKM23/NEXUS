@@ -196,6 +196,7 @@
 <body>
     @include("startup.nav")
     <div class="container mt-4">
+        <h1>IDEAS</h1>
             <div id="recent-ideas-container">
                 <!-- AJAX content will be loaded here -->
             </div>
@@ -226,8 +227,8 @@
                                 <div class="idea-box">
                                     <h4>${recentIdeas.title}</h4>
                                     <p>${recentIdeas.description}</p>
-                                    <p><strong>Estimated Amount: ₹</strong> ${recentIdeas.estimated_amount}</p>
-                                    <p><strong>Estimated Turn Over: ₹</strong> ${recentIdeas.estimated_turn_over}</p>
+                                    <p><strong>Estimated Amount: $</strong> ${recentIdeas.estimated_amount}</p>
+                                    <p><strong>Estimated Turn Over: $</strong> ${recentIdeas.estimated_turn_over}</p>
                                     <p><strong>Date of Posting:</strong> ${new Date(recentIdeas.created_at).toLocaleDateString()}</p>
                                     <a href="${recentIdeas.pdf_file}" target="_blank" class="custom-button">View PDF</a>
                                 </div>

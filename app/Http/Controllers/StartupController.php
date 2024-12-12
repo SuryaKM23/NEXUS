@@ -638,7 +638,7 @@ public function profilecompany($company_name)
     }
 
     // For non-AJAX requests, return a view
-    return view('startup.profileother', compact('profile'));
+    return view('user.companyprofile', compact('profile'));
 }
 
 //user side
@@ -655,7 +655,7 @@ public function profile_company($company_name)
     }
 
     // For non-AJAX requests, return a view
-    return view('user.companyprofile', compact('profile'));
+    return view('startup.profileother', compact('profile'));
 }
 
 //
