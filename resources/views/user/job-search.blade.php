@@ -151,7 +151,7 @@
                                              <a href="/profiles/${job.company_name}"><p><h2><strong>${job.company_name}</p></strong></h2></a>
                                             <p>${job.job_description}</p>
                                             <p><strong>Location:</strong> ${job.job_location}</p>
-                                            <p><strong>Salary:</strong> ${job.salary}</p>
+                                            <p><strong>Salary: $</strong> ${job.salary}</p>
                                         </div>
                                         <div class="job-actions">
                                             <a href="/apply_job/${job.id}" class="btn btn-primary">Apply Now</a>

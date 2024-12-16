@@ -22,23 +22,25 @@ class UserController extends Controller
 {
     // In your UserController.php
     public function getJobs(Request $request)
-    {
-        $searchQuery = $request->input('search', '');
+{
+    $searchQuery = $request->input('search', '');
 
-    // Get all jobs matching the search query
-    $jobs = Job::where('job_title', 'like', '%' . $searchQuery . '%')
-                ->orWhere('job_description', 'like', '%' . $searchQuery . '%')
-                ->orWhere('job_location', 'like', '%' . $searchQuery . '%')
+    // Retrieve jobs matching the search query
+    $jobs = Job::query()
+                ->where('job_title', 'like', "%{$searchQuery}%")
+                ->orWhere('job_description', 'like', "%{$searchQuery}%")
+                ->orWhere('job_location', 'like', "%{$searchQuery}%")
                 ->get();
 
-    // If the request is an AJAX request, return the jobs as JSON response
-    if ($request->ajax()) {
+    // Return JSON response if the request expects JSON or is an AJAX request
+    if ($request->ajax() || $request->wantsJson()) {
         return response()->json($jobs);
     }
 
-    // Otherwise, return the jobs as a view
+    // Return a view with the jobs data for non-AJAX requests
     return view('user.job-search', compact('jobs'));
-    }
+}
+
     
 public function showUserDataInRazorPay()
 {
@@ -265,7 +267,7 @@ public function getSuggestions(Request $request)
         ->pluck('job_title');
     
     // If the request is AJAX, return JSON response
-    if ($request->ajax()) {
+    if (($request->ajax())||(request()->wantsJson())) {
         return response()->json([
             'suggestions' => $suggestions
         ]);

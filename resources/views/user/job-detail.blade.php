@@ -172,7 +172,7 @@
                                 <a href="/profiles/${response.company_name}" style="text-decoration: none; color: inherit;">
                                     <h5><strong>Company Name:</strong> ${response.company_name}</h5></a>
                                 <p><strong>Location:</strong> ${response.job_location}</p>
-                                <p><strong>Salary:</strong> ${response.salary}</p>
+                                <p><strong>Salary: $</strong> ${response.salary}</p>
                                 <div class="apply-now-wrapper">
                                     <a href="/apply_job/${response.id}" class="btn-apply">Apply Now</a>
                                 </div>

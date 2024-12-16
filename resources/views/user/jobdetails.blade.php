@@ -138,7 +138,7 @@
                 <p><span class="detail-label">Company Name:</span> <span id="company-name"></span></p>
                 <p><span class="detail-label">Job Description:</span> <span id="job-description"></span></p>
                 <p><span class="detail-label">Location:</span> <span id="job-location"></span></p>
-                <p><span class="detail-label">Salary:</span> <span id="salary"></span></p>
+                <p><span class="detail-label">Salary: </span> $<span id="salary"></span></p>
                 <p><span class="detail-label">Application Deadline:</span> <span id="application-deadline"></span></p>
                 <p><span class="detail-label">Job Type:</span> <span id="job-type"></span></p>
                 <p><span class="detail-label">Experience Level:</span> <span id="experience-level"></span></p>
